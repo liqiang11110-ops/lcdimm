@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DDR5 板型匹配</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=202605272356" />
+  </head>
+  <body>
+    <main class="main">
+      <section class="scheme-page">
+        <section class="panel filter-panel">
+          <h2>筛选条件</h2>
+          <div class="filter-grid">
+            <label>S / U
+              <select id="filterSu">
+                <option value="UDIMM">U - UDIMM</option>
+                <option value="SODIMM">S - SODIMM</option>
+              </select>
+            </label>
+            <label>容量
+              <select id="filterCapacity">
+                <option>8GB</option>
+                <option>16GB</option>
+                <option>24GB</option>
+                <option>32GB</option>
+                <option>48GB</option>
+                <option>64GB</option>
+              </select>
+            </label>
+            <label>颗粒厂
+              <select id="filterFactory">
+                <option>镁光</option>
+                <option>三星</option>
+                <option>海力士</option>
+                <option>长鑫</option>
+              </select>
+            </label>
+            <label>颗粒等级
+              <select id="filterGrade"></select>
+            </label>
+            <label>颗粒规格
+              <select id="filterDramSpec"></select>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel match-panel">
+          <div class="match-head">
+            <div>
+              <span>匹配结果</span>
+              <h2>匹配板型</h2>
+              <p id="matchPath"></p>
+            </div>
+            <strong id="matchCount" class="count-pill">0 个</strong>
+          </div>
+          <div class="table-wrap match-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>S/U</th>
+                  <th>容量</th>
+                  <th>颗粒厂</th>
+                  <th>颗粒等级</th>
+                  <th>Rank/贴颗</th>
+                  <th>颗粒规格</th>
+                  <th>板厂</th>
+                  <th>板型</th>
+                  <th>板型标注</th>
+                  <th>名称</th>
+                </tr>
+              </thead>
+              <tbody id="matchedBoardRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel material-matrix-panel">
+          <div class="matrix-scroll">
+            <table class="material-matrix">
+              <thead>
+                <tr>
+                  <th>板型</th>
+                  <th>颗粒</th>
+                  <th>PCB</th>
+                  <th>PMIC</th>
+                  <th>SPD</th>
+                  <th>电感</th>
+                </tr>
+              </thead>
+              <tbody id="materialMatrixRows"></tbody>
+            </table>
+          </div>
+          <div class="rc-grid" id="rcSpecGrid"></div>
+          <p id="selectedPartCount" class="selection-note">已选 0 个料号。</p>
+        </section>
+      </section>
+    </main>
+    <script src="app.js?v=202605272356"></script>
+  </body>
+</html>
