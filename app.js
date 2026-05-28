@@ -9,6 +9,17 @@ const state = {
   selectedBoardCode: '',
 };
 
+const LINKED_SELECTION_KEY = 'lcdimm-linked-selection';
+
+const modulePartNumberByBoard = {
+  B85URCA: 'PBA0018C2003',
+  B85URCC: 'PBA0018C2004',
+  BA5SRCA: 'PBA0018C2005',
+  B85SRCC: 'PBA0018C2006',
+  'ZY-1Rx8-10Lyr': 'PBA0018C2007',
+  BA5UH11: 'PBA0018C2012',
+};
+
 const factoryRules = {
   镁光: {
     grades: ['PG', 'PR', 'TP'],
@@ -68,6 +79,61 @@ const boardRuleSource = [
 
 function el(id) {
   return document.getElementById(id);
+}
+
+function loadLinkedSelection() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LINKED_SELECTION_KEY) || 'null');
+    if (!saved) return;
+    if (saved.source === 'board-match') {
+      Object.assign(state.filters, saved.filters || {});
+      state.selectedBoardCode = saved.boardCode || '';
+      return;
+    }
+    const grain = saved.grain || {};
+    const factory = grain.brand === 'DM' ? '镁光' : grain.brand;
+    if (factoryRules[factory]) state.filters.factory = factory;
+    if (grain.grade) state.filters.grade = grain.grade;
+    if (grain.density) state.filters.dramSpec = grain.density;
+  } catch (error) {
+    localStorage.removeItem(LINKED_SELECTION_KEY);
+  }
+}
+
+function saveLinkedSelection(row) {
+  if (!row) return;
+  const previous = loadStoredSelection();
+  const selection = {
+    source: 'board-match',
+    updatedAt: new Date().toISOString(),
+    filters: { ...state.filters },
+    boardCode: row.code,
+    board: row.board,
+    boardName: row.name,
+    modulePartNumber: modulePartNumberByBoard[row.board] || '',
+    grain: {
+      ...(previous?.grain || {}),
+      brand: state.filters.factory,
+      grade: state.filters.grade,
+      density: row.spec,
+    },
+    sorting: previous?.sorting || null,
+    su: row.su,
+    capacity: row.capacity,
+    rank: row.rank,
+    dieSpec: row.spec,
+    diesPerModule: row.count,
+  };
+  localStorage.setItem(LINKED_SELECTION_KEY, JSON.stringify(selection));
+  window.dispatchEvent(new CustomEvent('lcdimm-selection-updated', { detail: selection }));
+}
+
+function loadStoredSelection() {
+  try {
+    return JSON.parse(localStorage.getItem(LINKED_SELECTION_KEY) || 'null');
+  } catch (error) {
+    return null;
+  }
 }
 
 function boardRuleRows() {
@@ -369,6 +435,7 @@ function render() {
   });
 
   renderMatrix(selectedRow);
+  saveLinkedSelection(selectedRow);
 }
 
 function setupEvents() {
@@ -388,4 +455,9 @@ function setupEvents() {
 }
 
 setupEvents();
+loadLinkedSelection();
 render();
+window.applyLinkedSelectionFromStorage = () => {
+  loadLinkedSelection();
+  render();
+};

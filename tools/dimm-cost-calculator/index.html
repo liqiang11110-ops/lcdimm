@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIMM 成本核算</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css?v=20260521c">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Factory Sample Cost</p>
+        <h1>DIMM 成本核算</h1>
+      </div>
+      <div class="summary-chip">
+        <span>当前方案</span>
+        <strong id="schemeName">-</strong>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <form class="control-panel" id="costForm">
+        <div class="field">
+          <label for="partNumber">料号</label>
+          <select id="partNumber" name="partNumber"></select>
+        </div>
+
+        <div class="field field-wide">
+          <label for="sku">SKU</label>
+          <select id="sku" name="sku"></select>
+        </div>
+
+        <div class="field">
+          <label for="capacity">容量</label>
+          <select id="capacity" name="capacity"></select>
+        </div>
+
+        <div class="field">
+          <label for="generation">规格</label>
+          <select id="generation" name="generation"></select>
+        </div>
+
+        <div class="field">
+          <label for="moduleType">类型</label>
+          <select id="moduleType" name="moduleType"></select>
+        </div>
+
+        <div class="field">
+          <label for="rank">Rank</label>
+          <select id="rank" name="rank"></select>
+        </div>
+
+        <div class="field">
+          <label for="supplierPlan">成本方案</label>
+          <select id="supplierPlan" name="supplierPlan"></select>
+        </div>
+
+        <div class="field">
+          <label for="factoryPlan">成品加工厂</label>
+          <select id="factoryPlan" name="factoryPlan"></select>
+        </div>
+
+        <div class="field">
+          <label for="yieldRate">生产良率</label>
+          <select id="yieldRate" name="yieldRate"></select>
+        </div>
+
+        <div class="field">
+          <label for="quantity">颗粒投单数量</label>
+          <input id="quantity" name="quantity" type="number" min="1" step="1" value="10000">
+        </div>
+
+        <div class="field">
+          <label for="margin">目标毛利</label>
+          <select id="margin" name="margin"></select>
+        </div>
+      </form>
+
+      <section class="result-panel" aria-live="polite">
+        <div class="hero-metric">
+          <span>良率后总单位成本</span>
+          <strong id="actualCost">$0.00</strong>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric">
+            <span>物料成本/条</span>
+            <strong id="materialCost">$0.00</strong>
+          </div>
+          <div class="metric">
+            <span>加工费/条</span>
+            <strong id="factoryCost">$0.00</strong>
+          </div>
+          <div class="metric">
+            <span>每条颗粒数</span>
+            <strong id="diePerModule">0</strong>
+          </div>
+          <div class="metric">
+            <span>可生产条数</span>
+            <strong id="inputQuantity">0</strong>
+          </div>
+          <div class="metric">
+            <span>颗粒投单量</span>
+            <strong id="dieDemand">0</strong>
+          </div>
+          <div class="metric">
+            <span>标准总成本</span>
+            <strong id="standardCost">$0.00</strong>
+          </div>
+          <div class="metric">
+            <span>建议报价</span>
+            <strong id="quotePrice">$0.00</strong>
+          </div>
+          <div class="metric">
+            <span>订单总成本</span>
+            <strong id="totalCost">$0.00</strong>
+          </div>
+          <div class="metric">
+            <span>预计毛利</span>
+            <strong id="grossProfit">$0.00</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="selected-detail">
+      <div>
+        <span>完整 SKU</span>
+        <strong id="selectedSku">-</strong>
+      </div>
+      <div>
+        <span>说明</span>
+        <strong id="selectedDescription">-</strong>
+      </div>
+    </section>
+
+    <section class="same-material-panel">
+      <div class="section-title">
+        <h2>同物料加工费对比</h2>
+        <span id="sameMaterialNote">Longsys 未税 × 1.13；晟中含税</span>
+      </div>
+      <div class="same-material-grid">
+        <div class="compare-card">
+          <span>Longsys 同料总成本</span>
+          <strong id="sameLongsysTotal">$0.000</strong>
+        </div>
+        <div class="compare-card">
+          <span>晟中同料总成本</span>
+          <strong id="sameZhongTotal">$0.000</strong>
+        </div>
+        <div class="compare-card compare-focus">
+          <span>加工费差异</span>
+          <strong id="sameProcessDiff">$0.000</strong>
+        </div>
+        <div class="compare-card">
+          <span>结论</span>
+          <strong id="sameMaterialConclusion">-</strong>
+        </div>
+      </div>
+      <table class="same-material-table">
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>Longsys</th>
+            <th>晟中</th>
+            <th>差异</th>
+          </tr>
+        </thead>
+        <tbody id="sameMaterialRows"></tbody>
+      </table>
+    </section>
+
+    <section class="custom-panel" id="customPanel">
+      <div class="section-title">
+        <h2>自定义成本</h2>
+        <span>单位：USD / 条</span>
+      </div>
+      <div class="custom-grid">
+        <div class="field">
+          <label for="customPcb">PCB</label>
+          <input id="customPcb" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="customPmic">PMIC</label>
+          <input id="customPmic" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="customSpd">SPD</label>
+          <input id="customSpd" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="customInductor">电感</label>
+          <input id="customInductor" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="customRc">阻容物料</label>
+          <input id="customRc" type="number" min="0" step="0.001" value="0">
+        </div>
+      </div>
+    </section>
+
+    <section class="custom-panel" id="factoryPanel">
+      <div class="section-title">
+        <h2>成品加工厂制造成本</h2>
+        <span>选择自定义成品加工厂时填写，单位：USD / 条</span>
+      </div>
+      <div class="custom-grid">
+        <div class="field">
+          <label for="factorySmt">SMT / 贴片</label>
+          <input id="factorySmt" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="factoryTest">测试</label>
+          <input id="factoryTest" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="factoryPacking">包装</label>
+          <input id="factoryPacking" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="factoryManagement">管理/制费</label>
+          <input id="factoryManagement" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label for="factoryOther">其他</label>
+          <input id="factoryOther" type="number" min="0" step="0.001" value="0">
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-grid">
+      <section class="table-section">
+        <div class="section-title">
+          <h2>成本拆分</h2>
+          <span id="bomNote">-</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>用量</th>
+              <th>单价</th>
+              <th>金额</th>
+            </tr>
+          </thead>
+          <tbody id="bomRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-section">
+        <div class="section-title">
+          <h2>良率敏感性</h2>
+          <span>同一成本结构，不同良率下的单位成本</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>良率</th>
+              <th>单位成本</th>
+              <th>建议报价</th>
+            </tr>
+          </thead>
+          <tbody id="sensitivityRows"></tbody>
+        </table>
+      </section>
+    </section>
+
+    <section class="data-panel">
+      <div class="section-title">
+        <h2>Excel 数据明细</h2>
+        <span id="dataSummary">-</span>
+      </div>
+      <div class="data-toolbar">
+        <select id="dataView">
+          <option value="domestic">国内模组加工成本</option>
+          <option value="sameMaterial">同物料加工差异</option>
+          <option value="firstSheet">第一张表：CDIMM套料成本</option>
+          <option value="summary">套料成本汇总</option>
+          <option value="plans">替代成本方案</option>
+          <option value="materials">物料价格表</option>
+          <option value="bom">PBA BOM 明细</option>
+        </select>
+        <select id="bomSheet"></select>
+      </div>
+      <div class="data-table-wrap">
+        <table id="dataTable"></table>
+      </div>
+    </section>
+  </main>
+
+  <script src="data.js?v=20260521c"></script>
+  <script src="domestic-costs.js?v=20260521c"></script>
+  <script src="app.js?v=20260521c"></script>
+</body>
+</html>

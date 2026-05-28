@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DDR5 使用说明</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body { background: #f5f7f8; }
+      .guide {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 32px 24px 48px;
+      }
+      .guide-card {
+        background: #fff;
+        border: 1px solid #dfe6e8;
+        border-radius: 8px;
+        box-shadow: 0 16px 42px rgba(25, 38, 45, 0.08);
+        padding: 26px;
+      }
+      .guide h1 { font-size: 26px; margin-bottom: 8px; }
+      .guide h2 { font-size: 18px; margin-top: 26px; margin-bottom: 10px; }
+      .guide p, .guide li { color: #314045; line-height: 1.7; font-size: 14px; }
+      .guide ul { padding-left: 20px; }
+      .guide pre {
+        background: #162125;
+        color: #eef6f5;
+        padding: 16px;
+        border-radius: 8px;
+        overflow: auto;
+      }
+      .guide-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="guide">
+      <div class="guide-top">
+        <div>
+          <h1>DDR5 硬件替换数据库使用说明</h1>
+          <p>说明放旁边，主页面只做实际查询和录入。</p>
+        </div>
+        <a class="button" href="/">返回数据库</a>
+      </div>
+      <section class="guide-card">
+        <h2>目标</h2>
+        <pre>板型 -> 每条用料 -> 每颗料数量 -> 替代料 -> 替代数量关系 -> 影响 -> 验证 -> 风险/状态</pre>
+
+        <h2>日常使用顺序</h2>
+        <ul>
+          <li>先看硬件模块：判断物料属于 DRAM、PMIC、SPD Hub、CKD、阻容、PCB 哪一类。</li>
+          <li>再看用量/替代料：确认每条内存用了几颗料，以及替代数量关系。</li>
+          <li>录入新板型：填写板型、应用类型、容量、Rank、颗粒组织、颗粒数量、阻容数量、焊点数、风险。</li>
+          <li>后续导入 BOM：每颗料都要落到实际用量，替代料必须写影响和验证项。</li>
+        </ul>
+
+        <h2>替代料必须写清楚</h2>
+        <pre>原料：原供应商 / 原料号 / 原描述 / 每条用量
+替代料：替代供应商 / 替代料号 / 替代描述 / 每条替代用量
+数量关系：例如 1 pcs -> 1 pcs
+影响：例如 SPD 读取、XMP/EXPO、温度读取、主板识别
+验证：例如 SPD dump、MemTest、温升、主板兼容
+状态：待验证 / 工程确认中 / 品质确认中 / 已批准 / 不通过
+风险：低 / 中 / 中高 / 高</pre>
+
+        <h2>高风险规则</h2>
+        <ul>
+          <li>DRAM 替换：高风险，必须看容量、x8/x16、Rank、SPD、平台兼容。</li>
+          <li>PMIC 替换：高风险，必须看电压轨、上电时序、温升、老化。</li>
+          <li>SPD Hub 替换：中高风险，必须看烧录、SPD dump、XMP/EXPO、温度读取、主板识别。</li>
+          <li>CKD 替换：高风险，只在 CUDIMM/CSODIMM 里重点管理。</li>
+          <li>阻容替换：不能只看数量，要按位号和功能位置确认。</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>颗粒 Sorting 良率工具</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css?v=20260527b">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Factory Sorting Yield</p>
+        <h1>颗粒 Sorting 良率工具</h1>
+      </div>
+      <div class="summary-chip">
+        <span>当前选择</span>
+        <strong id="currentScheme">-</strong>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <form class="control-panel" id="sortingForm">
+        <select id="grainPartNumber" hidden></select>
+        <div class="field field-3">
+          <label for="grainBrand">原厂</label>
+          <select id="grainBrand"></select>
+        </div>
+        <div class="field field-3">
+          <label for="grainGrade">颗粒等级</label>
+          <select id="grainGrade"></select>
+        </div>
+        <div class="field field-2">
+          <label for="grainDensity">颗粒规格</label>
+          <select id="grainDensity"></select>
+        </div>
+        <div class="field field-4">
+          <label for="grainPn">颗粒 PN</label>
+          <select id="grainPn"></select>
+        </div>
+        <div class="field field-2">
+          <label for="factory">颗粒测试厂</label>
+          <select id="factory"></select>
+        </div>
+        <div class="field field-2">
+          <label for="status">状态</label>
+          <select id="status"></select>
+        </div>
+        <div class="field field-5">
+          <label for="modulePartNumber">成品配置</label>
+          <select id="modulePartNumber"></select>
+          <small>内部成品料号用于读取 SKU、非颗粒 BOM 成本和 PBA-IDF 映射，不作为颗粒等级判断依据。</small>
+        </div>
+        <div class="field field-3">
+          <label for="diesPerModule">颗粒数量/条</label>
+          <input id="diesPerModule" type="number" min="1" step="1" value="8">
+        </div>
+        <div class="field field-4">
+          <label for="grainUnitPrice">颗粒单价 USD/颗</label>
+          <input id="grainUnitPrice" type="number" min="0" step="0.001" value="1.000">
+        </div>
+        <div class="field field-4">
+          <label for="sortingTestFee">Sorting测试费 USD/颗</label>
+          <input id="sortingTestFee" type="number" min="0" step="0.001" value="0.000">
+        </div>
+        <div class="field field-4">
+          <label for="assemblyCost">成品加工费 USD/条</label>
+          <input id="assemblyCost" type="number" min="0" step="0.001" value="0.280">
+        </div>
+      </form>
+
+      <section class="result-panel" aria-live="polite">
+        <div class="hero-metric">
+          <span>综合可产颗粒数</span>
+          <strong id="totalGoodDies">0</strong>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric">
+            <span>综合 Sorting 良率</span>
+            <strong id="overallYield">-</strong>
+          </div>
+          <div class="metric">
+            <span>有效来料数量</span>
+            <strong id="totalIncoming">0</strong>
+          </div>
+          <div class="metric">
+            <span>可生产条数</span>
+            <strong id="moduleQuantity">0</strong>
+          </div>
+          <div class="metric">
+            <span>测试批次</span>
+            <strong id="batchCount">0</strong>
+          </div>
+          <div class="metric">
+            <span>已完成批次</span>
+            <strong id="doneBatchCount">0</strong>
+          </div>
+          <div class="metric">
+            <span>降频梯级批次</span>
+            <strong id="multiBatchCount">0</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="cost-panel">
+      <div class="section-title">
+        <h2>颗粒测试成本核算</h2>
+        <span>按 Sorting 良率折算颗粒有效成本；半成品口径为颗粒有效成本 + 测试费 + 非颗粒 BOM</span>
+      </div>
+      <div class="cost-grid">
+        <div class="cost-card hero-cost">
+          <span>良率后总成本/条</span>
+          <strong id="sortingActualCost">$0.000</strong>
+        </div>
+        <div class="cost-card">
+          <span>良率后颗粒成本/条</span>
+          <strong id="yieldedGrainCost">$0.000</strong>
+        </div>
+        <div class="cost-card">
+          <span>良率后测试费/条</span>
+          <strong id="yieldedTestCost">$0.000</strong>
+        </div>
+        <div class="cost-card">
+          <span>非颗粒 BOM/条</span>
+          <strong id="moduleBomCost">$0.000</strong>
+        </div>
+        <div class="cost-card">
+          <span>成品加工费/条</span>
+          <strong id="assemblyCostOut">$0.000</strong>
+        </div>
+        <div class="cost-card">
+          <span>可生产总成本</span>
+          <strong id="totalSortingCost">$0.000</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-grid">
+      <section class="table-section">
+        <div class="section-title">
+          <h2>批次汇总</h2>
+          <span>同一批次多档位按可产数量累加，上限不超过来料数量</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>批次</th>
+              <th>颗粒</th>
+              <th>来料数量</th>
+              <th>综合良率</th>
+              <th>可产颗粒</th>
+              <th>可生产条数</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="batchRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-section">
+        <div class="section-title">
+          <h2>测试档位明细</h2>
+          <span id="detailNote">-</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>颗粒测试厂</th>
+              <th>颗粒</th>
+              <th>测试方案</th>
+              <th>良率</th>
+              <th>可产</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="testRows"></tbody>
+        </table>
+      </section>
+    </section>
+
+    <section class="table-section mapping-section">
+      <div class="section-title">
+        <h2>PBA-IDF 映射表</h2>
+        <span id="mappingSummary">-</span>
+      </div>
+      <div class="data-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>原厂</th>
+              <th>等级</th>
+              <th>颗粒规格</th>
+              <th>颗粒 PN</th>
+              <th>内部颗粒料号</th>
+              <th>成品料号</th>
+              <th>颗粒/条</th>
+              <th>状态</th>
+              <th>测试记录</th>
+            </tr>
+          </thead>
+          <tbody id="mappingRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="table-section mapping-section">
+      <div class="section-title">
+        <h2>原厂等级规则表</h2>
+        <span>按原厂、PN 规则识别 UTT / eTT / PG / TP / PRN 等级</span>
+      </div>
+      <div class="data-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>原厂</th>
+              <th>等级</th>
+              <th>PN 规则</th>
+              <th>规则说明</th>
+            </tr>
+          </thead>
+          <tbody id="ruleRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="../dimm-cost-calculator/data.js?v=20260527b"></script>
+  <script src="data.js?v=20260527b"></script>
+  <script src="app.js?v=20260527b"></script>
+</body>
+</html>

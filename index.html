@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DDR5 板型匹配</title>
+    <title>DDR5 生产成本流程</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=202605280004" />
+    <link rel="stylesheet" href="/styles.css?v=202605280843" />
   </head>
   <body>
     <main class="main">
@@ -13,99 +13,163 @@
         <header class="page-toolbar">
           <div>
             <span>DDR5</span>
-            <h1>板型匹配</h1>
+            <h1 id="flowTitle">颗粒测试</h1>
           </div>
-          <a class="toolbar-button" href="/cost.html?v=202605280004">成本核算</a>
+          <nav class="page-nav" aria-label="页面导航">
+            <button class="nav-button nav-button-active" type="button" data-flow-target="grain">颗粒测试</button>
+            <button class="nav-button" type="button" data-flow-target="board">板型匹配</button>
+            <button class="nav-button" type="button" data-flow-target="cost">成本核算</button>
+          </nav>
         </header>
 
-        <section class="panel filter-panel">
-          <h2>筛选条件</h2>
-          <div class="filter-grid">
-            <label>S / U
-              <select id="filterSu">
-                <option value="UDIMM">U - UDIMM</option>
-                <option value="SODIMM">S - SODIMM</option>
-              </select>
-            </label>
-            <label>容量
-              <select id="filterCapacity">
-                <option>8GB</option>
-                <option>16GB</option>
-                <option>24GB</option>
-                <option>32GB</option>
-                <option>48GB</option>
-                <option>64GB</option>
-              </select>
-            </label>
-            <label>颗粒厂
-              <select id="filterFactory">
-                <option>镁光</option>
-                <option>三星</option>
-                <option>海力士</option>
-                <option>长鑫</option>
-              </select>
-            </label>
-            <label>颗粒等级
-              <select id="filterGrade"></select>
-            </label>
-            <label>颗粒规格
-              <select id="filterDramSpec"></select>
-            </label>
-          </div>
-        </section>
-
-        <section class="panel match-panel">
-          <div class="match-head">
+        <section class="panel production-summary">
+          <div class="summary-head">
             <div>
-              <span>匹配结果</span>
-              <h2>匹配板型</h2>
-              <p id="matchPath"></p>
+              <span>生产方案</span>
+              <h2 id="planName">请选择颗粒测试数据</h2>
+              <p id="planPath">先选颗粒并输入成本，再选 S/U 和容量，系统生成半成品料号与成本。</p>
             </div>
-            <strong id="matchCount" class="count-pill">0 个</strong>
+            <strong id="planStatus" class="count-pill">待选择</strong>
           </div>
-          <div class="table-wrap match-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>序号</th>
-                  <th>S/U</th>
-                  <th>容量</th>
-                  <th>颗粒厂</th>
-                  <th>颗粒等级</th>
-                  <th>Rank/贴颗</th>
-                  <th>颗粒规格</th>
-                  <th>板厂</th>
-                  <th>板型</th>
-                  <th>板型标注</th>
-                  <th>名称</th>
-                </tr>
-              </thead>
-              <tbody id="matchedBoardRows"></tbody>
-            </table>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <span>颗粒 / 良率</span>
+              <strong id="summaryGrain">-</strong>
+              <small id="summaryYield">-</small>
+            </div>
+            <div class="summary-card">
+              <span>产品 / 容量</span>
+              <strong id="summaryMarket">UDIMM / 16GB</strong>
+              <small>按市场需求筛选板型</small>
+            </div>
+            <div class="summary-card">
+              <span>生成料号</span>
+              <strong id="summaryPartNumber">-</strong>
+              <small id="summarySku">-</small>
+            </div>
+            <div class="summary-card">
+              <span>半成品成本 / 可生产</span>
+              <strong id="summaryCost">-</strong>
+              <small id="summaryQuantity">-</small>
+            </div>
           </div>
         </section>
 
-        <section class="panel material-matrix-panel">
-          <div class="matrix-scroll">
-            <table class="material-matrix">
-              <thead>
-                <tr>
-                  <th>板型</th>
-                  <th>颗粒</th>
-                  <th>PCB</th>
-                  <th>PMIC</th>
-                  <th>SPD</th>
-                  <th>电感</th>
-                </tr>
-              </thead>
-              <tbody id="materialMatrixRows"></tbody>
-            </table>
-          </div>
-          <div class="rc-grid" id="rcSpecGrid"></div>
-          <p id="selectedPartCount" class="selection-note">已选 0 个料号。</p>
+        <section class="flow-panel" data-flow-panel="grain">
+          <section class="panel tool-shell">
+            <iframe
+              class="embedded-tool-frame"
+              data-grain-frame
+              title="颗粒 Sorting 良率工具"
+              src="/tools/grain-test/index.html?embed=1&v=202605280843"
+            ></iframe>
+          </section>
+        </section>
+
+        <section class="flow-panel" data-flow-panel="board" hidden>
+          <section class="panel filter-panel">
+            <h2>筛选条件</h2>
+            <div class="filter-grid">
+              <label>S / U
+                <select id="filterSu">
+                  <option value="UDIMM">U - UDIMM</option>
+                  <option value="SODIMM">S - SODIMM</option>
+                </select>
+              </label>
+              <label>容量
+                <select id="filterCapacity">
+                  <option>8GB</option>
+                  <option>16GB</option>
+                  <option>24GB</option>
+                  <option>32GB</option>
+                  <option>48GB</option>
+                  <option>64GB</option>
+                </select>
+              </label>
+              <label>颗粒厂
+                <select id="filterFactory">
+                  <option>镁光</option>
+                  <option>三星</option>
+                  <option>海力士</option>
+                  <option>长鑫</option>
+                </select>
+              </label>
+              <label>颗粒等级
+                <select id="filterGrade"></select>
+              </label>
+              <label>颗粒规格
+                <select id="filterDramSpec"></select>
+              </label>
+            </div>
+          </section>
+
+          <section class="panel match-panel">
+            <div class="match-head">
+              <div>
+                <span>匹配结果</span>
+                <h2>匹配板型</h2>
+                <p id="matchPath"></p>
+              </div>
+              <strong id="matchCount" class="count-pill">0 个</strong>
+            </div>
+            <div class="table-wrap match-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>S/U</th>
+                    <th>容量</th>
+                    <th>颗粒厂</th>
+                    <th>颗粒等级</th>
+                    <th>Rank/贴颗</th>
+                    <th>颗粒规格</th>
+                    <th>板厂</th>
+                    <th>板型</th>
+                    <th>板型标注</th>
+                    <th>名称</th>
+                  </tr>
+                </thead>
+                <tbody id="matchedBoardRows"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel material-matrix-panel">
+            <div class="matrix-scroll">
+              <table class="material-matrix">
+                <thead>
+                  <tr>
+                    <th>板型</th>
+                    <th>颗粒</th>
+                    <th>PCB</th>
+                    <th>PMIC</th>
+                    <th>SPD</th>
+                    <th>电感</th>
+                  </tr>
+                </thead>
+                <tbody id="materialMatrixRows"></tbody>
+              </table>
+            </div>
+            <div class="rc-grid" id="rcSpecGrid"></div>
+            <p id="selectedPartCount" class="selection-note">已选 0 个料号。</p>
+          </section>
+        </section>
+
+        <section class="flow-panel" data-flow-panel="cost" hidden>
+          <section class="panel tool-shell">
+            <iframe
+              class="embedded-tool-frame"
+              data-cost-frame
+              title="DIMM 成本核算"
+              src="/tools/dimm-cost-calculator/index.html?embed=1&v=202605280843"
+            ></iframe>
+          </section>
         </section>
       </section>
     </main>
-    <script src="/app.js?v=202605280004"></script>
+    <script src="/tools/dimm-cost-calculator/data.js?v=202605280843"></script>
+    <script src="/tools/grain-test/data.js?v=202605280843"></script>
+    <script src="/app.js?v=202605280843"></script>
+    <script src="/flow.js?v=202605280843"></script>
   </body>
 </html>
