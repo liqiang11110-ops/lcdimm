@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DDR5 板型数据库</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=202605280910" />
+  </head>
+  <body>
+    <main class="main database-main">
+      <section class="database-page">
+        <header class="page-toolbar database-toolbar">
+          <div>
+            <span>DDR5</span>
+            <h1>板型数据库</h1>
+          </div>
+          <nav class="page-nav" aria-label="页面导航">
+            <a class="nav-button nav-button-active" href="/database.html?v=202605280910">板型数据库</a>
+            <a class="nav-button" href="/cost.html?v=202605280843">成本流程</a>
+            <a class="nav-button" href="/guide.html">使用说明</a>
+          </nav>
+        </header>
+
+        <section class="panel db-search-panel">
+          <div class="db-search-row">
+            <label>范围
+              <select id="scopeFilter">
+                <option value="pcb-complete">17个完整BOM</option>
+                <option value="all">全部板型</option>
+                <option value="pcb-missing">缺PCB资料</option>
+              </select>
+            </label>
+            <label class="db-search-box">搜索
+              <input id="dbSearch" type="search" placeholder="输入板型、料号、BOM 文件、物料号" autocomplete="off" />
+            </label>
+            <label>类型
+              <select id="formFactorFilter">
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label>风险
+              <select id="riskFilter">
+                <option value="all">全部</option>
+                <option value="高">高</option>
+                <option value="中高">中高</option>
+                <option value="中">中</option>
+                <option value="低">低</option>
+                <option value="blank">待补充</option>
+              </select>
+            </label>
+            <label>物料
+              <select id="materialTypeFilter">
+                <option value="all">全部</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="db-stat-grid" aria-label="数据库概览">
+          <article class="panel db-stat-card">
+            <span>完整BOM</span>
+            <strong id="statBoards">-</strong>
+            <small id="statBoardsNote">按 PCB 物料行判断</small>
+          </article>
+          <article class="panel db-stat-card">
+            <span>BOM 用料</span>
+            <strong id="statMaterials">-</strong>
+            <small>每条用料与数量</small>
+          </article>
+          <article class="panel db-stat-card">
+            <span>替代料</span>
+            <strong id="statSubstitutes">-</strong>
+            <small>替代关系和验证状态</small>
+          </article>
+          <article class="panel db-stat-card">
+            <span>报价</span>
+            <strong id="statQuotes">-</strong>
+            <small>PCBA BOM / 自采阻容</small>
+          </article>
+          <article class="panel db-stat-card db-stat-risk">
+            <span>高风险</span>
+            <strong id="statRisk">-</strong>
+            <small>高 / 中高风险项</small>
+          </article>
+        </section>
+
+        <section class="db-layout">
+          <aside class="panel db-board-panel">
+            <div class="db-panel-head">
+              <div>
+                <span>板型清单</span>
+                <h2>按当前条件筛选</h2>
+              </div>
+              <strong id="boardCount" class="count-pill">0 个</strong>
+            </div>
+            <div id="boardList" class="db-board-list" aria-label="板型列表"></div>
+          </aside>
+
+          <section class="db-detail-stack">
+            <section class="panel db-detail-panel">
+              <div class="db-panel-head">
+                <div>
+                  <span>当前板型</span>
+                  <h2 id="selectedBoardName">请选择板型</h2>
+                  <p id="selectedBoardCode">-</p>
+                </div>
+                <strong id="selectedRisk" class="db-badge">待补充</strong>
+              </div>
+              <div id="boardMeta" class="db-meta-grid"></div>
+            </section>
+
+            <section class="panel db-detail-panel">
+              <div class="db-panel-head">
+                <div>
+                  <span>PCB判断</span>
+                  <h2>按 PCB 数据校验板型</h2>
+                  <p id="pcbJudgeSummary">请选择板型</p>
+                </div>
+                <strong id="pcbJudgeStatus" class="db-badge">待补充</strong>
+              </div>
+              <div id="pcbJudgeCards" class="db-meta-grid db-pcb-grid"></div>
+              <div class="table-wrap db-table-wrap db-pcb-table-wrap">
+                <table class="db-table db-pcb-table">
+                  <thead>
+                    <tr>
+                      <th>项目</th>
+                      <th>板型字段</th>
+                      <th>PCB 数据判断</th>
+                      <th>结论</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pcbJudgeRows"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel db-table-panel">
+              <div class="db-panel-head">
+                <div>
+                  <span>BOM 用料</span>
+                  <h2>物料用量</h2>
+                </div>
+                <strong id="materialCount" class="count-pill">0 条</strong>
+              </div>
+              <div class="table-wrap db-table-wrap">
+                <table class="db-table">
+                  <thead>
+                    <tr>
+                      <th>类别</th>
+                      <th>料号</th>
+                      <th>描述</th>
+                      <th>数量</th>
+                      <th>区域</th>
+                      <th>替换性</th>
+                      <th>风险</th>
+                      <th>验证</th>
+                    </tr>
+                  </thead>
+                  <tbody id="materialRows"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel db-table-panel">
+              <div class="db-panel-head">
+                <div>
+                  <span>替代关系</span>
+                  <h2>替代料与验证要求</h2>
+                </div>
+                <strong id="substituteCount" class="count-pill">0 条</strong>
+              </div>
+              <div class="table-wrap db-table-wrap">
+                <table class="db-table">
+                  <thead>
+                    <tr>
+                      <th>类别</th>
+                      <th>原料号</th>
+                      <th>替代料号</th>
+                      <th>数量关系</th>
+                      <th>影响</th>
+                      <th>验证</th>
+                      <th>状态</th>
+                      <th>风险</th>
+                    </tr>
+                  </thead>
+                  <tbody id="substituteRows"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="db-two-column">
+              <section class="panel db-table-panel">
+                <div class="db-panel-head">
+                  <div>
+                    <span>报价</span>
+                    <h2>板型报价</h2>
+                  </div>
+                  <strong id="quoteCount" class="count-pill">0 条</strong>
+                </div>
+                <div class="table-wrap db-table-wrap">
+                  <table class="db-table">
+                    <thead>
+                      <tr>
+                        <th>来源</th>
+                        <th>供应</th>
+                        <th>项目</th>
+                        <th>价格</th>
+                      </tr>
+                    </thead>
+                    <tbody id="quoteRows"></tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section class="panel db-table-panel">
+                <div class="db-panel-head">
+                  <div>
+                    <span>标准规则</span>
+                    <h2>典型用量参考</h2>
+                  </div>
+                  <strong id="standardCount" class="count-pill">0 条</strong>
+                </div>
+                <div class="table-wrap db-table-wrap">
+                  <table class="db-table">
+                    <thead>
+                      <tr>
+                        <th>规格</th>
+                        <th>类别</th>
+                        <th>典型数量</th>
+                        <th>依据</th>
+                      </tr>
+                    </thead>
+                    <tbody id="standardRows"></tbody>
+                  </table>
+                </div>
+              </section>
+            </section>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="/database.js?v=202605280910"></script>
+  </body>
+</html>
