@@ -12,7 +12,7 @@
   const loginError = document.querySelector('#loginError');
   const logoutBtn = document.querySelector('#logoutBtn');
   const cloudApiOrigin = 'https://d5-d2gzyrjkz1d3d265f-1437410927.ap-shanghai.app.tcloudbase.com';
-  const apiOrigin = location.hostname.includes('tcloudbaseapp.com') ? cloudApiOrigin : '';
+  const apiOrigin = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? '' : cloudApiOrigin;
   const passwordKey = 'ddr5_admin_password';
   let adminPassword = sessionStorage.getItem(passwordKey) || '';
 
