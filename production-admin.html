@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DDR5 生产数据维护</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=202605301930" />
+  </head>
+  <body class="production-admin-body">
+    <section id="adminLogin" class="admin-login">
+      <form id="loginForm" class="panel admin-login-card">
+        <span>DDR5 Data Console</span>
+        <h1>数据维护登录</h1>
+        <p>上传、审核、发布数据前需要输入维护密码。</p>
+        <label>维护密码
+          <input id="adminPassword" type="password" autocomplete="current-password" />
+        </label>
+        <button class="admin-primary" type="submit">进入数据维护</button>
+        <p id="loginError" class="admin-error"></p>
+      </form>
+    </section>
+
+    <main id="adminShell" class="admin-shell admin-locked">
+      <header class="admin-topbar">
+        <div>
+          <span>DDR5 Data Console</span>
+          <h1>生产数据维护</h1>
+          <p>价格、良率、BOM、加工费先进入待审核区，人工确认后才发布。</p>
+        </div>
+        <nav class="page-nav" aria-label="页面导航">
+          <a class="nav-button" href="/production-official.html?v=202606012310">正式版</a>
+          <a class="nav-button" href="/database.html?v=202605280910">数据库</a>
+          <button class="nav-button" id="logoutBtn" type="button">退出</button>
+        </nav>
+      </header>
+
+      <section class="admin-grid">
+        <article class="panel admin-card">
+          <h2>当前已确认数据</h2>
+          <div id="latestSummary" class="admin-summary"></div>
+        </article>
+
+        <article class="panel admin-card">
+          <h2>上传数据</h2>
+          <form id="uploadForm" class="admin-upload">
+            <label>数据类型
+              <select id="dataType">
+                <option value="auto" selected>自动识别 Excel / CSV / JSON</option>
+                <option value="initial_data">初始全量 JSON</option>
+                <option value="grain_price">颗粒价格</option>
+                <option value="yield">良率</option>
+                <option value="sorting">Sorting 单价</option>
+                <option value="pcba_bom">PCBA BOM 报价</option>
+                <option value="assembly_fee">加工费</option>
+              </select>
+            </label>
+            <label>文件
+              <input id="dataFile" type="file" accept=".json,.xlsx,.xls,.csv" />
+            </label>
+            <button class="admin-primary" type="submit">上传到待审核</button>
+          </form>
+          <p class="admin-note">支持 JSON、CloudBase 每行一条 JSON、Excel、CSV。解析后先比对，人工确认后才发布。</p>
+        </article>
+      </section>
+
+      <section class="panel admin-card">
+        <div class="admin-section-head">
+          <h2>待审核记录</h2>
+          <button class="admin-secondary" id="refreshBtn" type="button">刷新</button>
+        </div>
+        <div id="reviewList" class="admin-review-list"></div>
+      </section>
+    </main>
+    <script src="/production-admin.js?v=202605301930"></script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DDR5 生产决策</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=202605291930" />
+  </head>
+  <body class="decision-body">
+    <main class="decision-app">
+      <aside class="decision-sidebar">
+        <header class="decision-brand">
+          <h1>DDR5 生产工具</h1>
+          <p>决策 · 核算 · 数据库</p>
+        </header>
+
+        <nav class="decision-menu" aria-label="生产工具导航">
+          <span>成本流程</span>
+          <a class="decision-menu-item decision-menu-active" href="/production.html?v=202605291930">生产决策</a>
+          <span>板型数据库</span>
+          <a class="decision-menu-item" href="/database.html?v=202605280910">板型 BOM</a>
+        </nav>
+
+        <footer class="decision-metrics">
+          <p>总板型 <strong id="metricBoards">-</strong> · 完整BOM <strong id="metricComplete">-</strong></p>
+          <p>物料明细 <strong id="metricMaterials">-</strong> · 报价 <strong id="metricQuotes">-</strong></p>
+        </footer>
+      </aside>
+
+      <section class="decision-workspace">
+        <header class="decision-topbar">
+          <div>
+            <h2>成本流程</h2>
+          </div>
+          <div class="decision-status">
+            <span id="stepBadge">步骤 1/3</span>
+            <strong id="flowStatus">待输入</strong>
+          </div>
+        </header>
+
+        <section class="decision-stepper" aria-label="流程步骤">
+          <button class="decision-step decision-step-active" type="button" data-step="grain">
+            <span>步骤 1</span>
+            <strong>颗粒测试</strong>
+          </button>
+          <button class="decision-step" type="button" data-step="board">
+            <span>步骤 2</span>
+            <strong>板型匹配</strong>
+          </button>
+          <button class="decision-step" type="button" data-step="cost">
+            <span>步骤 3</span>
+            <strong>成本核算</strong>
+          </button>
+        </section>
+
+        <section class="decision-panel" data-decision-panel="grain">
+          <h3>颗粒基本信息</h3>
+          <div class="decision-form-grid">
+            <label>颗粒厂
+              <select id="grainBrand"></select>
+            </label>
+            <label>颗粒等级
+              <select id="grainGrade"></select>
+            </label>
+            <label>颗粒规格
+              <select id="grainDensity"></select>
+            </label>
+            <label>颗粒单价（USD）
+              <input id="grainPrice" type="number" min="0" step="0.001" value="0.00" />
+            </label>
+          </div>
+        </section>
+
+        <section class="decision-panel" data-decision-panel="grain">
+          <h3>测试 & 良率</h3>
+          <div class="decision-form-grid decision-form-grid-3">
+            <label>测试总数量（颗）
+              <input id="testQty" type="number" min="0" step="1" value="10000" />
+            </label>
+            <label>良率（%）
+              <input id="yieldRate" type="number" min="0" max="100" step="0.01" value="95" />
+            </label>
+            <label>Sorting 成本（USD/颗）
+              <input id="sortingCost" type="number" min="0" step="0.001" value="0.05" />
+            </label>
+          </div>
+          <div class="decision-actions">
+            <button class="decision-primary" type="button" data-next-step="board">下一步：板型匹配</button>
+          </div>
+        </section>
+
+        <section class="decision-panel decision-hidden" data-decision-panel="board">
+          <h3>市场需求</h3>
+          <div class="decision-form-grid decision-form-grid-3">
+            <label>S / U
+              <select id="moduleType">
+                <option value="UDIMM">UDIMM</option>
+                <option value="SODIMM">SODIMM</option>
+              </select>
+            </label>
+            <label>容量
+              <select id="capacity">
+                <option value="8">8GB</option>
+                <option value="16" selected>16GB</option>
+                <option value="32">32GB</option>
+                <option value="64">64GB</option>
+              </select>
+            </label>
+            <label>匹配策略
+              <select id="matchMode">
+                <option value="strict">按规格严格匹配</option>
+                <option value="all">显示同容量全部板型</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="decision-panel decision-hidden" data-decision-panel="board">
+          <div class="decision-panel-head">
+            <h3>匹配板型</h3>
+            <strong id="matchCount">0 个</strong>
+          </div>
+          <div id="decisionBoardList" class="decision-board-list"></div>
+          <div class="decision-actions">
+            <button class="decision-secondary" type="button" data-next-step="grain">上一步</button>
+            <button class="decision-primary" type="button" data-next-step="cost">下一步：成本核算</button>
+          </div>
+        </section>
+
+        <section class="decision-panel decision-hidden" data-decision-panel="cost">
+          <div class="decision-panel-head">
+            <h3>生产建议</h3>
+            <strong id="costStatus">待选择板型</strong>
+          </div>
+          <div class="decision-summary-grid">
+            <div>
+              <span>选定板型</span>
+              <strong id="summaryBoard">-</strong>
+            </div>
+            <div>
+              <span>可生产数量</span>
+              <strong id="summaryModules">-</strong>
+            </div>
+            <div>
+              <span>单条预估成本</span>
+              <strong id="summaryUnitCost">-</strong>
+            </div>
+            <div>
+              <span>总预估成本</span>
+              <strong id="summaryTotalCost">-</strong>
+            </div>
+          </div>
+          <div class="decision-cost-breakdown">
+            <div><span>颗粒成本/条</span><strong id="grainCostPerModule">-</strong></div>
+            <div><span>Sorting 成本/条</span><strong id="sortingCostPerModule">-</strong></div>
+            <div><span>BOM/PCBA 成本/条</span><strong id="bomCostPerModule">-</strong></div>
+            <div><span>PCB 判断</span><strong id="pcbDecision">-</strong></div>
+          </div>
+          <div class="decision-actions">
+            <button class="decision-secondary" type="button" data-next-step="board">上一步</button>
+            <a class="decision-primary" href="/database.html?v=202605280910">查看板型 BOM</a>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="/tools/grain-test/data.js?v=202605280843"></script>
+    <script src="/tools/dimm-cost-calculator/data.js?v=202605280843"></script>
+    <script src="/production.js?v=202605291930"></script>
+  </body>
+</html>
