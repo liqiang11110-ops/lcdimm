@@ -121,6 +121,7 @@
         <div class="admin-warnings">${warningHtml(review.ai_review?.warnings || review.summary?.warnings)}</div>
         <div class="admin-actions">
           <button type="button" data-ai="${review.upload_id}">系统核算</button>
+          <button class="admin-danger" type="button" data-archive="${review.upload_id}">归档</button>
           <button type="button" data-approve="${review.upload_id}">确认发布</button>
         </div>
       </article>
@@ -143,8 +144,13 @@
   reviewList.addEventListener('click', async (event) => {
     const aiId = event.target.dataset.ai;
     const approveId = event.target.dataset.approve;
+    const archiveId = event.target.dataset.archive;
     if (aiId) {
       await fetchJson(`/api/production/imports/${encodeURIComponent(aiId)}/ai-review`, { method: 'POST' });
+      await loadReviews();
+    }
+    if (archiveId && confirm('确认归档这条待审核记录？')) {
+      await fetchJson(`/api/production/imports/${encodeURIComponent(archiveId)}/archive`, { method: 'POST' });
       await loadReviews();
     }
     if (approveId) {

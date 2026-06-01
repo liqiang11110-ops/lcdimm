@@ -1949,6 +1949,12 @@ table {
   color: #18212d;
 }
 
+.admin-actions .admin-danger {
+  border-color: #f5b5ae;
+  background: #fff;
+  color: #b42318;
+}
+
 .admin-section-head,
 .admin-review > div:first-child {
   display: flex;
