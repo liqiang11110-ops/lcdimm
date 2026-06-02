@@ -1,0 +1,1152 @@
+{
+  "generated_at": "2026-06-02 16:55:00 CST",
+  "scope": "memory_sales_management_plan_baseline",
+  "sources": {
+    "lcdimm_inventory": {
+      "path": "/Users/chenliqiang/Documents/lcdimm 资源库存 0509 吕娟.xlsx",
+      "size": 149274,
+      "mtime": "2026-05-12 21:23:01"
+    },
+    "lexar_fg_balance": {
+      "path": "/Users/chenliqiang/Documents/Lexar 四月份内存库存结余.xlsx",
+      "size": 14493,
+      "mtime": "2025-03-31 17:16:55"
+    },
+    "lexar_overage_inventory": {
+      "path": "/Users/chenliqiang/Library/CloudStorage/GoogleDrive-liqiang11110@gmail.com/我的云端硬盘/Lexar-超期库存_库存-库龄详情_20250402_256660113426601.xlsx",
+      "size": 702422,
+      "mtime": "2025-04-02 08:13:01"
+    },
+    "lexar_d5_cost_quote": {
+      "path": "/Users/chenliqiang/Documents/d5 雷克沙8-6报价单.xls",
+      "size": 32256,
+      "mtime": "2025-08-06 14:26:55"
+    },
+    "h1_sales_plan": {
+      "path": "/Users/chenliqiang/Documents/库存情况及6月销售计划.xlsx",
+      "size": 2857830,
+      "mtime": "2026-05-30 13:43:27",
+      "used_for": "2026 H1销量：1-5月实际、6月计划、库存分类"
+    }
+  },
+  "coverage": [
+    {
+      "module": "半年销量",
+      "status": "partial",
+      "evidence": "已接入《库存情况及6月销售计划.xlsx》业绩情况：1-5月实际 + 6月预计；1月含额外资源；缺SKU/区域拆分和完整6个月实际流水"
+    },
+    {
+      "module": "销售价格",
+      "status": "partial",
+      "evidence": "已找到 D5 雷克沙报价单；还缺按区域/渠道的价格流水"
+    },
+    {
+      "module": "良率",
+      "status": "available",
+      "evidence": "生产页 seed 已有批次良率，销售计划页暂未并入"
+    },
+    {
+      "module": "生产成本",
+      "status": "partial",
+      "evidence": "已有生产成本页、晟中加工费、Lexar D5 成本报价"
+    },
+    {
+      "module": "销售区域",
+      "status": "missing",
+      "evidence": "Lexar 四月库存结余有区域需求列，但不是半年销售流水"
+    },
+    {
+      "module": "竞品市场",
+      "status": "missing",
+      "evidence": "本地有竞品历史文件，尚未接入当前 DIMM 竞品价格"
+    }
+  ],
+  "lcdimm": {
+    "particle_ddr5_total": {
+      "qty_k": 97785.52,
+      "remaining_k": 1125.62,
+      "amount_usd": 12368.97,
+      "rows": 71
+    },
+    "particle_by_category": {
+      "DDR5 1G16": {
+        "qty_k": 1645.8,
+        "remaining_k": 252.8,
+        "amount_usd": 4156.72,
+        "rows": 12
+      },
+      "DDR5 2G8": {
+        "qty_k": 94642.72,
+        "remaining_k": 256.82,
+        "amount_usd": 4106.23,
+        "rows": 41
+      },
+      "DDR5 1G8": {
+        "qty_k": 650.0,
+        "remaining_k": 550.0,
+        "amount_usd": 2910.0,
+        "rows": 4
+      },
+      "DDR4 2G8": {
+        "qty_k": 687.5,
+        "remaining_k": 92.0,
+        "amount_usd": 1284.0,
+        "rows": 13
+      },
+      "DDR5 3G8": {
+        "qty_k": 668.0,
+        "remaining_k": 66.0,
+        "amount_usd": 1196.02,
+        "rows": 10
+      },
+      "DDR4 1G8": {
+        "qty_k": 2702.3,
+        "remaining_k": 102.0,
+        "amount_usd": 445.0,
+        "rows": 23
+      },
+      "DDR4 512*8": {
+        "qty_k": 330.0,
+        "remaining_k": 0.0,
+        "amount_usd": 0.0,
+        "rows": 4
+      },
+      "DDR4 4G8": {
+        "qty_k": 76.0,
+        "remaining_k": 0.0,
+        "amount_usd": 0.0,
+        "rows": 3
+      },
+      "DDR4 4G4": {
+        "qty_k": 19.3,
+        "remaining_k": 0.0,
+        "amount_usd": 0.0,
+        "rows": 2
+      },
+      "DDR4 2G4": {
+        "qty_k": 40.0,
+        "remaining_k": 0.0,
+        "amount_usd": 0.0,
+        "rows": 1
+      },
+      "DDR5 4G8": {
+        "qty_k": 179.0,
+        "remaining_k": 0.0,
+        "amount_usd": 0.0,
+        "rows": 4
+      }
+    },
+    "top_remaining_particles": [
+      {
+        "category": "DDR5 1G16",
+        "name": "Y62E 1G16 PRN",
+        "pn": "PRN1G16Y62EB8HD-64B",
+        "qty_k": 1000.0,
+        "remaining_k": 123.0,
+        "unit_cost_usd": 19.0,
+        "remaining_amount_usd": 2337.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 1G8",
+        "name": "Y52K 1G8 PG",
+        "pn": "SUM1G8Y52KB8RZ-PG",
+        "qty_k": 350.0,
+        "remaining_k": 350.0,
+        "unit_cost_usd": 5.0,
+        "remaining_amount_usd": 1750.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 1G16",
+        "name": "Y62E 1G16 PG",
+        "pn": "SUM1G16Y62EB8HD-PG",
+        "qty_k": 100.0,
+        "remaining_k": 100.0,
+        "unit_cost_usd": 14.5,
+        "remaining_amount_usd": 1450.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 2G8",
+        "name": "NANYA 2G8",
+        "pn": "DM126AXX8ECDUXX2DX",
+        "qty_k": 104.0,
+        "remaining_k": 104.0,
+        "unit_cost_usd": 12.2,
+        "remaining_amount_usd": 1268.8,
+        "strategy": ""
+      },
+      {
+        "category": "DDR4 2G8",
+        "name": "Z42B 2G8 TP",
+        "pn": "SUU2G8Z42BD8SA-TP",
+        "qty_k": 59.0,
+        "remaining_k": 59.0,
+        "unit_cost_usd": 14.0,
+        "remaining_amount_usd": 826.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 3G8",
+        "name": "HYNIX M 3G8 KGD",
+        "pn": "H5CGD8MGBDX021N",
+        "qty_k": 206.0,
+        "remaining_k": 56.0,
+        "unit_cost_usd": 12.92,
+        "remaining_amount_usd": 723.52,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 2G8",
+        "name": "HYNIX A 2G8 KGD",
+        "pn": "H5CG48AGBDX018N",
+        "qty_k": 20.0,
+        "remaining_k": 20.0,
+        "unit_cost_usd": 35.88,
+        "remaining_amount_usd": 717.6,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 2G8",
+        "name": "NANYA 2G8",
+        "pn": "DM126AXX8ECDUXX2DX",
+        "qty_k": 54.0,
+        "remaining_k": 54.0,
+        "unit_cost_usd": 13.0,
+        "remaining_amount_usd": 702.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 2G8",
+        "name": "HYNIX 拆改A 2G8",
+        "pn": "H5CG48AGBDX018N",
+        "qty_k": 28.0,
+        "remaining_k": 28.0,
+        "unit_cost_usd": 23.0,
+        "remaining_amount_usd": 644.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 1G8",
+        "name": "Y52K 1G8 PG",
+        "pn": "SUM1G8Y52KB8RZ-PG",
+        "qty_k": 100.0,
+        "remaining_k": 100.0,
+        "unit_cost_usd": 6.0,
+        "remaining_amount_usd": 600.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 1G8",
+        "name": "Y52K 1G8 PG",
+        "pn": "SUM1G8Y52KB8RZ-PG",
+        "qty_k": 100.0,
+        "remaining_k": 100.0,
+        "unit_cost_usd": 5.6,
+        "remaining_amount_usd": 560.0,
+        "strategy": ""
+      },
+      {
+        "category": "DDR5 3G8",
+        "name": "HYNIX M 3G8 KGD",
+        "pn": "H5CGD8MGBDX021N",
+        "qty_k": 10.0,
+        "remaining_k": 10.0,
+        "unit_cost_usd": 47.25,
+        "remaining_amount_usd": 472.5,
+        "strategy": ""
+      }
+    ],
+    "finished_goods_summary": {
+      "DDR3": {
+        "qty": 22011,
+        "amount_rmb": 80954.0,
+        "unit_cost_rmb": 3.68
+      },
+      "DDR4": {
+        "qty": 76787,
+        "amount_rmb": 957835.0,
+        "unit_cost_rmb": 12.47
+      },
+      "DDR5": {
+        "qty": 47807,
+        "amount_rmb": 1882989.0,
+        "unit_cost_rmb": 39.39
+      }
+    },
+    "finished_goods_rows": [
+      {
+        "product": "DDR3",
+        "type": "SODIMM",
+        "capacity": "4GB",
+        "qty": 11877,
+        "amount_rmb": 39385.0,
+        "unit_cost_rmb": 3.32
+      },
+      {
+        "product": "DDR3",
+        "type": "SODIMM",
+        "capacity": "8GB",
+        "qty": 4234,
+        "amount_rmb": 22241.0,
+        "unit_cost_rmb": 5.25
+      },
+      {
+        "product": "DDR3",
+        "type": "UDIMM",
+        "capacity": "4GB",
+        "qty": 5870,
+        "amount_rmb": 19154.0,
+        "unit_cost_rmb": 3.26
+      },
+      {
+        "product": "DDR3",
+        "type": "UDIMM",
+        "capacity": "8GB",
+        "qty": 30,
+        "amount_rmb": 174.0,
+        "unit_cost_rmb": 5.8
+      },
+      {
+        "product": "DDR4",
+        "type": "SODIMM",
+        "capacity": "4GB",
+        "qty": 3922,
+        "amount_rmb": 23828.0,
+        "unit_cost_rmb": 6.08
+      },
+      {
+        "product": "DDR4",
+        "type": "SODIMM",
+        "capacity": "8GB",
+        "qty": 29299,
+        "amount_rmb": 276055.0,
+        "unit_cost_rmb": 9.42
+      },
+      {
+        "product": "DDR4",
+        "type": "SODIMM",
+        "capacity": "16GB",
+        "qty": 12559,
+        "amount_rmb": 215372.0,
+        "unit_cost_rmb": 17.15
+      },
+      {
+        "product": "DDR4",
+        "type": "SODIMM",
+        "capacity": "32GB",
+        "qty": 81,
+        "amount_rmb": 2675.0,
+        "unit_cost_rmb": 33.02
+      },
+      {
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "4GB",
+        "qty": 1420,
+        "amount_rmb": 9426.0,
+        "unit_cost_rmb": 6.64
+      },
+      {
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "8GB",
+        "qty": 15554,
+        "amount_rmb": 154562.0,
+        "unit_cost_rmb": 9.94
+      },
+      {
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "16GB",
+        "qty": 13887,
+        "amount_rmb": 273668.0,
+        "unit_cost_rmb": 19.71
+      },
+      {
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "32GB",
+        "qty": 65,
+        "amount_rmb": 2249.0,
+        "unit_cost_rmb": 34.6
+      },
+      {
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "8GB",
+        "qty": 19,
+        "amount_rmb": 308.0,
+        "unit_cost_rmb": 16.21
+      },
+      {
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "16GB",
+        "qty": 10160,
+        "amount_rmb": 303631.0,
+        "unit_cost_rmb": 29.88
+      },
+      {
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "32GB",
+        "qty": 563,
+        "amount_rmb": 41077.0,
+        "unit_cost_rmb": 72.96
+      },
+      {
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "16GB",
+        "qty": 31714,
+        "amount_rmb": 1115609.0,
+        "unit_cost_rmb": 35.18
+      },
+      {
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "24GB",
+        "qty": 2101,
+        "amount_rmb": 139857.0,
+        "unit_cost_rmb": 66.57
+      },
+      {
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "32GB",
+        "qty": 3212,
+        "amount_rmb": 277497.0,
+        "unit_cost_rmb": 86.39
+      },
+      {
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "64GB",
+        "qty": 38,
+        "amount_rmb": 5010.0,
+        "unit_cost_rmb": 131.84
+      }
+    ],
+    "online_rows": [
+      {
+        "section": "贴片在线",
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "8GB",
+        "qty": 424,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "贴片在线",
+        "product": "DDR4",
+        "type": "UDIMM",
+        "capacity": "16GB",
+        "qty": 31165,
+        "lexar_fcst_qty": 31165
+      },
+      {
+        "section": "贴片在线",
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "16GB",
+        "qty": 513,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "贴片在线",
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "32GB",
+        "qty": 2888,
+        "lexar_fcst_qty": 2888
+      },
+      {
+        "section": "贴片在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "16GB",
+        "qty": 21627,
+        "lexar_fcst_qty": 18593
+      },
+      {
+        "section": "贴片在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "32GB",
+        "qty": 3623,
+        "lexar_fcst_qty": 3623
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR4",
+        "type": "SODIMM",
+        "capacity": "16GB",
+        "qty": 2,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "16GB",
+        "qty": 1197,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "SODIMM",
+        "capacity": "32GB",
+        "qty": 73,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "16GB",
+        "qty": 9915,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "24GB",
+        "qty": 51,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "32GB",
+        "qty": 4009,
+        "lexar_fcst_qty": 0
+      },
+      {
+        "section": "组包在线",
+        "product": "DDR5",
+        "type": "UDIMM",
+        "capacity": "64GB",
+        "qty": 30,
+        "lexar_fcst_qty": 0
+      }
+    ]
+  },
+  "lexar": {
+    "fg_balance_total": {
+      "start_qty": 376002,
+      "demand_qty": 251830,
+      "balance_qty": 210172,
+      "sku_count": 106
+    },
+    "top_balance_skus": [
+      {
+        "fg": "LD4AU016G-B3200GSST",
+        "start_qty": 21826,
+        "demand_qty": 11740,
+        "balance_qty": 17086
+      },
+      {
+        "fg": "LD4S16G32C22ST-HGN",
+        "start_qty": 29932,
+        "demand_qty": 34000,
+        "balance_qty": 15932
+      },
+      {
+        "fg": "LD5U16G56C46ST-BGS",
+        "start_qty": 13631,
+        "demand_qty": 3240,
+        "balance_qty": 15391
+      },
+      {
+        "fg": "LD4AU008G-B3200GSST",
+        "start_qty": 26109,
+        "demand_qty": 18310,
+        "balance_qty": 14799
+      },
+      {
+        "fg": "LD4AS016G-B3200GSST",
+        "start_qty": 18837,
+        "demand_qty": 10940,
+        "balance_qty": 11897
+      },
+      {
+        "fg": "LD5U16G60C32LG-HGN",
+        "start_qty": 11770,
+        "demand_qty": 0,
+        "balance_qty": 11770
+      },
+      {
+        "fg": "LD4U08G26C19ST-HGN",
+        "start_qty": 11500,
+        "demand_qty": 0,
+        "balance_qty": 11500
+      },
+      {
+        "fg": "LD4BU008G-R3200GSXG",
+        "start_qty": 11306,
+        "demand_qty": 5650,
+        "balance_qty": 10656
+      },
+      {
+        "fg": "LD4U08G32C22ST-HGN",
+        "start_qty": 13000,
+        "demand_qty": 13000,
+        "balance_qty": 10000
+      },
+      {
+        "fg": "LD5S16G56C46ST-BGS",
+        "start_qty": 8536,
+        "demand_qty": 4340,
+        "balance_qty": 9196
+      },
+      {
+        "fg": "LD5S16G56C46ST-HGN",
+        "start_qty": 5900,
+        "demand_qty": 3000,
+        "balance_qty": 6900
+      },
+      {
+        "fg": "LD4AS016G-B3200ASST",
+        "start_qty": 5980,
+        "demand_qty": 4000,
+        "balance_qty": 5980
+      }
+    ],
+    "shortage_skus": [
+      {
+        "fg": "LD4U32G32C22ST-HGN",
+        "start_qty": 450,
+        "demand_qty": 2500,
+        "balance_qty": -2050
+      },
+      {
+        "fg": "LD5U16G60C28LW-RCD",
+        "start_qty": 0,
+        "demand_qty": 2000,
+        "balance_qty": -2000
+      },
+      {
+        "fg": "LD5U16G60C28SW-RCD",
+        "start_qty": 210,
+        "demand_qty": 2000,
+        "balance_qty": -1790
+      },
+      {
+        "fg": "LD5U16G60C26SW-RCD",
+        "start_qty": 0,
+        "demand_qty": 1000,
+        "balance_qty": -1000
+      },
+      {
+        "fg": "LD5U16G60C26LW-RCD",
+        "start_qty": 20,
+        "demand_qty": 1000,
+        "balance_qty": -980
+      },
+      {
+        "fg": "LD5U16G60C320A-RGD",
+        "start_qty": 273,
+        "demand_qty": 1000,
+        "balance_qty": -727
+      },
+      {
+        "fg": "LD4BU016G-R3600GDLA",
+        "start_qty": 0,
+        "demand_qty": 310,
+        "balance_qty": -310
+      },
+      {
+        "fg": "LD5DS016G-B4800GSST",
+        "start_qty": 0,
+        "demand_qty": 310,
+        "balance_qty": -310
+      },
+      {
+        "fg": "LD4AS004G-B3200GSST",
+        "start_qty": 0,
+        "demand_qty": 300,
+        "balance_qty": -300
+      },
+      {
+        "fg": "LD5U16G64C30LW-RCD",
+        "start_qty": 286,
+        "demand_qty": 500,
+        "balance_qty": -214
+      },
+      {
+        "fg": "LD4U08G36C18LG-RGD",
+        "start_qty": 283,
+        "demand_qty": 400,
+        "balance_qty": -117
+      },
+      {
+        "fg": "LD5U24G80C40BR-RGD",
+        "start_qty": 5,
+        "demand_qty": 100,
+        "balance_qty": -95
+      }
+    ],
+    "overage_by_age": {
+      "<90天": {
+        "amount_rmb": 46487655.0,
+        "stock_qty": 29697301,
+        "available_qty": 18982410,
+        "rows": 2432
+      },
+      ">=90天": {
+        "amount_rmb": 901087.0,
+        "stock_qty": 489922,
+        "available_qty": 436157,
+        "rows": 665
+      },
+      ">=180天": {
+        "amount_rmb": 446636.0,
+        "stock_qty": 260041,
+        "available_qty": 208231,
+        "rows": 247
+      }
+    },
+    "top_overage_items": [
+      {
+        "pn": "X29F01T0S3AQKA",
+        "name": "S-N38B Skeleton WAFER",
+        "age": "<90天",
+        "stock_qty": 4433182,
+        "available_qty": 4433182,
+        "unit_cost_rmb": 1.0,
+        "amount_rmb": 4431586.0
+      },
+      {
+        "pn": "X29F01T0S3AQKA",
+        "name": "S-N38B Skeleton WAFER",
+        "age": "<90天",
+        "stock_qty": 4288762,
+        "available_qty": 4288762,
+        "unit_cost_rmb": 1.0,
+        "amount_rmb": 4287218.0
+      },
+      {
+        "pn": "X29F01T0U3AQKA",
+        "name": "S-N38B WAFER",
+        "age": "<90天",
+        "stock_qty": 1008848,
+        "available_qty": 0,
+        "unit_cost_rmb": 4.1,
+        "amount_rmb": 4137044.0
+      },
+      {
+        "pn": "X29F01T0U3AQK1",
+        "name": "N38A",
+        "age": "<90天",
+        "stock_qty": 700402,
+        "available_qty": 7230,
+        "unit_cost_rmb": 4.3,
+        "amount_rmb": 3018775.0
+      },
+      {
+        "pn": "X29F01T0S3AQK1",
+        "name": "N38A",
+        "age": "<90天",
+        "stock_qty": 2890945,
+        "available_qty": 2890945,
+        "unit_cost_rmb": 1.0,
+        "amount_rmb": 2889904.0
+      },
+      {
+        "pn": "SDWFR-512GB63JEC",
+        "name": "Bics6 512Gb ODT WAFER",
+        "age": "<90天",
+        "stock_qty": 694746,
+        "available_qty": 2000,
+        "unit_cost_rmb": 2.2,
+        "amount_rmb": 1530574.0
+      },
+      {
+        "pn": "W1UB47RDUNXNZ-NAE8U",
+        "name": "B47R-E8 WAFER",
+        "age": "<90天",
+        "stock_qty": 608400,
+        "available_qty": 1316,
+        "unit_cost_rmb": 1.9,
+        "amount_rmb": 1171060.0
+      },
+      {
+        "pn": "X29F01T0S3AQKA",
+        "name": "S-N38B Skeleton WAFER",
+        "age": "<90天",
+        "stock_qty": 1112837,
+        "available_qty": 1112837,
+        "unit_cost_rmb": 1.0,
+        "amount_rmb": 1112347.0
+      },
+      {
+        "pn": "X29F01P0C3AQL1",
+        "name": "S-N4PA Reclaim Full WAFER",
+        "age": "<90天",
+        "stock_qty": 216596,
+        "available_qty": 0,
+        "unit_cost_rmb": 4.8,
+        "amount_rmb": 1037122.0
+      },
+      {
+        "pn": "X29F01T0S3AQK1",
+        "name": "N38A",
+        "age": "<90天",
+        "stock_qty": 1015310,
+        "available_qty": 1015310,
+        "unit_cost_rmb": 1.0,
+        "amount_rmb": 1014944.0
+      },
+      {
+        "pn": "RTN27AA1442512G",
+        "name": "B58R-UNCUT WAFER",
+        "age": "<90天",
+        "stock_qty": 39920,
+        "available_qty": 0,
+        "unit_cost_rmb": 17.5,
+        "amount_rmb": 697289.0
+      },
+      {
+        "pn": "PF29R04P2BNCQL1",
+        "name": "S-N4PA QDP Reclaim",
+        "age": "<90天",
+        "stock_qty": 33823,
+        "available_qty": 0,
+        "unit_cost_rmb": 19.1,
+        "amount_rmb": 647477.0
+      }
+    ],
+    "d5_cost_quotes": [
+      {
+        "product_type": "D5 U DIMM",
+        "pcb": "欣强 B85URCA 1.00",
+        "capacity": "8GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 27.2,
+        "kit_cost_usd": 3.3432,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.0,
+        "full_test_rmb": 34.2,
+        "taxed_price_usd": 4.2035
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "16GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 27.2,
+        "kit_cost_usd": 3.3432,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.0,
+        "full_test_rmb": 34.2,
+        "taxed_price_usd": 4.2035
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "32GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 27.2,
+        "kit_cost_usd": 3.3432,
+        "memtest_rmb": 2.7,
+        "extra_test_rmb": 2.6,
+        "full_test_rmb": 35.0,
+        "taxed_price_usd": 4.3019
+      },
+      {
+        "product_type": "D5 U DIMM",
+        "pcb": "欣强BA5SRCA 1.00",
+        "capacity": "16GB",
+        "dram_chips": 16.0,
+        "smt_rmb": 3.0,
+        "kit_price_rmb": 29.4,
+        "kit_cost_usd": 3.6136,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.0,
+        "full_test_rmb": 36.9,
+        "taxed_price_usd": 4.5354
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "32GB",
+        "dram_chips": 16.0,
+        "smt_rmb": 3.0,
+        "kit_price_rmb": 29.4,
+        "kit_cost_usd": 3.6136,
+        "memtest_rmb": 2.7,
+        "extra_test_rmb": 2.6,
+        "full_test_rmb": 37.7,
+        "taxed_price_usd": 4.6337
+      },
+      {
+        "product_type": "D5 SO DIMM",
+        "pcb": "欣强BA5SRCA 1.00",
+        "capacity": "8GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 26.1,
+        "kit_cost_usd": 3.208,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.3,
+        "full_test_rmb": 33.4,
+        "taxed_price_usd": 4.1052
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "16GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 26.1,
+        "kit_cost_usd": 3.208,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.3,
+        "full_test_rmb": 33.4,
+        "taxed_price_usd": 4.1052
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "32GB",
+        "dram_chips": 8.0,
+        "smt_rmb": 2.5,
+        "kit_price_rmb": 26.1,
+        "kit_cost_usd": 3.208,
+        "memtest_rmb": 2.7,
+        "extra_test_rmb": 2.6,
+        "full_test_rmb": 33.9,
+        "taxed_price_usd": 4.1667
+      },
+      {
+        "product_type": "D5 SO DIMM",
+        "pcb": "欣强BA5SRCB 1.00",
+        "capacity": "16GB",
+        "dram_chips": 16.0,
+        "smt_rmb": 3.0,
+        "kit_price_rmb": 28.3,
+        "kit_cost_usd": 3.4784,
+        "memtest_rmb": 2.5,
+        "extra_test_rmb": 2.3,
+        "full_test_rmb": 36.1,
+        "taxed_price_usd": 4.4371
+      },
+      {
+        "product_type": "nan",
+        "pcb": "nan",
+        "capacity": "32GB",
+        "dram_chips": 16.0,
+        "smt_rmb": 3.0,
+        "kit_price_rmb": 28.3,
+        "kit_cost_usd": 3.4784,
+        "memtest_rmb": 2.7,
+        "extra_test_rmb": 2.6,
+        "full_test_rmb": 36.6,
+        "taxed_price_usd": 4.4985
+      }
+    ],
+    "d5_cost_error": ""
+  },
+  "decision_rules": [
+    {
+      "name": "优先消化库存",
+      "rule": "若库存金额高且可用数低，标为风险库存，销售建议以折扣/项目消化为主"
+    },
+    {
+      "name": "成本底线",
+      "rule": "销售价格低于全流程成本或含税美金价换算成本时，禁止建议放量"
+    },
+    {
+      "name": "良率联动",
+      "rule": "低良率批次只作为谨慎销售，不能进入主推计划"
+    },
+    {
+      "name": "区域缺口",
+      "rule": "区域需求大于可用库存时，进入补货或替代 SKU 建议"
+    },
+    {
+      "name": "竞品压力",
+      "rule": "竞品低于我方含税成本时，不追价，转为差异化或库存清理策略"
+    }
+  ],
+  "sales_volume": {
+    "source_file": "/Users/chenliqiang/Documents/库存情况及6月销售计划.xlsx",
+    "source_mtime": "2026-05-30 13:43:27",
+    "source_sheet": "业绩情况",
+    "period": "2026-H1",
+    "basis": "1-5月实际 + 6月预计；其中1月使用总计行，包含额外资源；不是完整6个月实际销售流水",
+    "actual_1_5": {
+      "scope": "1-5月实际（1月含额外资源）",
+      "revenue_usd": 72289833.0,
+      "gross_margin_usd": 34941147.0,
+      "qty_by_pn": 474917.0,
+      "qty_by_host": 535799.1988844206,
+      "gross_margin_rate": 0.48334801105433456
+    },
+    "h1_total": {
+      "scope": "H1：1-5月实际 + 6月预计",
+      "revenue_usd": 96308435.5,
+      "gross_margin_usd": 44232197.6745533,
+      "qty_by_pn": 660175.0,
+      "qty_by_host": 744806.431699691,
+      "gross_margin_rate": 0.459276463633897
+    },
+    "monthly": [
+      {
+        "month": "2026-01",
+        "label": "1月份实际总计",
+        "row": 6,
+        "status": "actual_total",
+        "scope": "总计（已出货+额外资源）",
+        "revenue_col": 3,
+        "margin_col": 4,
+        "qty_pn_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 17893655.0,
+        "gross_margin_usd": 10141052.0,
+        "qty_by_pn": 132564.0,
+        "qty_by_host": 146496.0,
+        "gross_margin_rate": 0.566740109832228
+      },
+      {
+        "month": "2026-02",
+        "label": "2月份实际",
+        "row": 10,
+        "status": "actual_shipped",
+        "scope": "已出货",
+        "revenue_col": 3,
+        "qty_pn_col": 4,
+        "margin_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 12054816.0,
+        "gross_margin_usd": 5851901.0,
+        "qty_by_pn": 77111.0,
+        "qty_by_host": 88500.0,
+        "gross_margin_rate": 0.485440922532538
+      },
+      {
+        "month": "2026-03",
+        "label": "3月份实际",
+        "row": 14,
+        "status": "actual_shipped",
+        "scope": "已出货",
+        "revenue_col": 3,
+        "margin_col": 4,
+        "qty_pn_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 14070243.0,
+        "gross_margin_usd": 7230522.0,
+        "qty_by_pn": 79914.0,
+        "qty_by_host": 91716.9923875971,
+        "gross_margin_rate": 0.513887500023987
+      },
+      {
+        "month": "2026-04",
+        "label": "4月份实际",
+        "row": 23,
+        "status": "actual_shipped",
+        "scope": "已出货",
+        "revenue_col": 3,
+        "margin_col": 4,
+        "qty_pn_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 13249359.0,
+        "gross_margin_usd": 5920103.0,
+        "qty_by_pn": 79336.0,
+        "qty_by_host": 89506.5142807994,
+        "gross_margin_rate": 0.446821842475549
+      },
+      {
+        "month": "2026-05",
+        "label": "5月份实际",
+        "row": 27,
+        "status": "actual_shipped",
+        "scope": "已出货",
+        "revenue_col": 3,
+        "margin_col": 4,
+        "qty_pn_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 15021760.0,
+        "gross_margin_usd": 5797569.0,
+        "qty_by_pn": 105992.0,
+        "qty_by_host": 119579.692216024,
+        "gross_margin_rate": 0.385944722855378
+      },
+      {
+        "month": "2026-06",
+        "label": "6月份预计",
+        "row": 35,
+        "status": "plan",
+        "scope": "6月预计",
+        "revenue_col": 3,
+        "margin_col": 4,
+        "qty_pn_col": 5,
+        "qty_host_col": 6,
+        "margin_rate_col": 7,
+        "revenue_usd": 24018602.5,
+        "gross_margin_usd": 9291050.67455327,
+        "qty_by_pn": 185258.0,
+        "qty_by_host": 209007.232815271,
+        "gross_margin_rate": 0.386827280003209
+      }
+    ],
+    "open_orders": {
+      "may_booked_not_shipped": {
+        "month": "2026-05",
+        "scope": "已接单未出货",
+        "status": "booked_not_shipped",
+        "revenue_usd": 8352565.0,
+        "gross_margin_usd": 3231000.0,
+        "qty_by_pn": 60611.0,
+        "qty_by_host": 68381.0544654826,
+        "gross_margin_rate": 0.386827280003209
+      },
+      "june_booked_not_shipped": {
+        "month": "2026-06",
+        "scope": "已接单未出货",
+        "status": "booked_not_shipped",
+        "revenue_usd": 8352565.0,
+        "gross_margin_usd": 3231000.0,
+        "qty_by_pn": 60611.0,
+        "qty_by_host": 68381.0544654826,
+        "gross_margin_rate": 0.386827280003209
+      },
+      "june_continue_ship": {
+        "month": "2026-06",
+        "scope": "预计继续出货",
+        "status": "plan",
+        "revenue_usd": 15666037.5,
+        "gross_margin_usd": 6060050.67455327,
+        "qty_by_pn": 124647.0,
+        "qty_by_host": 140626.178349788,
+        "gross_margin_rate": 0.386827280003209
+      }
+    },
+    "checks": {
+      "q1_qty_by_pn": 289589.0,
+      "actual_1_5_qty_by_pn": 474917.0,
+      "calc_h1_qty_by_pn": 660175.0,
+      "reported_h1_qty_by_pn": 660175.0,
+      "qty_match": true
+    },
+    "limits": [
+      "缺少按客户/区域/SKU拆分的完整半年已出货流水",
+      "6月为计划值，不能当作已出货",
+      "1月包含额外资源，后续上传明细时需拆分 actual_shipped 与 extra_resource",
+      "当前销售价格只有汇总收入和部分成本报价，缺少区域渠道成交价流水"
+    ]
+  }
+}

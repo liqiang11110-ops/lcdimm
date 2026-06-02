@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内存销售管理计划</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=202606021645" />
+    <script src="/access-gate.js?v=202606020845" defer></script>
+  </head>
+  <body>
+    <main class="main sales-main">
+      <section class="sales-page">
+        <header class="page-toolbar sales-toolbar">
+          <div>
+            <span>DDR5</span>
+            <h1>销售管理计划</h1>
+            <p id="salesSource">销量、库存、成本、良率、区域和竞品分层核验。</p>
+          </div>
+          <nav class="page-nav" aria-label="页面导航">
+            <a class="nav-button nav-button-active" href="/sales-plan.html?v=202606021645">销售计划</a>
+            <a class="nav-button" href="/production-official.html?v=202606020845">正式版</a>
+            <a class="nav-button" href="/production-admin.html?v=202606020845">数据维护</a>
+            <a class="nav-button" href="/database.html?v=202605280910">数据库</a>
+            <a class="nav-button" href="/upload-template-h1-sales.csv">销量样板</a>
+          </nav>
+        </header>
+
+        <section class="sales-status-grid" aria-label="数据覆盖状态">
+          <article class="panel sales-kpi">
+            <span>H1 销量按 PN</span>
+            <strong id="kpiH1Qty">-</strong>
+            <small>1-5月实际 + 6月预计</small>
+          </article>
+          <article class="panel sales-kpi">
+            <span>1-5月实际已出货</span>
+            <strong id="kpiActualQty">-</strong>
+            <small id="kpiActualRevenue">-</small>
+          </article>
+          <article class="panel sales-kpi">
+            <span>6月预计</span>
+            <strong id="kpiJuneQty">-</strong>
+            <small id="kpiJuneRevenue">-</small>
+          </article>
+          <article class="panel sales-kpi sales-kpi-warning">
+            <span>数据状态</span>
+            <strong id="kpiStatus">-</strong>
+            <small>缺 SKU / 区域明细</small>
+          </article>
+        </section>
+
+        <section class="sales-layout">
+          <article class="panel sales-panel">
+            <div class="sales-panel-head">
+              <div>
+                <span>半年销量</span>
+                <h2>2026 H1 经营口径</h2>
+              </div>
+              <strong id="salesCheck" class="count-pill">校验中</strong>
+            </div>
+            <div class="table-wrap sales-table-wrap">
+              <table class="sales-table">
+                <thead>
+                  <tr>
+                    <th>月份</th>
+                    <th>口径</th>
+                    <th>销售额 USD</th>
+                    <th>毛利 USD</th>
+                    <th>销量按 PN</th>
+                    <th>销量按主机数</th>
+                    <th>毛利率</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="salesVolumeRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <aside class="panel sales-panel">
+            <div class="sales-panel-head">
+              <div>
+                <span>下一步</span>
+                <h2>缺口和动作</h2>
+              </div>
+            </div>
+            <div id="salesActions" class="sales-action-list"></div>
+          </aside>
+        </section>
+
+        <section class="sales-status-grid" aria-label="业务覆盖">
+          <article class="panel sales-coverage">
+            <h2>数据覆盖</h2>
+            <div id="coverageRows" class="coverage-list"></div>
+          </article>
+          <article class="panel sales-coverage">
+            <h2>LCDIMM 库存</h2>
+            <div id="lcdimmRows" class="coverage-list"></div>
+          </article>
+          <article class="panel sales-coverage">
+            <h2>Lexar 库存 / 成本</h2>
+            <div id="lexarRows" class="coverage-list"></div>
+          </article>
+        </section>
+      </section>
+    </main>
+    <script src="/sales-plan.js?v=202606021645"></script>
+  </body>
+</html>

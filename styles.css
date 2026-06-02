@@ -2197,3 +2197,168 @@ table {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.sales-main {
+  background: #f3f6f9;
+}
+
+.sales-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 20px 46px;
+}
+
+.sales-toolbar p {
+  margin: 6px 0 0;
+  color: #647180;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sales-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.sales-kpi,
+.sales-coverage,
+.sales-panel {
+  border-radius: 8px;
+}
+
+.sales-kpi span,
+.sales-panel-head span,
+.coverage-row span {
+  color: #687384;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.sales-kpi strong {
+  display: block;
+  margin-top: 10px;
+  color: #18395f;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.sales-kpi small {
+  display: block;
+  margin-top: 8px;
+  color: #687384;
+  font-size: 12px;
+}
+
+.sales-kpi-warning strong {
+  color: #9a5d00;
+}
+
+.sales-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.75fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.sales-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sales-panel-head h2,
+.sales-coverage h2 {
+  margin: 4px 0 0;
+  color: #192433;
+  font-size: 18px;
+}
+
+.sales-table-wrap {
+  max-height: 420px;
+}
+
+.sales-table th,
+.sales-table td {
+  white-space: nowrap;
+}
+
+.sales-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #e8f2ee;
+  color: #18724f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sales-badge-plan {
+  background: #fff3d8;
+  color: #8a5a00;
+}
+
+.sales-action-list {
+  display: grid;
+  gap: 10px;
+}
+
+.sales-action {
+  border-left: 3px solid #2d74bd;
+  background: #f6f9fc;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.sales-action strong {
+  display: block;
+  color: #1f3654;
+  font-size: 14px;
+}
+
+.sales-action p {
+  margin: 6px 0 0;
+  color: #657182;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.coverage-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.coverage-row {
+  display: grid;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e9ef;
+}
+
+.coverage-row:last-child {
+  border-bottom: 0;
+}
+
+.coverage-row strong {
+  color: #172437;
+  font-size: 18px;
+}
+
+.coverage-row small {
+  color: #687384;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 980px) {
+  .sales-status-grid,
+  .sales-layout {
+    grid-template-columns: 1fr;
+  }
+}
