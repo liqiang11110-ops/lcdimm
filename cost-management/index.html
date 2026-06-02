@@ -269,7 +269,8 @@ function cats(b){const o={};b.bom.forEach(m=>{if(m.qty)o[m.name]=(o[m.name]||0)+
 document.querySelectorAll('nav button[data-p]').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.p).classList.add('active');});
 const $=id=>document.getElementById(id);
 const cloudApiOrigin='https://d5-d2gzyrjkz1d3d265f-1437410927.ap-shanghai.app.tcloudbase.com';
-const apiOrigin=cloudApiOrigin;
+const localApiOrigin=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?'http://127.0.0.1:8788':'';
+const apiOrigin=localApiOrigin||cloudApiOrigin;
 const adminPasswordKey='ddr5_admin_password';
 const accessPasswordKey='ddr5_site_access';
 let confirmedNoticeId='';
