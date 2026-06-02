@@ -1,5 +1,5 @@
 (function () {
-  const passwordHash = 'b4ed4e9154ca34ddcc0356d330072f9057614a4d4fe9f2cefdb0f20d2f189b5d';
+  const passwordHash = '4a74d86422a932f9c865cd26b038a9a11a78c7ed5b3e88dbd1df228a4617f415';
   const accessKey = 'ddr5_site_access';
   const adminKey = 'ddr5_admin_password';
 
