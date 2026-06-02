@@ -14,7 +14,8 @@
   const cloudApiOrigin = 'https://d5-d2gzyrjkz1d3d265f-1437410927.ap-shanghai.app.tcloudbase.com';
   const apiOrigin = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? '' : cloudApiOrigin;
   const passwordKey = 'ddr5_admin_password';
-  let adminPassword = sessionStorage.getItem(passwordKey) || '';
+  const accessKey = 'ddr5_site_access';
+  let adminPassword = sessionStorage.getItem(passwordKey) || sessionStorage.getItem(accessKey) || '';
 
   function safe(value) {
     if (value === null || value === undefined || value === '') return '-';
@@ -191,15 +192,20 @@
 
   logoutBtn.addEventListener('click', () => {
     sessionStorage.removeItem(passwordKey);
+    sessionStorage.removeItem(accessKey);
     adminPassword = '';
     showLogin('');
   });
 
-  if (adminPassword) {
-    Promise.all([loadLatest(), loadReviews()]).then(showApp).catch((error) => {
-      reviewList.innerHTML = `<p class="admin-error">${safe(error.message)}</p>`;
-    });
-  } else {
-    showLogin('');
-  }
+  (window.__DDR5_ACCESS_READY || Promise.resolve()).then(() => {
+    adminPassword = sessionStorage.getItem(passwordKey) || sessionStorage.getItem(accessKey) || adminPassword;
+    if (adminPassword) {
+      sessionStorage.setItem(passwordKey, adminPassword);
+      Promise.all([loadLatest(), loadReviews()]).then(showApp).catch((error) => {
+        reviewList.innerHTML = `<p class="admin-error">${safe(error.message)}</p>`;
+      });
+    } else {
+      showLogin('');
+    }
+  });
 })();
