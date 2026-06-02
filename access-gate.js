@@ -4,10 +4,70 @@
   const adminKey = 'ddr5_admin_password';
 
   function sha256(text) {
+    if (!crypto?.subtle) return Promise.resolve(sha256Fallback(text));
     const encoder = new TextEncoder();
     return crypto.subtle.digest('SHA-256', encoder.encode(text)).then((buffer) => (
       Array.from(new Uint8Array(buffer)).map((byte) => byte.toString(16).padStart(2, '0')).join('')
     ));
+  }
+
+  function sha256Fallback(text) {
+    const rightRotate = (value, amount) => (value >>> amount) | (value << (32 - amount));
+    const mathPow = Math.pow;
+    const maxWord = mathPow(2, 32);
+    const words = [];
+    const ascii = unescape(encodeURIComponent(text));
+    let hash = sha256Fallback.h || [];
+    let k = sha256Fallback.k || [];
+    let primeCounter = k.length;
+    const isComposite = {};
+    for (let candidate = 2; primeCounter < 64; candidate += 1) {
+      if (!isComposite[candidate]) {
+        for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+        hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+        k[primeCounter] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+        primeCounter += 1;
+      }
+    }
+    sha256Fallback.h = hash;
+    sha256Fallback.k = k;
+    let bitLength = ascii.length * 8;
+    for (let i = 0; i < ascii.length; i += 1) words[i >> 2] |= ascii.charCodeAt(i) << ((3 - i) % 4) * 8;
+    words[bitLength >> 5] |= 0x80 << (24 - bitLength % 32);
+    words[(((bitLength + 64) >> 9) << 4) + 15] = bitLength;
+    for (let j = 0; j < words.length; j += 16) {
+      const w = words.slice(j, j + 16);
+      const oldHash = hash.slice(0);
+      for (let i = 0; i < 64; i += 1) {
+        const w15 = w[i - 15];
+        const w2 = w[i - 2];
+        const a = hash[0];
+        const e = hash[4];
+        const temp1 = hash[7]
+          + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
+          + ((e & hash[5]) ^ ((~e) & hash[6]))
+          + k[i]
+          + (w[i] = i < 16 ? w[i] : (
+            w[i - 16]
+            + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3))
+            + w[i - 7]
+            + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
+          ) | 0);
+        const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
+          + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+        hash = [(temp1 + temp2) | 0].concat(hash);
+        hash[4] = (hash[4] + temp1) | 0;
+      }
+      for (let i = 0; i < 8; i += 1) hash[i] = (hash[i] + oldHash[i]) | 0;
+    }
+    return hash.slice(0, 8).map((value) => {
+      let hex = '';
+      for (let i = 3; i + 1; i -= 1) {
+        const byte = (value >> (i * 8)) & 255;
+        hex += (byte < 16 ? '0' : '') + byte.toString(16);
+      }
+      return hex;
+    }).join('');
   }
 
   function injectStyle() {
