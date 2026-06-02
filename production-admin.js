@@ -69,6 +69,14 @@
     `;
   }
 
+  function aiMetaHtml(aiReview) {
+    if (!aiReview) return '<p class="admin-ai-meta">AI：待系统核算</p>';
+    const source = aiReview.source || '-';
+    const model = [aiReview.provider, aiReview.model].filter(Boolean).join(' / ') || '-';
+    const error = aiReview.ai_error ? `<span class="admin-ai-error">错误：${safe(aiReview.ai_error)}</span>` : '';
+    return `<p class="admin-ai-meta">AI：${safe(source)} · ${safe(model)} ${error}</p>`;
+  }
+
   async function fetchJson(url, options) {
     const requestOptions = { ...(options || {}) };
     const headers = new Headers(requestOptions.headers || {});
@@ -117,6 +125,7 @@
         </div>
         <div class="admin-count-grid">${countCards(review.summary)}</div>
         ${decisionHtml(review)}
+        ${aiMetaHtml(review.ai_review)}
         ${comparisonHtml(review.comparison)}
         <div class="admin-warnings">${warningHtml(review.ai_review?.warnings || review.summary?.warnings)}</div>
         <div class="admin-actions">
