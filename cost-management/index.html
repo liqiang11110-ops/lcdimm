@@ -93,6 +93,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 textarea{width:100%;min-height:150px;padding:12px 13px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:13px;background:#f8fafd;color:var(--ink);font-family:inherit;line-height:1.65;resize:vertical}
 textarea:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-soft)}
 .mailResult{background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13px;line-height:1.75;color:#22304a;min-height:150px}
+.mailSpec{margin-top:14px;background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:12px;color:#475569;line-height:1.75}
+.mailSpec b{color:var(--navy)}
+.mailSpec pre{white-space:pre-wrap;margin-top:8px;background:#fff;border:1px dashed #cbd7e6;border-radius:10px;padding:10px;color:#22304a;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
 .flow{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);margin-bottom:18px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:12px;padding:13px 16px;box-shadow:var(--sh)}.flow b{color:var(--navy)}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:28px}.muted{color:var(--muted)}
 .bomwrap{margin-top:10px;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:none}
@@ -218,6 +221,16 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:28px}.muted{c
       </div>
     </div>
     <div class="note">当前先识别正文表格：品牌、料号、数量、颗粒型号、等级、规格、创建人和建议方案。价格缺失会标记为待补，正式发布仍需人工确认。</div>
+    <div class="mailSpec">
+      <b>输入文本规范</b><br>
+      1. 推荐直接复制邮件里的资源表格，第一行必须有表头。<br>
+      2. 必须包含：品牌、物料、数量、物料描述或详细说明、创建人。<br>
+      3. 颗粒型号、规格、等级要写在物料描述或详细说明里，例如 SUU2G8Y62EB8RZ-TP、2G8、TP。<br>
+      4. 数量可以写 49953 或 49,953；价格可以先不填，系统会标记待补。<br>
+      5. 一封邮件有多行资源时，每个资源单独一行，不要把多颗粒型号写在同一行。<br>
+      <pre>品牌	物料	数量	分配产品	物料描述	详细说明	创建人
+Spectek	IDF0001A1477	49,953	LCDIMM LINE	LPDDR5 SUU2G8Y62EB8RZ-TP VFBGA78 MSL:3	1ynm 16Gb (2G*8 SDP) DDR5(Y62E) 78ball TP SpecTek	ALEX.YAO</pre>
+    </div>
   </div>
 </section>
 
