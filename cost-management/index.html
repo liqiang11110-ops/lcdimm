@@ -90,6 +90,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .actionBtn:disabled{background:#d7dee8;color:#7b8794;cursor:not-allowed;box-shadow:none}
 .noticeStatus{margin-top:10px;font-size:12px;font-weight:700;color:var(--muted)}
 .noticeStatus.ok{color:var(--green)}.noticeStatus.warn{color:var(--amber)}.noticeStatus.err{color:var(--red)}
+textarea{width:100%;min-height:150px;padding:12px 13px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:13px;background:#f8fafd;color:var(--ink);font-family:inherit;line-height:1.65;resize:vertical}
+textarea:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-soft)}
+.mailResult{background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13px;line-height:1.75;color:#22304a;min-height:150px}
 .flow{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);margin-bottom:18px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:12px;padding:13px 16px;box-shadow:var(--sh)}.flow b{color:var(--navy)}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:28px}.muted{color:var(--muted)}
 .bomwrap{margin-top:10px;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:none}
@@ -196,6 +199,25 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:28px}.muted{c
       </div>
     </div>
     <div class="note">机器人地址不放网页里；发送动作走后端环境变量。页面只负责确认当前核算结果。</div>
+  </div>
+  <div class="card" style="margin-top:22px">
+    <h2><span class="n">5</span>邮件识别待审核</h2>
+    <div class="noticeBox">
+      <div>
+        <label style="margin-top:0">粘贴采购/资源邮件正文或表格</label>
+        <textarea id="mailRaw" placeholder="例如：品牌	物料	数量	分配产品	物料描述	详细说明	创建人&#10;Spectek	IDF0001A1477	49,953	LCDIMM LINE	LPDDR5 ...	1ynm 16Gb (2G*8 SDP) DDR5(Y62E) ... TP = 95% SpecTek	ALEX.YAO"></textarea>
+        <div class="noticeActions">
+          <button class="actionBtn primary" id="parseMail" type="button">生成待审核单</button>
+          <button class="actionBtn send" id="parseMailNotify" type="button">生成并提醒钉钉</button>
+        </div>
+        <div class="noticeStatus" id="mailStatus">只生成待审核，不自动发布正式库。</div>
+      </div>
+      <div>
+        <label style="margin-top:0">识别结果</label>
+        <div class="mailResult" id="mailResult">等待粘贴邮件内容。</div>
+      </div>
+    </div>
+    <div class="note">当前先识别正文表格：品牌、料号、数量、颗粒型号、等级、规格、创建人和建议方案。价格缺失会标记为待补，正式发布仍需人工确认。</div>
   </div>
 </section>
 
@@ -412,6 +434,51 @@ async function sendNotice(){
     setNoticeStatus('已发送钉钉。','ok');
   }catch(err){setNoticeStatus(err.message,'err');$('sendNotice').disabled=false;}
 }
+function setMailStatus(text,type=''){const el=$('mailStatus');if(!el)return;el.textContent=text;el.className='noticeStatus '+type;}
+function renderMailReview(review){
+  const out=$('mailResult');
+  if(!out)return;
+  const parsed=review?.mail_intake||{};
+  const items=parsed.items||[];
+  if(!items.length){
+    out.textContent='未识别到邮件资源。请确认正文里有品牌、物料、数量、物料描述、详细说明等字段。';
+    return;
+  }
+  const lines=[
+    `待审核单：${review.upload_id||'-'}`,
+    `状态：${review.decision?.status||'待审核'}（不自动发布）`,
+    '',
+  ];
+  items.slice(0,5).forEach((item,index)=>{
+    const main=(item.suggestions||[]).find(x=>x.note==='主推')||(item.suggestions||[])[0];
+    const backup=(item.suggestions||[]).filter(x=>x!==main);
+    lines.push(`${index+1}. ${item.model||'-'}　${item.brand||'-'} / ${item.grade||'-'} / ${item.spec||'-'}`);
+    lines.push(`数量：${item.qty?Number(item.qty).toLocaleString():'-'}颗　创建人：${item.creator||'-'}`);
+    lines.push(`主推：${main?`${main.capacity}，${main.chips}颗/条，约${Number(main.estimate_qty||0).toLocaleString()}条`:'需复核'}`);
+    if(backup.length)lines.push(`备选：${backup.map(x=>`${x.capacity}，${x.chips}颗/条，约${Number(x.estimate_qty||0).toLocaleString()}条`).join('；')}`);
+    if(item.warnings?.length)lines.push(`待补：${item.warnings.join('；')}`);
+    lines.push('');
+  });
+  if(items.length>5)lines.push(`其余 ${items.length-5} 条请在数据维护待审核区查看。`);
+  if(review.notification)lines.push(`钉钉提醒：${review.notification.ok?'已发送':'未发送 - '+(review.notification.error||'失败')}`);
+  out.textContent=lines.join('\n').trim();
+}
+async function parseMailIntake(notify){
+  const raw=($('mailRaw')?.value||'').trim();
+  if(!raw){setMailStatus('请先粘贴邮件正文或表格。','err');return;}
+  const btn=$('parseMail'),notifyBtn=$('parseMailNotify');
+  btn.disabled=true;notifyBtn.disabled=true;
+  setMailStatus(notify?'正在生成待审核单并提醒钉钉…':'正在生成待审核单…','warn');
+  try{
+    const data=await apiPost('/api/production/mail-intakes',{raw_text:raw,meta:{subject:'采购/资源邮件'},notify:!!notify});
+    renderMailReview(data.review);
+    setMailStatus(notify?'已生成待审核单；钉钉提醒结果见右侧。':'已生成待审核单；未发布正式库。','ok');
+  }catch(err){
+    setMailStatus(err.message,'err');
+  }finally{
+    btn.disabled=false;notifyBtn.disabled=false;
+  }
+}
 const brand=$('brand'),grade=$('grade'),spec=$('spec'),dies=$('dies'),targetCap=$('targetCap');
 function fill(sel,arr,ph){sel.innerHTML='<option value="">'+ph+'</option>'+arr.map(x=>`<option>${x}</option>`).join('');}
 fill(brand,Object.keys(LINK),'请选择原厂');
@@ -503,6 +570,7 @@ $('noticeNote').addEventListener('input',()=>{$('noticeNote').dataset.userEdited
 $('noticeModel').addEventListener('dblclick',()=>{delete $('noticeModel').dataset.userEdited;syncNoticeInputs();updateNoticePreview();});
 $('noticeNote').addEventListener('dblclick',()=>{delete $('noticeNote').dataset.userEdited;syncNoticeInputs();updateNoticePreview();});
 $('confirmNotice').addEventListener('click',confirmNotice);$('sendNotice').addEventListener('click',sendNotice);
+$('parseMail').addEventListener('click',()=>parseMailIntake(false));$('parseMailNotify').addEventListener('click',()=>parseMailIntake(true));
 applyGradePolicy();
 
 recalc();renderDb();fillBatches();
