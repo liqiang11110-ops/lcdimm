@@ -3,116 +3,590 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>娟姐成本核算</title>
-<meta name="theme-color" content="#1d4e7e">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="娟姐成本核算">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="/cost-management/manifest.webmanifest">
-<link rel="icon" href="/cost-management/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/cost-management/apple-touch-icon.png">
+<title>D5 成本核算</title>
 <style>
-:root{--bg:#f3f7fc;--card:#fff;--ink:#16233a;--muted:#64748b;--line:#e3ebf5;--navy:#1d4e7e;--blue:#2f7fce;--green:#15915a;--red:#c0392b;--shadow:0 16px 44px -24px rgba(20,45,90,.45)}
+:root{
+  --bg:#f5f8fc;--card:#fff;--ink:#16233a;--muted:#64748b;--line:#e6ecf4;
+  --navy:#1d4e7e;--blue:#2f7fce;--sky:#5aa2e0;--blue-soft:#e9f2fc;--blue-soft2:#f4f9fe;
+  --green:#15915a;--green-soft:#e6f7ee;--amber:#b7791f;--amber-soft:#fef4e2;--red:#c0392b;--red-soft:#fdecea;
+  --r:18px;--r-sm:11px;
+  --sh:0 2px 4px rgba(20,45,90,.04),0 12px 28px -14px rgba(20,45,90,.22);
+  --sh-lg:0 10px 40px -12px rgba(20,45,90,.32);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(1000px 420px at 80% -140px,#dcebfb 0%,rgba(220,235,251,0) 70%),linear-gradient(180deg,#eef4fb 0%,#f7fafe 360px);color:var(--ink)}
-.top{height:72px;background:linear-gradient(120deg,#143d63 0%,#2f7fce 78%,#4a93da 100%);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px;box-shadow:0 10px 30px -18px rgba(20,45,90,.55)}
-.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:21px}
-.brand i{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-style:normal}
-.sub{font-size:12px;opacity:.86;text-align:right}
-.wrap{max-width:1260px;margin:0 auto;padding:28px}
-.login{max-width:420px;margin:90px auto 0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
-.login h1{font-size:22px;color:var(--navy);margin-bottom:8px}
-.login p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:18px}
-label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:8px}
-input{width:100%;height:48px;border:1.5px solid var(--line);border-radius:12px;background:#f8fafd;padding:0 14px;font-size:16px;color:var(--ink);outline:none}
-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px #e9f2fc}
-.actions{display:flex;gap:10px;margin-top:16px}
-button{border:none;border-radius:12px;height:46px;padding:0 18px;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit}
-.primary{background:var(--navy);color:#fff;flex:1;box-shadow:0 10px 22px -14px rgba(29,78,126,.75)}
-.ghost{background:#e8eef6;color:#42526a}
-button:disabled{background:#d7dee8;color:#7b8794;cursor:not-allowed;box-shadow:none}
-.msg{min-height:22px;margin-top:12px;font-size:12px;font-weight:800;color:var(--muted)}
-.msg.ok{color:var(--green)}.msg.err{color:var(--red)}
-.appbar{display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;color:var(--muted);font-size:13px}
-.appframe{display:none;width:100%;min-height:calc(100vh - 130px);border:none;border-radius:18px;background:#fff;box-shadow:var(--shadow)}
-.loading{display:none;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;color:var(--muted);box-shadow:var(--shadow)}
-body.loaded .login,body.loaded .loading{display:none}
-body.loaded .appbar{display:flex}
-body.loaded .appframe{display:block}
-@media(max-width:680px){.top{height:auto;min-height:68px;padding:16px 18px;align-items:flex-start;gap:10px;flex-direction:column}.sub{text-align:left}.wrap{padding:16px}.login{margin-top:40px;padding:22px}.appframe{min-height:calc(100vh - 130px);border-radius:12px}}
+body{font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;background:
+  radial-gradient(1200px 400px at 80% -120px,#dcebfb 0%,rgba(220,235,251,0) 70%),
+  linear-gradient(180deg,#eef4fb 0%,#f5f8fc 320px);
+  background-color:#f5f8fc;color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+header{background:linear-gradient(120deg,#143d63 0%,#2f7fce 78%,#4a93da 100%);color:#fff;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;box-shadow:0 10px 30px -12px rgba(20,45,90,.5);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+header h1{font-size:23px;font-weight:800;letter-spacing:.6px;display:flex;align-items:center;gap:12px;z-index:1}
+header h1::before{content:"¥";width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;backdrop-filter:blur(4px)}
+header .sub{font-size:12.5px;opacity:.92;margin-top:5px;font-weight:500;z-index:1}
+nav{display:flex;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(8px);padding:9px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+nav button{border:none;background:transparent;padding:9px 17px;border-radius:999px;font-size:14px;color:var(--muted);cursor:pointer;font-weight:600;transition:.15s}
+nav button.active{background:var(--navy);color:#fff;box-shadow:0 4px 12px -3px rgba(29,78,126,.5)}
+nav button:hover:not(.active){background:var(--blue-soft);color:var(--navy)}
+main{max-width:1260px;margin:0 auto;padding:28px}
+.page{display:none}.page.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cost-only nav,
+.cost-only .page:not(#decide){display:none !important}
+.cost-only header{background:linear-gradient(120deg,#143d63 0%,#2f7fce 78%,#4a93da 100%)}
+.grid{display:grid;gap:22px}.cols-3{grid-template-columns:1fr 1.08fr 1.18fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s}
+.card::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--navy),var(--sky))}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.card h2{font-size:16px;color:var(--navy);margin:4px 0 18px;padding-bottom:0;border:none;display:flex;align-items:center;gap:11px;font-weight:800}
+.card h2 .n{background:linear-gradient(135deg,#1d4e7e,#2f7fce);color:#fff;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto;box-shadow:0 4px 10px -2px rgba(29,78,126,.55)}
+label{display:block;font-size:12px;color:var(--muted);margin:15px 0 6px;font-weight:700;letter-spacing:.2px}
+select,input{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:14px;background:#f8fafd;color:var(--ink);font-family:inherit;transition:.15s;min-height:42px}
+select:hover,input:hover{border-color:#bcd2ea;background:#fff}
+select:focus,input:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-soft)}
+select:disabled{background:#eef1f6;color:#a7b0bf;cursor:not-allowed}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.pill{display:inline-block;padding:3px 11px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.6}
+.pill.green{background:var(--green-soft);color:var(--green)}.pill.amber{background:var(--amber-soft);color:var(--amber)}.pill.red{background:var(--red-soft);color:var(--red)}.pill.blue{background:var(--blue-soft);color:var(--navy)}.pill.grey{background:#eef0f3;color:#666}
+.derive{background:linear-gradient(135deg,#e9f2fc 0%,#f4f9fe 100%);border:1px solid #d7e7f8;border-radius:14px;padding:16px 17px;margin-top:6px}
+.derive .big{font-size:29px;font-weight:800;color:var(--navy);letter-spacing:.4px;line-height:1.1}.derive .lab{font-size:12px;color:var(--blue);font-weight:700}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.kv:last-child{border-bottom:none}.kv .k{color:var(--muted)}.kv .v{font-weight:700;font-variant-numeric:tabular-nums}
+.boards{margin-top:8px;max-height:330px;overflow:auto;padding-right:3px}
+.boards::-webkit-scrollbar{width:9px}.boards::-webkit-scrollbar-thumb{background:#cbdaeb;border-radius:9px}.boards::-webkit-scrollbar-thumb:hover{background:#b3c8e0}
+.board{border:1.5px solid var(--line);border-radius:13px;padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:.16s;background:#fff}
+.board:hover{border-color:var(--blue);background:var(--blue-soft);transform:translateY(-1px);box-shadow:0 6px 16px -8px rgba(47,127,206,.4)}
+.board.sel{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 3px var(--blue-soft)}
+.board.main{border-color:#a7e0bf;background:#f3fcf7}
+.board.alt{background:#fafbfc}
+.board .t{font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.board .m{font-size:12px;color:var(--muted);margin-top:4px}
+.boardSection{border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:11px;background:#fff}
+.boardSection.mainSection{border-color:#bfe8cf;background:#f5fcf8}
+.boardSectionTitle{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:9px}
+.boardSectionTitle b{font-size:13px;color:var(--green)}
+.altBoards{border:1px dashed var(--line);border-radius:13px;background:#fbfcfe}
+.altBoards summary{cursor:pointer;color:#64748b;font-size:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.altBoards summary b{color:#475569}.altBoards summary em{font-style:normal;color:#94a3b8}
+.altBoards .boardSection{border:none;border-top:1px solid var(--line);border-radius:0;margin:0;background:#fff}
+.cost-total{background:linear-gradient(130deg,#143d63 0%,#2f7fce 100%);color:#fff;border-radius:16px;padding:22px 22px 18px;margin-top:16px;box-shadow:0 14px 34px -12px rgba(29,78,126,.65);position:relative;overflow:hidden}
+.cost-total::after{content:"";position:absolute;right:-50px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.cost-total::before{content:"";position:absolute;left:-30px;bottom:-70px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)}
+.cost-total .ct-lab{font-size:12.5px;opacity:.92;font-weight:500;position:relative}.cost-total .ct-big{font-size:36px;font-weight:800;margin:4px 0;letter-spacing:.6px;position:relative}.cost-total .ct-sub{font-size:12px;opacity:.93;position:relative}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--navy);color:#fff;font-weight:600;position:sticky;top:0;font-size:12px}
+tbody tr:hover{background:#eef5fc}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:12px;color:var(--muted);margin-top:11px;line-height:1.65}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
+.filters select,.filters input{width:auto;min-width:120px}
+.warn{background:var(--amber-soft);border-left:4px solid var(--amber);padding:12px 14px;border-radius:10px;font-size:12px;color:#7a5a12;margin-top:11px;line-height:1.6}
+.noticeBox{margin-top:22px;display:grid;grid-template-columns:1fr 1.05fr;gap:16px;align-items:stretch}
+.noticePreview{background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13px;line-height:1.75;color:#22304a;min-height:178px}
+.noticeActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.actionBtn{border:none;border-radius:11px;padding:11px 18px;font-size:14px;font-weight:800;cursor:pointer;min-width:120px;transition:.15s;font-family:inherit}
+.actionBtn.primary{background:var(--navy);color:#fff;box-shadow:0 7px 18px -8px rgba(29,78,126,.7)}
+.actionBtn.send{background:var(--green);color:#fff;box-shadow:0 7px 18px -8px rgba(21,145,90,.7)}
+.actionBtn:disabled{background:#d7dee8;color:#7b8794;cursor:not-allowed;box-shadow:none}
+.noticeStatus{margin-top:10px;font-size:12px;font-weight:700;color:var(--muted)}
+.noticeStatus.ok{color:var(--green)}.noticeStatus.warn{color:var(--amber)}.noticeStatus.err{color:var(--red)}
+textarea{width:100%;min-height:150px;padding:12px 13px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:13px;background:#f8fafd;color:var(--ink);font-family:inherit;line-height:1.65;resize:vertical}
+textarea:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-soft)}
+.mailResult{background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13px;line-height:1.75;color:#22304a;min-height:150px}
+.mailSpec{margin-top:14px;background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:12px;color:#475569;line-height:1.75}
+.mailSpec b{color:var(--navy)}
+.mailSpec pre{white-space:pre-wrap;margin-top:8px;background:#fff;border:1px dashed #cbd7e6;border-radius:10px;padding:10px;color:#22304a;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
+.flow{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);margin-bottom:18px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:12px;padding:13px 16px;box-shadow:var(--sh)}.flow b{color:var(--navy)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:28px}.muted{color:var(--muted)}
+.bomwrap{margin-top:10px;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:none}
+.bomwrap.show{display:block}
+.bomhead{background:var(--blue-soft);padding:11px 15px;font-weight:700;color:var(--navy);font-size:13px;display:flex;justify-content:space-between}
+.catbar{display:flex;flex-wrap:wrap;gap:7px;padding:11px 15px;border-bottom:1px solid var(--line)}
+.catbar .c{background:#eef3f9;border-radius:8px;padding:4px 10px;font-size:12px}.catbar .c b{color:var(--navy)}
+.dbrow-bom{background:#fafbfd}
+.linkbtn{cursor:pointer;color:var(--blue);font-weight:700}
+.tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:980px){.cols-3{grid-template-columns:1fr}}
+@media(max-width:680px){
+  main{padding:15px}
+  header{padding:18px 17px}
+  header h1{font-size:19px}
+  .card{padding:17px;border-radius:15px}
+  .grid{gap:15px}
+  .row2{grid-template-columns:1fr}
+  .derive .big{font-size:25px}
+  .cost-total{padding:18px}.cost-total .ct-big{font-size:30px}
+  select,input{font-size:16px;min-height:46px}
+  .filters select,.filters input{width:100%;min-width:0}
+  .noticeBox{grid-template-columns:1fr}
+  table{font-size:12px}th,td{padding:8px 9px}
+  nav{padding:8px 14px}
+}
 </style>
 </head>
-<body>
-<header class="top">
-  <div class="brand"><i>娟</i><span>娟姐成本核算</span></div>
-  <div class="sub">安全版 · 登录后从后端加载内部数据</div>
+<body class="cost-only">
+<header>
+  <div><h1>D5 成本核算</h1>
+  <div class="sub">保留原成本核算方式 · 只显示成本核算</div></div>
+  <div class="sub" style="text-align:right">颗粒单价 + BOM + 加工费 + 良率</div>
 </header>
-<main class="wrap">
-  <section class="login" id="loginBox">
-    <h1>访问验证</h1>
-    <p>外网只保留登录入口；成本数据、板型规则和发送接口登录后由 CloudBase 函数返回。</p>
-    <label for="password">访问口令</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="请输入口令">
-    <div class="actions">
-      <button class="primary" id="loginBtn" type="button">进入</button>
+<main>
+<section class="page active" id="decide">
+  <div class="flow"><b>D5成本核算</b>：选颗粒 → 选容量/板型 → 输入颗粒单价 → 计算良率后成品成本。</div>
+  <div class="grid cols-3">
+    <div class="card">
+      <h2><span class="n">1</span>颗粒选型</h2>
+      <label>颗粒原厂（必选）</label><select id="brand"></select>
+      <label>颗粒等级（随原厂联动）</label><select id="grade" disabled></select>
+      <label>颗粒规格（随原厂+等级联动）</label><select id="spec" disabled></select>
+      <div class="row2">
+        <div><label>目标容量</label><select id="targetCap"><option value="8">8GB</option><option value="16" selected>16GB</option><option value="32">32GB</option><option value="64">64GB</option></select></div>
+        <div><label>颗粒投单数量</label><input id="order" type="number" value="100000"></div>
+      </div>
+      <label>颗粒数量 / 条</label>
+      <input id="dies" type="text" value="自动" readonly style="background:#f7f8fa;color:#1f2937;font-weight:800">
+      <div class="derive" style="margin-top:14px"><div class="lab">单颗容量</div><div class="big" id="dieGb">—</div></div>
     </div>
-    <div class="msg" id="msg"></div>
-  </section>
-  <section class="loading" id="loading">正在加载成本核算工具...</section>
-  <div class="appbar" id="appbar">
-    <span>已登录，本页不在公开 HTML 中暴露业务数据。</span>
-    <button class="ghost" id="logoutBtn" type="button">退出</button>
+    <div class="card">
+      <h2><span class="n">2</span>容量 &amp; 板型联动</h2>
+      <div class="derive"><div class="lab">推导 DIMM 容量</div><div class="big" id="capOut">—</div><div class="lab" id="capFormula" style="margin-top:4px"></div></div>
+      <label style="margin-top:14px">产品类型 U / S</label>
+      <select id="productType"><option value="">不限</option><option value="UDIMM">U · UDIMM</option><option value="SODIMM">S · SODIMM</option></select>
+      <label style="margin-top:14px">RGB 需求</label>
+      <select id="rgbNeed"><option value="-">普通非 RGB</option><option value="RGB">RGB</option></select>
+      <label style="margin-top:14px">推荐板型（简单模式）</label>
+      <div class="boards" id="boardList"><div class="muted" style="padding:16px;text-align:center">先选定颗粒规格…</div></div>
+      <div class="note">规则：非 RGB 按产线定板厂，台湾/亿豪用 KO，国内晟中用欣强；RGB 只用 KO；自研只用于长鑫 SODIMM，放备选。</div>
+    </div>
+    <div class="card">
+      <h2><span class="n">3</span>成本核算</h2>
+      <label>颗粒批次（按所选颗粒联动 · 决定良率与来料量）</label>
+      <select id="batch"><option value="">先选定颗粒规格…</option></select>
+      <div id="batchInfo" class="note" style="margin-top:4px"></div>
+      <label>产地 / 产线（固定 测试厂 + 加工厂）</label>
+      <select id="region"><option value="cn" selected>国内 — 广芯测试 · 晟中加工</option><option value="tw">台湾 — 亿豪测试 · 亿豪加工</option></select>
+      <div class="row2"><div><label>汇率 USD→CNY</label><input id="rate" type="number" step="0.01" value="6.80"></div><div style="display:flex;align-items:flex-end"><span style="color:#999;font-size:12px;padding-bottom:10px">结果同时显示 ¥ / $</span></div></div>
+      <label>成本方案（非颗粒侧）</label><div style="padding:9px 11px;background:#eaf1fb;border-radius:8px;font-size:14px;color:#1f4e79;font-weight:700">备选报价2（降本方案 · 已固定）</div>
+      <div class="row2"><div><label>Sorting 良率 %</label><input id="yield" type="number" step="0.01" value="98.65"></div>
+      <div><label>加工费口径</label><select id="feeMode"><option value="full" selected>含盖面</option><option value="nc">不含盖面</option></select></div></div>
+      <label style="color:#1f4e79;font-weight:800;font-size:13px;margin-top:14px">★ 颗粒单价 — 唯一必填（颗粒多为美元报价）</label>
+      <div class="row2"><div><select id="dieCur"><option value="usd" selected>$ 美元/颗</option><option value="cny">¥ 人民币/颗</option></select></div><div><input id="pDie" type="number" step="0.01" placeholder="颗粒报价" style="border-color:#2e75b6;box-shadow:0 0 0 3px #eaf1fb"></div></div>
+      <div class="note" style="margin:10px 0 4px">其余单价将随<b>颗粒测试厂 / 板型物料 / 成品加工厂自动核算</b> —— 待接入业务方单价表后生效。下方可手动覆盖：</div>
+      <div class="row2"><div><label>颗粒测试费/Sorting(¥/颗) <span class="pill green" style="font-size:9px">按规格·自动</span></label><input id="pSort" type="number" step="0.01" placeholder="选规格自动带"></div>
+      <div><label>成品加工费(¥/条) <span class="pill amber" style="font-size:9px">按板型·自动</span></label><input id="pAsm" type="number" step="0.01" value="7.3" placeholder="选板型后自动带"></div></div>
+      <div class="row2"><div><label>PCBA BOM·非颗粒物料(¥/条) <span class="pill green" style="font-size:9px">按板型·自动</span></label><input id="pBom" type="number" step="0.01" placeholder="选板型后自动带"></div><div></div></div>
+      <div class="cost-total"><div class="ct-lab">单条良率后成品成本（含税）</div><div class="ct-big" id="costTax">¥ —</div>
+      <div class="ct-sub" style="font-size:18px;font-weight:800;color:#fff;margin:3px 0"><span id="costUsd">$ —</span> <span style="font-size:12px;font-weight:400;opacity:.85">美元</span></div>
+      <div class="ct-sub">颗粒美元折人民币 · 其余含税　|　可生产 <span id="pcs">—</span> 条</div></div>
+      <div id="costBreak"></div>
+      <div class="warn"><b>口径</b>：颗粒=美元×汇率(6.8)折人民币；PCBA BOM=备选报价2(按板型)，<b>无报价的板型暂按 ¥26 核算</b>；加工费按板型/容量自动带入，缺报价暂按 ¥7.3；Sorting 含税；无管销。<b>已更新晟中最终加工费报价</b>；待补：KO/台湾加工费、其它规格 Sorting。</div>
+    </div>
   </div>
-  <iframe class="appframe" id="appFrame" title="娟姐成本核算"></iframe>
+  <div class="card" style="margin-top:22px">
+    <h2><span class="n">4</span>成本核算通知</h2>
+    <div class="noticeBox">
+      <div>
+        <div class="row2">
+          <div><label>颗粒型号（对应当前选择）</label><input id="noticeModel" placeholder="自动带出当前批次 PN，可手工改"></div>
+          <div><label>备注（对应当前核算）</label><input id="noticeNote" placeholder="自动带出关键判断，可手工改"></div>
+        </div>
+        <div class="noticeActions">
+          <button class="actionBtn primary" id="confirmNotice" type="button">确认</button>
+          <button class="actionBtn send" id="sendNotice" type="button" disabled>发送钉钉</button>
+        </div>
+        <div class="noticeStatus" id="noticeStatus">确认后才能发送钉钉。</div>
+      </div>
+      <div>
+        <label style="margin-top:0">发送内容预览</label>
+        <div class="noticePreview" id="noticePreview">填入颗粒单价后自动生成。</div>
+      </div>
+    </div>
+    <div class="note">机器人地址不放网页里；发送动作走后端环境变量。页面只负责确认当前核算结果。</div>
+  </div>
+  <div class="card" style="margin-top:22px">
+    <h2><span class="n">5</span>邮件识别待审核</h2>
+    <div class="noticeBox">
+      <div>
+        <label style="margin-top:0">粘贴采购/资源邮件正文或表格</label>
+        <textarea id="mailRaw" placeholder="例如：品牌	物料	数量	分配产品	物料描述	详细说明	创建人&#10;Spectek	IDF0001A1477	49,953	LCDIMM LINE	LPDDR5 ...	1ynm 16Gb (2G*8 SDP) DDR5(Y62E) ... TP = 95% SpecTek	ALEX.YAO"></textarea>
+        <div class="noticeActions">
+          <button class="actionBtn primary" id="parseMail" type="button">生成待审核单</button>
+          <button class="actionBtn send" id="parseMailNotify" type="button">生成并提醒钉钉</button>
+        </div>
+        <div class="noticeStatus" id="mailStatus">只生成待审核，不自动发布正式库。</div>
+      </div>
+      <div>
+        <label style="margin-top:0">识别结果</label>
+        <div class="mailResult" id="mailResult">等待粘贴邮件内容。</div>
+      </div>
+    </div>
+    <div class="note">当前先识别正文表格：品牌、料号、数量、颗粒型号、等级、规格、创建人和建议方案。价格缺失会标记为待补，正式发布仍需人工确认。</div>
+    <div class="mailSpec">
+      <b>输入文本规范</b><br>
+      1. 推荐直接复制邮件里的资源表格，第一行必须有表头。<br>
+      2. 必须包含：品牌、物料、数量、物料描述或详细说明、创建人。<br>
+      3. 颗粒型号、规格、等级要写在物料描述或详细说明里，例如 SUU2G8Y62EB8RZ-TP、2G8、TP。<br>
+      4. 数量可以写 49953 或 49,953；价格可以先不填，系统会标记待补。<br>
+      5. 一封邮件有多行资源时，每个资源单独一行，不要把多颗粒型号写在同一行。<br>
+      <pre>品牌	物料	数量	分配产品	物料描述	详细说明	创建人
+Spectek	IDF0001A1477	49,953	LCDIMM LINE	LPDDR5 SUU2G8Y62EB8RZ-TP VFBGA78 MSL:3	1ynm 16Gb (2G*8 SDP) DDR5(Y62E) 78ball TP SpecTek	ALEX.YAO</pre>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="db">
+  <div class="card">
+    <h2>板型数据库 / BOM（最终选用 14 款 · 历史保留 21 款）</h2>
+    <div class="filters">
+      <select id="fFab"><option value="">全部板厂</option><option>欣强(BP)</option><option>KO</option><option>自研</option></select>
+      <select id="fType"><option value="">全部类型</option><option>UDIMM</option><option>SODIMM</option></select>
+      <select id="fRank"><option value="">全部 Rank</option><option>1Rx8</option><option>2Rx8</option><option>1Rx4</option><option>1Rx16</option></select>
+      <select id="fRgb"><option value="">RGB 不限</option><option value="RGB">仅 RGB</option><option value="-">仅非 RGB</option></select>
+      <input id="fKey" placeholder="搜索短码 / PBA…" style="min-width:180px">
+    </div>
+    <div style="max-height:600px;overflow:auto">
+      <table id="dbTable"><thead><tr><th>PBA</th><th>板厂</th><th>类型</th><th>Rank</th><th>板型短码</th><th>层数</th><th>容量</th><th>颗粒最大尺寸</th><th>RGB</th><th>BOM</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="note" id="dbCount"></div>
+  </div>
+</section>
+
+<section class="page" id="yieldref">
+  <div class="card">
+    <h2>同品牌同等级 · 批次去重后加权良率（快照：2026-05-15）</h2>
+    <table><thead><tr><th>颗粒厂</th><th>等级</th><th class="num">加权良率</th><th>判断</th></tr></thead><tbody>
+      <tr><td>长鑫</td><td>eTT</td><td class="num">99.99%</td><td><span class="pill green">最优·稳定</span> 另有1批未开始</td></tr>
+      <tr><td>长鑫</td><td>UTT</td><td class="num">98.65%</td><td><span class="pill green">可用于核算</span></td></tr>
+      <tr><td>镁光</td><td>PG</td><td class="num">95.47% / 94.91%</td><td><span class="pill amber">含进行中/仅已完成</span> 5/22升至95.71%</td></tr>
+      <tr><td>南亚</td><td>DM</td><td class="num">64.67%</td><td><span class="pill red">仅"只测开机"·谨慎</span></td></tr>
+      <tr><td>镁光</td><td>PR</td><td class="num">暂无</td><td><span class="pill grey">无有效良率·不进核算</span></td></tr>
+    </tbody></table>
+    <div class="warn">某一时刻快照，会变动。正式核算读最新良率表重算（测试厂+品牌+等级+规格+PN+批次 分组，同批次多档位先合并，再按来料量加权）。可把良率填回「③成本核算」。</div>
+  </div>
+</section>
+
+<section class="page" id="ref">
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div class="card"><h2>颗粒规格换算（D5 专用）</h2>
+      <table><thead><tr><th>规格</th><th class="num">容量</th><th>说明</th></tr></thead><tbody>
+        <tr><td>1G8</td><td class="num">8 Gb</td><td>1G 深度 × 8 位宽</td></tr>
+        <tr><td>1G16</td><td class="num">16 Gb</td><td>1G 深度 × 16 位宽</td></tr>
+        <tr><td>2G8</td><td class="num">16 Gb</td><td>2G 深度 × 8 位宽</td></tr>
+        <tr><td>3G8</td><td class="num">24 Gb</td><td>3G 深度 × 8 位宽</td></tr>
+        <tr><td>4G8</td><td class="num">32 Gb</td><td>4G 深度 × 8 位宽</td></tr>
+      </tbody></table>
+      <div class="note">当前默认产品容量：1G8→8GB，1G16→8GB，2G8→16GB，3G8→24GB，4G8→32GB。公式：DIMM容量(GB)=颗粒容量Gb÷8×颗粒数/条；当前最终推荐优先按 8 颗 1Rx8 或 4 颗 1Rx16 走。</div>
+    </div>
+    <div class="card"><h2>原厂 → 等级 → 规格 联动</h2>
+      <table><thead><tr><th>原厂</th><th>等级</th><th>可选规格</th></tr></thead><tbody id="linkTable"></tbody></table>
+      <div class="note">等级不是全局通用列表；DM 是南亚的等级。</div>
+    </div>
+  </div>
+</section>
 </main>
+<footer>D5 成本核算工具 · 单文件本地运行 · BOM 用料来自江波龙选型清单 · 单价/良率以业务方最新表为准</footer>
 <script>
-(function(){
-  const API_ORIGIN='https://d5-d2gzyrjkz1d3d265f-1437410927.ap-shanghai.app.tcloudbase.com';
-  const TOKEN_KEY='d5_cost_auth_token';
-  const $=(id)=>document.getElementById(id);
-  const msg=$('msg');
-  function setMsg(text,type){msg.textContent=text||'';msg.className='msg '+(type||'');}
-  function injectToken(html,token){
-    const seed='<script>try{sessionStorage.setItem("'+TOKEN_KEY+'",'+JSON.stringify(token)+')}catch(e){}<\/script>';
-    return html.includes('</head>') ? html.replace('</head>',seed+'</head>') : seed+html;
+const LINK={"长鑫":{UTT:["2G8"],eTT:["2G8"]},"南亚":{DM:["1G8","1G16"]},"镁光(Micron/SpecTek)":{PG:["1G8","1G16","2G8","3G8","4G8"],TP:["1G8","2G8","3G8","4G8"],PR:["1G8","2G8","3G8","4G8"]},"三星":{P:["2G8"],B:["2G8"]},"海力士(SK hynix)":{M:["2G8","3G8"],A:["2G8"]}};
+const SPEC_GB={"1G8":8,"1G16":16,"2G8":16,"3G8":24,"4G8":32};
+const SPEC_DEFAULT_CAP={"1G8":8,"1G16":8,"2G8":16,"3G8":24,"4G8":32};
+const BOARDS=[{"pba":"PBA0018C2163","fab":"欣强(BP)","type":"UDIMM","rank":"1Rx8","short":"BA5UR02","layer":"10L","rgb":"RGB","cap":"16GB","bom":[{"pn":"DDR5_RGB_UDIMM_BP_BA5UR02_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3425","name":"线路板","param":"BA5UR02(Black)#DIMM#10L#U-DIMM#哑黑#133.35*31.25mm#1.27mm#FR","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":12,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":46,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":12,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R021"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0034A0023","name":"MCU","param":"6K5850UA0#QFN32_THD89#MCU#5*5*0.75mm#3#ROHS","qty":1,"ref":"M1"},{"pn":"ECM0013A0046","name":"MOS管","param":"SPN6435S36RGB#N-CH#SOT-363#NA#NA#NA#NA#ROHS+无卤#3","qty":1,"ref":"M2"},{"pn":"ECM0005A0176","name":"电源芯片","param":"AIC1748AH-33GV5TR#LDO#SOT23-5#600mA#2.3V to 6.0V#NA#0.8V t","qty":1,"ref":"M4"},{"pn":"REP0000B0001","name":"电阻","param":"0R#5%#Fix-Res#R0402#1/16W#CR0402JF0000G#ROHS+无卤#1","qty":3,"ref":"R5,R6,R60"},{"pn":"ECM0002A0448","name":"电阻","param":"124R#1%#Fix-Res#R0402#1/16W#RC0402FR-07124RL#ROHS+无卤#1","qty":16,"ref":"R13,R14,R16,R17,R19,R20,R22,R23,R2"},{"pn":"ECM0002A0449","name":"电阻","param":"280R#1%#Fix-Res#R0402#1/16W#RC0402FR-07280RL#ROHS+无卤#1","qty":8,"ref":"R12,R15,R18,R21,R24,R27,R30,R33"},{"pn":"REP0023B0002","name":"电阻","param":"2K#1%#Fix-Res#R0402#1/16W#CR0402FF2001G#ROHS#1","qty":2,"ref":"R66,R67"},{"pn":"REP0473B0001","name":"电阻","param":"4.7K#5%#Fix-Res#R0402#1/16W#CR0402JF0472G#ROHS#1","qty":1,"ref":"R9"},{"pn":"REP0014B0001","name":"电阻","param":"10K#5%#Fix-Res#R0402#1/16W#RTT02103JTH#ROHS#NA","qty":1,"ref":"R7"},{"pn":"REP0124B0001","name":"电阻","param":"12K#1%#Fix-Res#R0402#1/16W#CR0402FF1202G","qty":1,"ref":"R64"},{"pn":"REP0474B0002","name":"电阻","param":"47K#1%#Fix-Res#R0402#1/16W#CR0402FF4702G#ROHS+无卤#NA","qty":1,"ref":"R63"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"},{"pn":"ECM0009A0064","name":"LED","param":"RGB#LED1206#R VF=1.5-2.4V，G VF=2.3-3.0V，B VF=2.3-3V#共阳极#L-","qty":8,"ref":"LED1,LED2,LED3,LED4,LED5,LED6,LED7"}]},{"pba":"PBA0018C2164","fab":"欣强(BP)","type":"UDIMM","rank":"2Rx8","short":"B85URCB","layer":"8L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_BP_B85URCB-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3423","name":"线路板","param":"B85URCB 1.00(Black)#DIMM#8L#U-DIMM#哑黑#133.35*31.25mm#1.27m","qty":1,"ref":""},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB000,CB001,CB002,CB003,CB004,CB00"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD040,CD041,CP040,CP041,CQ040,CQ04"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R016"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":16,"ref":"R000,R001,R002,R003,R012,R013,R014"},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C000,C001,C002,C005,C006,CB008,CB0"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"C007,C008"},{"pn":"CAP0476B0001","name":"电容","param":"4.7uF#6.3V#20%#MLCC#C0402#X5R#0.5mm#CL05A475MQ5NRNC#ROHS+无","qty":64,"ref":"CD000,CD001,CD004,CD007,CD008,CD00"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":40,"ref":"CP000,CP001,CP002,CP007,CP008,CP00"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":20,"ref":"CD020,CD021,CD026,CD027,CD028,CD02"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2165","fab":"欣强(BP)","type":"UDIMM","rank":"2Rx8","short":"BA5UH12","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_BP_BA5UH12-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3424","name":"线路板","param":"BA5UH12 1.00(Black)#DIMM#10L#U-DIMM#哑黑#133.35*31.25mm#1.27","qty":1,"ref":""},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB000,CB001,CB002,CB003,CB004,CB00"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD040,CD041,CP040,CP041,CQ040,CQ04"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R016"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":16,"ref":"R000,R001,R002,R003,R012,R013,R014"},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C000,C001,C002,C005,C006,CB008,CB0"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"C007,C008"},{"pn":"CAP0476B0001","name":"电容","param":"4.7uF#6.3V#20%#MLCC#C0402#X5R#0.5mm#CL05A475MQ5NRNC#ROHS+无","qty":64,"ref":"CD000,CD001,CD004,CD007,CD008,CD00"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":40,"ref":"CP000,CP001,CP002,CP007,CP008,CP00"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":20,"ref":"CD020,CD021,CD026,CD027,CD028,CD02"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2166","fab":"欣强(BP)","type":"SODIMM","rank":"2Rx8","short":"BA5S812","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_BP_BA5S812-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3427","name":"线路板","param":"BA5S812 1.00(Black)#DIMM#10L#SO-DIMM#哑黑#69.60*30.00mm#1.2m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C000,C001,C002,C004,C006,CB007,CB0"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"C009,C010"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":48,"ref":"CP028,CP029,CP030,CP031,CP032,CP03"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":76,"ref":"CD027,CD028,CD029,CD030,CD031,CD03"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":24,"ref":"CD002,CD003,CD004,CD005,CD006,CD00"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB001,CB002,CB003,CB004,CB005,CB00"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD000,CD001,CP000,CP001,CQ000,CQ00"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R014"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":16,"ref":"R000,R001,R002,R003,R006,R007,R008"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2167","fab":"欣强(BP)","type":"SODIMM","rank":"2Rx8","short":"BA5SRCB","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_BP_BA5SRCB-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3426","name":"线路板","param":"BA5SRCB 1.00(Black)#DIMM#10L#SO-DIMM#哑黑#69.60*30.00mm#1.2m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C000,C001,C002,C004,C006,CB007,CB0"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"C009,C010"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":48,"ref":"CP028,CP029,CP030,CP031,CP032,CP03"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":76,"ref":"CD027,CD028,CD029,CD030,CD031,CD03"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":24,"ref":"CD002,CD003,CD004,CD005,CD006,CD00"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB001,CB002,CB003,CB004,CB005,CB00"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD000,CD001,CP000,CP001,CQ000,CQ00"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R014"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":16,"ref":"R000,R001,R002,R003,R006,R007,R008"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2168","fab":"KO","type":"UDIMM","rank":"1Rx8","short":"KO-8824A-5","layer":"8L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_KO-8824A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A2014","name":"线路板","param":"KO-8824A-5#DIMM#8L#U-DIMM#黑色#133.35*31.25mm#1.27mm#FR4#沉金3","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":8,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R021"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2169","fab":"KO","type":"UDIMM","rank":"1Rx8","short":"KO-10290A-5","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_KO-10290A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3442","name":"线路板","param":"KO-10290A-5(Black)#DIMM#10L#U-DIMM#黑色#133.35*31.25mm#1.27m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":12,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"CAP0016B0006","name":"电容","param":"1uF#10V#10%#MLCC#C0402#X5R#0.5mm#CL05A105KP5NNNC#ROHS#1","qty":20,"ref":"CVD020,CVD021,CVD022,CVD023,CVD024"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R021"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}],"maxSize":"10.10x11.10mm"},{"pba":"PBA0018C2170","fab":"KO","type":"UDIMM","rank":"1Rx8","short":"KO-10310A-5","layer":"10L","rgb":"RGB","cap":"16GB","bom":[{"pn":"DDR5_RGB_UDIMM_KO-10310A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A1647","name":"线路板","param":"KO-10310A-5#DIMM#10L#U-DIMM#黑色#133.35*31.25mm#1.27mm#FR4#沉","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0016B0006","name":"电容","param":"1uF#10V#10%#MLCC#C0402#X5R#0.5mm#CL05A105KP5NNNC#ROHS#1","qty":20,"ref":"CVD020,CVD021,CVD022,CVD023,CVD024"},{"pn":"ECM0001A0063","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CL10A476MQ8QRNC#ROHS+无卤","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":12,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"REP0471B0001","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#RTT02470JTH#ROHS+无卤#1","qty":1,"ref":"R021"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"CAP0015B0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0402#X7R##CL05B104KO5NNNC","qty":2,"ref":"DC71,DC75"},{"pn":"CAP0476C0001","name":"电容","param":"4.7uF#10V#10%#MLCC#C0603#X5R##CL10A475KP8NNNC","qty":3,"ref":"DC72,DC73,DC76"},{"pn":"REP0023B0002","name":"电阻","param":"2K#1%#Fix-Res#R0402#1/16W#CR0402FF2001G#ROHS#1","qty":2,"ref":"DR67,DR68"},{"pn":"REP0014B0001","name":"电阻","param":"10K#5%#Fix-Res#R0402#1/16W#RTT02103JTH#ROHS#NA","qty":1,"ref":"DR60"},{"pn":"REP0000B0001","name":"电阻","param":"0R#5%#Fix-Res#R0402#1/16W#CR0402JF0000G#ROHS+无卤#1","qty":2,"ref":"DR62,DR64"},{"pn":"REP0474B0002","name":"电阻","param":"47K#1%#Fix-Res#R0402#1/16W#CR0402FF4702G#ROHS+无卤#NA","qty":1,"ref":"DR81"},{"pn":"REP0124B0001","name":"电阻","param":"12K#1%#Fix-Res#R0402#1/16W#CR0402FF1202G","qty":1,"ref":"DR82"},{"pn":"REP0473B0001","name":"电阻","param":"4.7K#5%#Fix-Res#R0402#1/16W#CR0402JF0472G#ROHS#1","qty":2,"ref":"DR72,DR75"},{"pn":"ECM0002A0448","name":"电阻","param":"124R#1%#Fix-Res#R0402#1/16W#RC0402FR-07124RL#ROHS+无卤#1","qty":16,"ref":"R2,R5,R8,R11,R14,R17,R20,R23,R3,R6"},{"pn":"ECM0002A0449","name":"电阻","param":"280R#1%#Fix-Res#R0402#1/16W#RC0402FR-07280RL#ROHS+无卤#1","qty":8,"ref":"R1,R4,R7,R10,R13,R16,R19,R22"},{"pn":"ECM0013A0046","name":"MOS管","param":"SPN6435S36RGB#N-CH#SOT-363#NA#NA#NA#NA#ROHS+无卤#3","qty":1,"ref":"U2"},{"pn":"ECM0005A0176","name":"电源芯片","param":"AIC1748AH-33GV5TR#LDO#SOT23-5#600mA#2.3V to 6.0V#NA#0.8V t","qty":1,"ref":"U3"},{"pn":"ECM0034A0023","name":"MCU","param":"6K5850UA0#QFN32_THD89#MCU#5*5*0.75mm#3#ROHS","qty":1,"ref":"U1"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"},{"pn":"ECM0009A0064","name":"LED","param":"RGB#LED1206#R VF=1.5-2.4V，G VF=2.3-3.0V，B VF=2.3-3V#共阳极#L-","qty":8,"ref":"D1,D2,D3,D4,D5,D6,D7,D8"}],"maxSize":"10.10x11.10mm"},{"pba":"PBA0018C2177","fab":"欣强(BP)","type":"UDIMM","rank":"1Rx8","short":"B85URCA","layer":"8L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_BP_B85URCA-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3350","name":"线路板","param":"B85URCA 1.00(Black)#DIMM#8L#U-DIMM#哑黑#133.35*31.25mm#1.27m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":8,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R021"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2178","fab":"欣强(BP)","type":"UDIMM","rank":"1Rx16","short":"B85URCC","layer":"8L","rgb":"-","cap":"8GB","bom":[{"pn":"DDR5_UDIMM_BP_B85URCC-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3338","name":"线路板","param":"B85URCC 1.00#DIMM#8L#U-DIMM#哑黑#133.35*31.25mm#1.27mm#FR4#沉","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBS1,C1,CBS2,CBS3,C3,CB6,CB7,CB9,C"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB3,CB4,CB5,CB8,CB12,CB13"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD1,CD17,CP5,CP6,CQ1,CQ17"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":63,"ref":"C2,C4,CB11,CB15,CD3,CD4,CD5,CD6,CD"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"C5,C6"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R2,R3,R4,R5"},{"pn":"ECM0002A0484","name":"电阻","param":"47R#5%#Fix-Res#R0201#1/20W#CR0201JH0470G","qty":1,"ref":"R6"},{"pn":"REP0241A0001","name":"电阻","param":"240R#1%#Fix-Res#R0201#1/20W#CR0201FH2400G#ROHS#NA","qty":4,"ref":"R7,R8,R11,R12"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R9,R10"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L2,L3"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L1"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U_HUB"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U_PMIC"}],"maxSize":"10.30x14.10mm"},{"pba":"PBA0018C2179","fab":"欣强(BP)","type":"SODIMM","rank":"1Rx8","short":"BA5SRCA","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_BP_BA5SRCA-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3351","name":"线路板","param":"BA5SRCA 1.00(Black)#DIMM#10L#SO-DIMM#哑黑#69.60*30.00mm#1.2m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP102,CVP103,CVP104,CVP106,CVP108"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD102,CVD103,CVD105"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CVI000,CVI001,CVI002,CVI003,CVI004"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD000,CVD001,CVP000,CVP001,CVQ000"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R1,R2,R5,R6"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R3,R4"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R7"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R006,R007,R008"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L000,L001"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L002"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}]},{"pba":"PBA0018C2180","fab":"欣强(BP)","type":"SODIMM","rank":"1Rx16","short":"B85SRCC","layer":"8L","rgb":"-","cap":"8GB","bom":[{"pn":"DDR5_SODIMM_BP_B85SRCC-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3343","name":"线路板","param":"B85SRCC 1.00(Black)#DIMM#8L#SO-DIMM#哑黑#69.60*30.00mm#1.2mm","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C4,C5,C6,C7,C8,CB3,CB4,CB7,CB8"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"C11,C13"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":36,"ref":"C9,C10,CB9,CB13,CD5,CD6,CD7,CD8,CD"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":12,"ref":"CD1,CD2,CD3,CD4,CP1,CP2,CP3,CP4,CQ"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB1,CB2,CB5,CB6,CB10,CB11"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"C1,C2,C3,C12,C14,C15"},{"pn":"REP0331A0001","name":"电阻","param":"33R#5%#Fix-Res#R0201#1/20W#CR0201JH0330G#ROHS#NA","qty":4,"ref":"R5,R6,R7,R8"},{"pn":"ECM0002A2976","name":"电阻","param":"39R#5%#Fix-Res#R0201#1/20W#RM02JTN390#ROHS+无卤#1","qty":2,"ref":"R4,R11"},{"pn":"ECM0002A0484","name":"电阻","param":"47R#5%#Fix-Res#R0201#1/20W#CR0201JH0470G","qty":1,"ref":"R10"},{"pn":"REP0241A0001","name":"电阻","param":"240R#1%#Fix-Res#R0201#1/20W#CR0201FH2400G#ROHS#NA","qty":4,"ref":"R2,R3,R9,R12"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L2,L3"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L1"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U_HUB"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U_PMIC"}],"maxSize":"10.30x14.10mm"},{"pba":"PBA0018C2181","fab":"欣强(BP)","type":"UDIMM","rank":"1Rx8","short":"BA5UH11","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_BP_BA5UH11_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3349","name":"线路板","param":"BA5UH11#DIMM#10L#U-DIMM#哑黑#133.35*31.25mm#1.27mm#FR4#沉金1~3","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0016B0001","name":"电容","param":"1uF#6.3V#10%#MLCC#C0402#X5R##CL05A105KQ5NNNC","qty":20,"ref":"CVQ016,CVQ017,CVQ18,CVQ019,CVQ020,"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":12,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R021"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}],"maxSize":"10.10x11.10mm"},{"pba":"PBA0018C2182","fab":"KO","type":"SODIMM","rank":"1Rx8","short":"KO-10287A-5","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_KO-10287A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3447","name":"线路板","param":"KO-10287A-5(Black)#DIMM#10L#SO-DIMM#黑色#69.60*30.00mm#1.2mm","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"CIO002,CSP002"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD102,CVD103,CVD105"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD000,CVD001,CVP000,CVP001,CVQ000"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CVI000,CVI001,CVI002,CVI003,CVI004"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP102,CVP103,CVP104,CVP106,CVP108"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R006,R007,R008"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R7"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R1,R2,R5,R6"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R3,R4"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L000,L001"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L002"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}],"maxSize":"10.10x11.10mm"},{"pba":"PBA0018C2183","fab":"KO","type":"UDIMM","rank":"1Rx8","short":"KO-8859A-5","layer":"8L","rgb":"RGB","cap":"16GB","bom":[{"pn":"DDR5_RGB_UDIMM_KO-8859A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3448","name":"线路板","param":"KO-8859A-5(Black)#DIMM#8L#U-DIMM#黑色#133.35*31.25mm#1.27mm#","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"CIO002,CSP002"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD100,CVD101,CVP100,CVP101,CVQ100"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":8,"ref":"CVD102,CVD103,CVI004,CVI005,CVI006"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP000,CVP001,CVP002,CVP003,CVP004"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD000,CVD001,CVD002"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R005,R006,R007"},{"pn":"ECM0002A0673","name":"电阻","param":"47R#5%#Fix-Res#R0402X4#1/16W#YC124-JR-0747RL","qty":1,"ref":"R021"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R022,R023,R024,R025"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R026,R027"},{"pn":"CAP0015B0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0402#X7R##CL05B104KO5NNNC","qty":2,"ref":"DC71,DC75"},{"pn":"CAP0476C0001","name":"电容","param":"4.7uF#10V#10%#MLCC#C0603#X5R##CL10A475KP8NNNC","qty":3,"ref":"DC72,DC73,DC76"},{"pn":"REP0023B0002","name":"电阻","param":"2K#1%#Fix-Res#R0402#1/16W#CR0402FF2001G#ROHS#1","qty":2,"ref":"DR67,DR68"},{"pn":"REP0014B0001","name":"电阻","param":"10K#5%#Fix-Res#R0402#1/16W#RTT02103JTH#ROHS#NA","qty":1,"ref":"DR60"},{"pn":"REP0000B0001","name":"电阻","param":"0R#5%#Fix-Res#R0402#1/16W#CR0402JF0000G#ROHS+无卤#1","qty":2,"ref":"DR62,DR64"},{"pn":"REP0474B0002","name":"电阻","param":"47K#1%#Fix-Res#R0402#1/16W#CR0402FF4702G#ROHS+无卤#NA","qty":1,"ref":"DR81"},{"pn":"REP0124B0001","name":"电阻","param":"12K#1%#Fix-Res#R0402#1/16W#CR0402FF1202G","qty":1,"ref":"DR82"},{"pn":"REP0473B0001","name":"电阻","param":"4.7K#5%#Fix-Res#R0402#1/16W#CR0402JF0472G#ROHS#1","qty":2,"ref":"DR72,DR75"},{"pn":"ECM0002A0448","name":"电阻","param":"124R#1%#Fix-Res#R0402#1/16W#RC0402FR-07124RL#ROHS+无卤#1","qty":16,"ref":"R2,R5,R8,R11,R14,R17,R20,R23,R3,R6"},{"pn":"ECM0002A0449","name":"电阻","param":"280R#1%#Fix-Res#R0402#1/16W#RC0402FR-07280RL#ROHS+无卤#1","qty":8,"ref":"R1,R4,R7,R10,R13,R16,R19,R22"},{"pn":"ECM0034A0023","name":"MCU","param":"6K5850UA0#QFN32_THD89#MCU#5*5*0.75mm#3#ROHS","qty":1,"ref":"U1"},{"pn":"ECM0013A0046","name":"MOS管","param":"SPN6435S36RGB#N-CH#SOT-363#NA#NA#NA#NA#ROHS+无卤#3","qty":1,"ref":"U2"},{"pn":"ECM0005A0176","name":"电源芯片","param":"AIC1748AH-33GV5TR#LDO#SOT23-5#600mA#2.3V to 6.0V#NA#0.8V t","qty":1,"ref":"U3"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L1,L2"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L3"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"},{"pn":"ECM0009A0064","name":"LED","param":"RGB#LED1206#R VF=1.5-2.4V，G VF=2.3-3.0V，B VF=2.3-3V#共阳极#L-","qty":8,"ref":"D1,D2,D3,D4,D5,D6,D7,D8"}]},{"pba":"PBA0018C2184","fab":"KO","type":"UDIMM","rank":"1Rx8","short":"KO-10320A-5","layer":"10L","rgb":"RGB","cap":"16GB","bom":[{"pn":"DDR5_RGB_UDIMM_KO-10320A-5_B","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3449","name":"线路板","param":"KO-10320A-5(Black)#DIMM#10L#U-DIMM#黑色#133.35*31.25mm#1.27m","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C000,C001,C002,C005,C006,CB008,CB0"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"C007,C008"},{"pn":"CAP0016B0006","name":"电容","param":"1uF#10V#10%#MLCC#C0402#X5R#0.5mm#CL05A105KP5NNNC#ROHS#1","qty":40,"ref":"CD46,CD47,CD48,CD49,CD50,CD51,CD52"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":40,"ref":"CP000,CP001,CP002,CP007,CP008,CP00"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":14,"ref":"CD42,CD43,CQ42,CQ43,CD040,CD041,CP"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":14,"ref":"CD62,CD63,CQ62,CQ63,CB000,CB001,CB"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":64,"ref":"CD000,CD001,CD004,CD007,CD008,CD00"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":20,"ref":"CD020,CD021,CD026,CD027,CD028,CD02"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":16,"ref":"R000,R001,R002,R003,R012,R013,R014"},{"pn":"ECM0002A0673","name":"电阻","param":"47R#5%#Fix-Res#R0402X4#1/16W#YC124-JR-0747RL","qty":1,"ref":"R016"},{"pn":"CAP0015B0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0402#X7R##CL05B104KO5NNNC","qty":2,"ref":"DC71,DC75"},{"pn":"CAP0476C0001","name":"电容","param":"4.7uF#10V#10%#MLCC#C0603#X5R##CL10A475KP8NNNC","qty":3,"ref":"DC72,DC73,DC76"},{"pn":"REP0014B0001","name":"电阻","param":"10K#5%#Fix-Res#R0402#1/16W#RTT02103JTH#ROHS#NA","qty":1,"ref":"DR60"},{"pn":"REP0000B0001","name":"电阻","param":"0R#5%#Fix-Res#R0402#1/16W#CR0402JF0000G#ROHS+无卤#1","qty":2,"ref":"DR62,DR64"},{"pn":"REP0023B0002","name":"电阻","param":"2K#1%#Fix-Res#R0402#1/16W#CR0402FF2001G#ROHS#1","qty":2,"ref":"DR67,DR68"},{"pn":"REP0474B0002","name":"电阻","param":"47K#1%#Fix-Res#R0402#1/16W#CR0402FF4702G#ROHS+无卤#NA","qty":1,"ref":"DR81"},{"pn":"REP0124B0001","name":"电阻","param":"12K#1%#Fix-Res#R0402#1/16W#CR0402FF1202G","qty":1,"ref":"DR82"},{"pn":"REP0473B0001","name":"电阻","param":"4.7K#5%#Fix-Res#R0402#1/16W#CR0402JF0472G#ROHS#1","qty":2,"ref":"DR72,DR75"},{"pn":"ECM0002A0448","name":"电阻","param":"124R#1%#Fix-Res#R0402#1/16W#RC0402FR-07124RL#ROHS+无卤#1","qty":16,"ref":"R2,R5,R8,R11,R14,R17,R20,R23,R3,R6"},{"pn":"ECM0002A0449","name":"电阻","param":"280R#1%#Fix-Res#R0402#1/16W#RC0402FR-07280RL#ROHS+无卤#1","qty":8,"ref":"R1,R4,R7,R10,R13,R16,R19,R22"},{"pn":"ECM0034A0023","name":"MCU","param":"6K5850UA0#QFN32_THD89#MCU#5*5*0.75mm#3#ROHS","qty":1,"ref":"U1"},{"pn":"ECM0013A0046","name":"MOS管","param":"SPN6435S36RGB#N-CH#SOT-363#NA#NA#NA#NA#ROHS+无卤#3","qty":1,"ref":"U2"},{"pn":"ECM0005A0176","name":"电源芯片","param":"AIC1748AH-33GV5TR#LDO#SOT23-5#600mA#2.3V to 6.0V#NA#0.8V t","qty":1,"ref":"U3"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L001,L002"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L000"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U27"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U26"},{"pn":"ECM0009A0064","name":"LED","param":"RGB#LED1206#R VF=1.5-2.4V，G VF=2.3-3.0V，B VF=2.3-3V#共阳极#L-","qty":8,"ref":"D1,D2,D3,D4,D5,D6,D7,D8"}]},{"pba":"PBA0018C2186","fab":"KO","type":"UDIMM","rank":"1Rx16","short":"KO-8840A-5","layer":"8L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_UDIMM_KO-8840A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3452","name":"线路板","param":"KO-8840A-5(Black)#DIMM#8L#U-DIMM#黑色#133.35*31.25mm#1.27mm#","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBS1,C1,CBS2,CBS3,C3,CB6,CB7,CB9,C"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"C5,C6"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD1,CD17,CP5,CP6,CQ1,CQ17"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB3,CB4,CB5,CB8,CB12,CB13"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":63,"ref":"C2,C4,CB11,CB15,CD3,CD4,CD5,CD6,CD"},{"pn":"REP0241A0001","name":"电阻","param":"240R#1%#Fix-Res#R0201#1/20W#CR0201FH2400G#ROHS#NA","qty":4,"ref":"R7,R8,R11,R12"},{"pn":"ECM0002A0484","name":"电阻","param":"47R#5%#Fix-Res#R0201#1/20W#CR0201JH0470G","qty":1,"ref":"R6"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R2,R3,R4,R5"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R9,R10"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L2,L3"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L1"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U_HUB"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U_PMIC"}],"maxSize":"10.20x14.00mm"},{"pba":"PBA0018C2187","fab":"KO","type":"SODIMM","rank":"1Rx16","short":"KO-8841A-5","layer":"8L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_KO-8841A-5_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3453","name":"线路板","param":"KO-8841A-5(Black)#DIMM#8L#SO-DIMM#黑色#69.60*30.00mm#1.2mm#F","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"C4,C5,C6,C7,C8,CB3,CB4,CB7,CB8"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"C11,C13"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"C1,C2,C3,C12,C14,C15"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB1,CB2,CB5,CB6,CB10,CB11"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":36,"ref":"C9,C10,CD5,CD6,CD7,CD8,CD9,CD10,CD"},{"pn":"CAP1007B0001","name":"电容","param":"10uF#10V#20%#MLCC#C0402#X5R#0.5mm#CL05A106MP5NUNC#ROHS#1","qty":12,"ref":"CD1,CD2,CD3,CD4,CP1,CP2,CP3,CP4,CQ"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":4,"ref":"R2,R3,R9,R12"},{"pn":"ECM0002A0484","name":"电阻","param":"47R#5%#Fix-Res#R0201#1/20W#CR0201JH0470G","qty":1,"ref":"R10"},{"pn":"ECM0002A0026","name":"电阻","param":"39R#1%#Fix-Res#R0201#1/20W#","qty":2,"ref":"R4,R11"},{"pn":"REP0331A0001","name":"电阻","param":"33R#5%#Fix-Res#R0201#1/20W#CR0201JH0330G#ROHS#NA","qty":4,"ref":"R5,R6,R7,R8"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L2,L3"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L1"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U_HUB"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U_PMIC"}],"maxSize":"10.30x14.10mm"},{"pba":"PBA0018C2188","fab":"欣强(BP)","type":"SODIMM","rank":"1Rx8","short":"BA5S811","layer":"10L","rgb":"-","cap":"16GB","bom":[{"pn":"DDR5_SODIMM_BP_BA5S811-1-00_A","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3454","name":"线路板","param":"BA5S811(Black)#DIMM#10L#SO-DIMM#黑色#69.60*30.00mm#1.2mm#FR4","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBT000,CBT001,CBT002,CIO001,CSP001"},{"pn":"ECM0001A0222","name":"电容","param":"1uF#10V#10%#MLCC#C0201#X5R#0.3mm#CM03X5R105K10AH#ROHS#1","qty":2,"ref":"CIO002,CSP002"},{"pn":"CAP0226B0010","name":"电容","param":"2.2uF#6.3V#20%#MLCC#C0402#X5R##CL05A225MQ5NSNC","qty":16,"ref":"CVP102,CVP103,CVP104,CVP106,CVP108"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":40,"ref":"CIO000,CSP000,CVD102,CVD103,CVD105"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CVI000,CVI001,CVI002,CVI003,CVI004"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CVD000,CVD001,CVP000,CVP001,CVQ000"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R1,R2,R5,R6"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R3,R4"},{"pn":"ECM0002A0056","name":"电阻","param":"47R#5%#Fix-Res#R0402#1/16W#CR0402JF0470G#ROHS#NA","qty":1,"ref":"R7"},{"pn":"REP0241B0001","name":"电阻","param":"240R#1%#Fix-Res#R0402#1/16W#CR0402FF2400G#ROHS+无卤#1","qty":8,"ref":"R001,R002,R003,R004,R006,R007,R008"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L000,L001"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L002"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"S00"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"P00"}],"maxSize":"10.10x11.80mm"},{"pba":"PBA0018C2189","fab":"KO","type":"UDIMM","rank":"1Rx16","short":"KO-8861A-5","layer":"8L","rgb":"RGB","cap":"16GB","bom":[{"pn":"DDR5_RGB_UDIMM_KO_8861A-5_B","name":"原理图PCBA","param":"","qty":1,"ref":""},{"pn":"PCM0002A3380","name":"线路板","param":"DDR5_RGB_UDIMM_KO_8861A-5_A#DIMM#8L#U-DIMM#哑黑#133.35*31.25","qty":1,"ref":""},{"pn":"CAP1007A0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0201#X5R#0.3mm#CL03A104KO3NNNC#ROHS#1","qty":9,"ref":"CBS1,C1,CBS2,CBS3,C3,CB6,CB7,CB9,C"},{"pn":"CAP0013A0005","name":"电容","param":"1uF#6.3V#20%#MLCC#C0201#X5R#0.3mm#CL03A105MQ3CSNH#ROHS+无卤#","qty":2,"ref":"C5,C6"},{"pn":"ECM0001A0271","name":"电容","param":"47uF#6.3V#20%#MLCC#C0603#X5R#0.8mm#CM105X5R476M06AT#ROHS+无","qty":6,"ref":"CD1,CD17,CP5,CP6,CQ1,CQ17"},{"pn":"CAP0224C0004","name":"电容","param":"22uF#10V#20%#MLCC#C0603#X5R#0.8mm#CL10A226MP8NUNE#ROHS#1","qty":6,"ref":"CB3,CB4,CB5,CB8,CB12,CB13"},{"pn":"ECM0001A0040","name":"电容","param":"4.7uF#10V#10%#MLCC#C0402#X5R#NA#CL05A475KP5NRNC#ROHS#1","qty":63,"ref":"C2,C4,CB11,CB15,CD3,CD4,CD5,CD6,CD"},{"pn":"REP0241A0001","name":"电阻","param":"240R#1%#Fix-Res#R0201#1/20W#CR0201FH2400G#ROHS#NA","qty":4,"ref":"R7,R8,R11,R12"},{"pn":"ECM0002A0484","name":"电阻","param":"47R#5%#Fix-Res#R0201#1/20W#CR0201JH0470G","qty":1,"ref":"R6"},{"pn":"REP0331B0001","name":"电阻","param":"33R#5%#Fix-Res#R0402#1/16W#CR0402JF0330G#ROHS+无卤#1","qty":4,"ref":"R2,R3,R4,R5"},{"pn":"ECM0002A0041","name":"电阻","param":"39R#5%#Fix-Res#R0402#1/16W#CR0402JF0390G#ROHS#NA","qty":2,"ref":"R9,R10"},{"pn":"CAP0015B0001","name":"电容","param":"0.1uF#16V#10%#MLCC#C0402#X7R##CL05B104KO5NNNC","qty":2,"ref":"DC71,DC75"},{"pn":"CAP0476C0001","name":"电容","param":"4.7uF#10V#10%#MLCC#C0603#X5R##CL10A475KP8NNNC","qty":3,"ref":"DC72,DC73,DC76"},{"pn":"REP0023B0002","name":"电阻","param":"2K#1%#Fix-Res#R0402#1/16W#CR0402FF2001G#ROHS#1","qty":2,"ref":"DR67,DR68"},{"pn":"REP0014B0001","name":"电阻","param":"10K#5%#Fix-Res#R0402#1/16W#RTT02103JTH#ROHS#NA","qty":1,"ref":"DR60"},{"pn":"REP0000B0001","name":"电阻","param":"0R#5%#Fix-Res#R0402#1/16W#CR0402JF0000G#ROHS+无卤#1","qty":2,"ref":"DR62,DR64"},{"pn":"REP0474B0002","name":"电阻","param":"47K#1%#Fix-Res#R0402#1/16W#CR0402FF4702G#ROHS+无卤#NA","qty":1,"ref":"DR81"},{"pn":"REP0124B0001","name":"电阻","param":"12K#1%#Fix-Res#R0402#1/16W#CR0402FF1202G","qty":1,"ref":"DR82"},{"pn":"REP0473B0001","name":"电阻","param":"4.7K#5%#Fix-Res#R0402#1/16W#CR0402JF0472G#ROHS#1","qty":2,"ref":"DR72,DR75"},{"pn":"ECM0002A0448","name":"电阻","param":"124R#1%#Fix-Res#R0402#1/16W#RC0402FR-07124RL#ROHS+无卤#1","qty":16,"ref":"DR2,DR5,DR8,DR11,DR14,DR17,DR20,DR"},{"pn":"ECM0002A0449","name":"电阻","param":"280R#1%#Fix-Res#R0402#1/16W#RC0402FR-07280RL#ROHS+无卤#1","qty":8,"ref":"DR1,DR4,DR7,DR10,DR13,DR16,DR19,DR"},{"pn":"ECM0034A0023","name":"MCU","param":"6K5850UA0#QFN32_THD89#MCU#5*5*0.75mm#3#ROHS","qty":1,"ref":"U1"},{"pn":"ECM0013A0046","name":"MOS管","param":"SPN6435S36RGB#N-CH#SOT-363#NA#NA#NA#NA#ROHS+无卤#3","qty":1,"ref":"U2"},{"pn":"ECM0005A0176","name":"电源芯片","param":"AIC1748AH-33GV5TR#LDO#SOT23-5#600mA#2.3V to 6.0V#NA#0.8V t","qty":1,"ref":"U7"},{"pn":"ECM0003A0087","name":"电感","param":"0.68uH#L3225#TYP=8.0A,MAX=7.5A#20%#一体成型#功率电感#ZBWM322512C2R","qty":2,"ref":"L2,L3"},{"pn":"ECM0003A0088","name":"电感","param":"1.5uH#L2520#TYP=4.6A,MAX=3.8A#20%#一体成型#功率电感#ZBWM252012A11R","qty":1,"ref":"L1"},{"pn":"ECM0021A0047","name":"EEPROM","param":"FTSPD5118-NGT-O#1KB#I2C/I3C#1.8V#UDFN-8_2X3X0_5#2*3*0.8mm#","qty":1,"ref":"U_HUB"},{"pn":"ECM0005A0238","name":"电源芯片","param":"RTQ5136GQWF-310#PMU#WQFN-28L#SWA&SWB=6.0A;SWC=2.5A#4.25~5.","qty":1,"ref":"U_PMIC"},{"pn":"ECM0009A0064","name":"LED","param":"RGB#LED1206#R VF=1.5-2.4V，G VF=2.3-3.0V，B VF=2.3-3V#共阳极#L-","qty":8,"ref":"D1,D2,D3,D4,D5,D6,D7,D8"}]},{"pba":"PBA0018C2007","fab":"自研","type":"SODIMM","rank":"1Rx8","short":"LLC5S18NAOT5GA000-HF-18-10B","layer":"10L","rgb":"-","cap":"16GB","bom":[],"maxSize":"10.10x11.80mm"}];
+const FINAL_BOARD_PBAS=new Set(["PBA0018C2170","PBA0018C2186","PBA0018C2169","PBA0018C2187","PBA0018C2182","PBA0018C2178","PBA0018C2177","PBA0018C2181","PBA0018C2164","PBA0018C2165","PBA0018C2180","PBA0018C2179","PBA0018C2167","PBA0018C2007"]);
+const ACTIVE_BOARDS=BOARDS.filter(b=>FINAL_BOARD_PBAS.has(b.pba));
+const BATCHES={"镁光(Micron/SpecTek)": {"PG": {"1G8": [{"fab": "广芯", "pn": "SUM1G8Y52KB8RZ-PG", "liao": "IDF0001A1845", "inc": 99939, "tested": 99939, "yield": 92.6, "status": "已完成"}, {"fab": "广芯", "pn": "SUM1G8Y52KB8RZ-PG", "liao": "IDF0001A1845", "inc": 99788, "tested": 99788, "yield": 96.62, "status": "已完成"}], "1G16": [{"fab": "广芯", "pn": "SUM1G16Y62EB8HD-PG", "liao": "IDF0001A1785", "inc": 29991, "tested": 29991, "yield": 96.94, "status": "已完成"}, {"fab": "广芯", "pn": "SUM1G16Y62EB8HD-PG", "liao": "IDF0001A2011", "inc": 99970, "tested": 56232, "yield": 97.76, "status": "进行中"}]}}, "长鑫": {"UTT": {"2G8": [{"fab": "润昇", "pn": "CXDR4E8BM-UP-A", "liao": "IDF0001A1431", "inc": 202686, "tested": 202686, "yield": 99.28, "status": "已完成"}, {"fab": "润昇", "pn": "CXDR4E8BM-UP-A", "liao": "IDF0001A1431", "inc": 244248, "tested": 244248, "yield": 99.24, "status": "已完成"}, {"fab": "润昇", "pn": "CXDR4E8BM-UP-A", "liao": "IDF0001A1671", "inc": 445177, "tested": 445177, "yield": 98.54, "status": "已完成"}, {"fab": "金邦", "pn": "CXDR4E8BM-UP-A", "liao": "IDF0001A1431", "inc": 106926, "tested": 106926, "yield": 96.63, "status": "已完成"}]}, "eTT": {"2G8": [{"fab": "润昇", "pn": "CXDR4E8BM-ER-A", "liao": "IDF0001A1173", "inc": 10853, "tested": 10853, "yield": 99.97, "status": "已完成"}, {"fab": "润昇", "pn": "CXDR4E8BM-ER-A", "liao": "IDF0001A1670", "inc": 9600, "tested": 9600, "yield": 100.0, "status": "已完成"}, {"fab": "亿豪", "pn": "CXDR4E8BM-ER-A", "liao": null, "inc": 11804, "tested": 11804, "yield": 100.0, "status": "已完成"}, {"fab": "亿豪", "pn": "CXDR4E8BM-ER-A", "liao": null, "inc": 9600, "tested": 9600, "yield": 99.91, "status": "已完成"}, {"fab": "金邦", "pn": "CXDR4E8BM-ER-A", "liao": "IDF0001A1670", "inc": 9600, "tested": 9600, "yield": 100.0, "status": "已完成"}, {"fab": "金邦", "pn": "CXDR4E8BM-ER-A", "liao": "IDF0001A1670", "inc": 151677, "tested": 151677, "yield": 100.0, "status": "已完成"}]}}, "南亚": {"DM": {"1G8": [{"fab": "金邦", "pn": "DM126AXX8ACDUXX2DX", "liao": "IDF0001A1689", "inc": 1510, "tested": 1510, "yield": 31.79, "status": "已完成"}, {"fab": "金邦", "pn": "DM126AXX8GCDUXX2DX", "liao": "IDF0001A1691", "inc": 4909, "tested": 4909, "yield": 45.73, "status": "已完成"}, {"fab": "金邦", "pn": "DM126APX83CDUXX2DX", "liao": "IDF0001A1687", "inc": 217, "tested": 217, "yield": 70.51, "status": "已完成"}, {"fab": "金邦", "pn": "DM126AXX83CDUXX2DX", "liao": "IDF0001A1688", "inc": 7747, "tested": 7747, "yield": 68.04, "status": "已完成"}, {"fab": "金邦", "pn": "DM126AXX8ECDUXX2DX", "liao": "IDF0001A1690", "inc": 103701, "tested": 103701, "yield": 65.78, "status": "已完成"}]}}};
+const PROC={"PBA0018C2178":{"8GB":{"bomdi":23.77,"zbom":28,"zproc":6.33,"zcust":2.59,"bbom":24.98,"bproc":9.69}},"PBA0018C2177":{"8GB":{"bomdi":23.6,"zbom":28,"zproc":6.93,"zcust":2.59,"bbom":24.81,"bproc":10.77},"16GB":{"bomdi":23.6,"zbom":28,"zproc":7.43,"zcust":2.59,"bbom":24.81,"bproc":11.32}},"PBA0018C2181":{"16GB":{"bomdi":25.98,"zbom":30.3,"zproc":8.43,"zcust":2.59,"bbom":27.26,"bproc":11.32}},"PBA0018C2164":{"32GB":{"bomdi":25.23,"zbom":28,"zproc":9.93,"zcust":3.69,"bbom":26.49,"bproc":14.08}},"PBA0018C2165":{"64GB":{"bomdi":28.62,"zbom":33,"zproc":14.43,"zcust":4.59,"bbom":29.98,"bproc":19.03}},"PBA0018C2180":{"8GB":{"bomdi":22.34,"zbom":28,"zproc":6.33,"zcust":2.59,"bbom":23.51,"bproc":9.69}},"PBA0018C2179":{"8GB":{"bomdi":23.09,"zbom":28,"zproc":6.93,"zcust":2.59,"bbom":24.28,"bproc":10.77},"16GB":{"bomdi":23.09,"zbom":28,"zproc":7.43,"zcust":2.59,"bbom":24.28,"bproc":11.12}},"PBA0018C2167":{"32GB":{"bomdi":25.17,"zbom":28,"zproc":9.93,"zcust":3.69,"bbom":26.43,"bproc":14.08}}};
+const SORTING={"1G8": 0.6, "1G16": 0.9, "2G8": 0.9};
+const PROD_YIELD={"TP":97,"PG":96,"UTT":96,"eTT":98,"DM":64.67};
+const NEED_SORT_TEST=new Set(["PG","UTT","eTT"]);
+const FEE={"B85URCC":{"8GB":{"full":6.68,"nc":6.68}},"B85URCA":{"16GB":{"full":6.68,"nc":6.68},"24GB":{"full":8.81,"nc":7.71},"32GB":{"full":9.91,"nc":8.81},"8GB":{"full":6.68,"nc":6.68}},"BA5UH11":{"16GB":{"full":7.68,"nc":7.68}},"BA5UR02":{"16GB":{"full":12.08,"nc":10.97}},"B85URCB":{"32GB":{"full":8.08,"nc":8.08},"48GB":{"full":14.43,"nc":11.96},"64GB":{"full":16.63,"nc":14.16}},"BA5UH12":{"64GB":{"full":12.58,"nc":12.58}},"B85SRCC":{"8GB":{"full":6.68,"nc":6.68}},"BA5SRCA":{"16GB":{"full":6.68,"nc":6.68},"24GB":{"full":8.81,"nc":7.71},"32GB":{"full":9.91,"nc":8.81},"8GB":{"full":6.68,"nc":6.68}},"BA5SRCB":{"32GB":{"full":8.0,"nc":8.0},"48GB":{"full":14.43,"nc":11.96},"64GB":{"full":16.63,"nc":14.16}},"BA5S812":{"64GB":{"full":16.63,"nc":14.16}}};
+const CATORDER=["线路板","电源芯片","EEPROM","电感","电容","电阻","LED","MCU","MOS管"];
+const CATLAB={"线路板":"PCB","电源芯片":"PMIC","EEPROM":"SPD","LED":"LED","MCU":"MCU","MOS管":"MOS","电感":"电感","电容":"电容","电阻":"电阻"};
+function cats(b){const o={};b.bom.forEach(m=>{if(m.qty)o[m.name]=(o[m.name]||0)+m.qty;});return o;}
+document.querySelectorAll('nav button[data-p]').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.p).classList.add('active');});
+const $=id=>document.getElementById(id);
+const cloudApiOrigin='https://d5-d2gzyrjkz1d3d265f-1437410927.ap-shanghai.app.tcloudbase.com';
+const localApiOrigin=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?'http://127.0.0.1:8788':'';
+const apiOrigin=localApiOrigin||cloudApiOrigin;
+const adminPasswordKey='ddr5_admin_password';
+const accessPasswordKey='ddr5_site_access';
+let confirmedNoticeId='';
+function cleanText(v){return String(v||'').replace(/^[$¥]\s*/,'').trim();}
+function setNoticeStatus(text,type=''){const el=$('noticeStatus');if(!el)return;el.textContent=text;el.className='noticeStatus '+type;}
+function storeGet(key){try{return window.sessionStorage?.getItem(key)||'';}catch(_){return '';}}
+function storeSet(key,value){try{window.sessionStorage?.setItem(key,value);}catch(_){}}
+function storeRemove(key){try{window.sessionStorage?.removeItem(key);}catch(_){}}
+function adminPassword(){let p=storeGet(adminPasswordKey)||storeGet(accessPasswordKey)||'';if(!p){p=prompt('请输入维护密码')||'';if(p)storeSet(adminPasswordKey,p);}return p;}
+async function apiPost(path,payload){
+  const p=adminPassword();
+  if(!p)throw new Error('未输入维护密码');
+  const options={method:'POST',headers:{'content-type':'application/json','x-ddr5-admin-password':p},body:JSON.stringify(payload||{})};
+  const res=await fetch(apiOrigin+path,options).catch(()=>null);
+  if(!res)throw new Error('发送接口连接失败，请检查网络后重试');
+  const data=typeof res.json==='function'?await res.json().catch(()=>({})): {};
+  if(res.status===401){storeRemove(adminPasswordKey);throw new Error(data.error||'维护密码不正确');}
+  if(!res.ok)throw new Error(data.error||res.statusText);
+  return data;
+}
+function selectedBatch(){
+  const lst=curBatches();
+  const v=document.getElementById('batch')?.value||'';
+  if(!lst.length||v==='avg'||v==='')return null;
+  return lst[+v]||null;
+}
+function autoNoticeModel(){
+  const batch=selectedBatch();
+  if(batch?.pn)return batch.pn;
+  const g=grade.value||'';
+  const sp=spec.value||'';
+  return [sp,g].filter(Boolean).join('-')||'';
+}
+function autoNoticeNote(){
+  const notes=[];
+  const sp=spec.value;
+  const cap=cleanText($('capOut').textContent).replace(/\s+/g,'');
+  const nd=cleanText(dies.value).replace(/\s*颗/g,'');
+  const g=grade.value;
+  if(sp==='2G8'){
+    notes.push('不建议8GB');
+    if(nd==='16'||cap==='32GB')notes.push('2Rx8按当前颗粒应为32GB');
   }
-  async function loadApp(token){
-    $('loading').style.display='block';
-    const res=await fetch(API_ORIGIN+'/api/cost-app',{headers:{'x-ddr5-auth-token':token},cache:'no-store'});
-    if(!res.ok) throw new Error(res.status===401?'登录已失效，请重新输入口令':'工具加载失败：'+res.status);
-    const html=await res.text();
-    document.open();
-    document.write(injectToken(html,token));
-    document.close();
+  if(g==='TP')notes.push('TP不测Sorting，按生产良率97%');
+  if(g==='PR')notes.push('PR按生产良率99%');
+  if(g==='PG'||g==='UTT')notes.push(`${g}按生产良率96%`);
+  if(g==='eTT')notes.push('eTT按生产良率98%');
+  if($('productType').value)notes.push(`已选${$('productType').value}`);
+  return notes.join(' / ');
+}
+function syncNoticeInputs(){
+  const model=$('noticeModel');
+  const note=$('noticeNote');
+  const nextModel=autoNoticeModel();
+  const nextNote=autoNoticeNote();
+  if(model&&!model.dataset.userEdited)model.value=nextModel;
+  if(note&&!note.dataset.userEdited)note.value=nextNote;
+}
+function currentNotice(){
+  const b=BOARDS.find(x=>x.pba===selBoard)||{};
+  const price=$('pDie').value;
+  const cur=$('dieCur').value==='usd'?'USD':'CNY';
+  const productType=$('productType').value||'U/S不限';
+  const notice={
+    model:$('noticeModel').value||`${spec.value||'D5'}-${grade.value||''}`,
+    brand:brand.value,
+    grade:grade.value,
+    spec:spec.value,
+    order_qty:$('order').value,
+    price,
+    price_currency:cur,
+    capacity:cleanText($('capOut').textContent).replace(/\s+/g,''),
+    dies_per_module:cleanText(dies.value).replace(/\s*颗/g,''),
+    output_qty:cleanText($('pcs').textContent),
+    board_short:b.short||'-',
+    board_pba:b.pba||'-',
+    board_fab:b.fab||'-',
+    product_type:productType,
+    cost_usd:cleanText($('costUsd').textContent),
+    cost_cny:cleanText($('costTax').textContent),
+    yield:$('yield').value,
+    rate:$('rate').value,
+    note:$('noticeNote').value,
+  };
+  notice.message=[
+    `【DDR5成本核算】型号：${notice.model||'-'}`,
+    `品牌/等级：${notice.brand||'-'} / ${notice.grade||'-'}　规格：${notice.spec||'-'}`,
+    `数量：${notice.order_qty||'-'}颗　单价：${notice.price||'-'}${notice.price_currency}/颗`,
+    `建议：${notice.capacity||'-'}，${notice.dies_per_module||'-'}颗/条，约${notice.output_qty||'-'}条`,
+    `板型：${notice.board_short||'-'}（${notice.product_type||'-'}）`,
+    `成本：约${notice.cost_usd||'-'}USD/条`,
+    notice.note?`备注：${notice.note}`:'',
+  ].filter(Boolean).join('\n');
+  return notice;
+}
+function noticeReady(notice=currentNotice()){
+  return !!(notice.price&&notice.spec&&notice.cost_usd&&notice.cost_usd!=='—');
+}
+function updateNoticePreview(){
+  const el=$('noticePreview');
+  if(!el)return;
+  syncNoticeInputs();
+  const notice=currentNotice();
+  el.textContent=notice.price?notice.message:'填入颗粒单价后自动生成。';
+  confirmedNoticeId='';
+  $('sendNotice').disabled=!noticeReady(notice);
+  if(noticeReady(notice))setNoticeStatus('当前结果未确认；点发送会先自动确认。','warn');
+}
+async function saveConfirmedNotice(){
+  const notice=currentNotice();
+  if(!noticeReady(notice)) throw new Error('请先选颗粒并填入单价，算出成本后再确认。');
+  $('confirmNotice').disabled=true;
+  try{
+    const data=await apiPost('/api/production/cost-notices',{notice});
+    confirmedNoticeId=data.notice.notice_id;
+    $('sendNotice').disabled=false;
+    return confirmedNoticeId;
+  }finally{
+    $('confirmNotice').disabled=false;
   }
-  async function login(){
-    const password=$('password').value;
-    if(!password){setMsg('请输入口令','err');return;}
-    $('loginBtn').disabled=true;setMsg('正在验证...','');
-    try{
-      const res=await fetch(API_ORIGIN+'/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password}),cache:'no-store'});
-      const data=await res.json().catch(()=>({}));
-      if(!res.ok||!data.token) throw new Error(data.error||'登录失败');
-      sessionStorage.setItem(TOKEN_KEY,data.token);
-      setMsg('验证通过，正在加载...','ok');
-      await loadApp(data.token);
-    }catch(error){
-      sessionStorage.removeItem(TOKEN_KEY);
-      setMsg(error.message||'连接失败，请稍后重试','err');
-    }finally{
-      $('loginBtn').disabled=false;
+}
+async function confirmNotice(){
+  try{
+    await saveConfirmedNotice();
+    setNoticeStatus('已确认，可以发送钉钉。','ok');
+  }catch(err){
+    $('confirmNotice').disabled=false;
+    setNoticeStatus(err.message,'err');
+  }
+}
+async function sendNotice(){
+  $('sendNotice').disabled=true;
+  try{
+    if(!confirmedNoticeId){
+      setNoticeStatus('正在确认并发送…','warn');
+      await saveConfirmedNotice();
     }
+    await apiPost(`/api/production/cost-notices/${encodeURIComponent(confirmedNoticeId)}/send`,{});
+    setNoticeStatus('已发送钉钉。','ok');
+  }catch(err){setNoticeStatus(err.message,'err');$('sendNotice').disabled=false;}
+}
+function setMailStatus(text,type=''){const el=$('mailStatus');if(!el)return;el.textContent=text;el.className='noticeStatus '+type;}
+function renderMailReview(review){
+  const out=$('mailResult');
+  if(!out)return;
+  const parsed=review?.mail_intake||{};
+  const items=parsed.items||[];
+  if(!items.length){
+    out.textContent='未识别到邮件资源。请确认正文里有品牌、物料、数量、物料描述、详细说明等字段。';
+    return;
   }
-  $('loginBtn').addEventListener('click',login);
-  $('password').addEventListener('keydown',(event)=>{if(event.key==='Enter')login();});
-  $('logoutBtn').addEventListener('click',()=>{sessionStorage.removeItem(TOKEN_KEY);location.reload();});
-  const token=sessionStorage.getItem(TOKEN_KEY);
-  if(token) loadApp(token).catch((error)=>{sessionStorage.removeItem(TOKEN_KEY);setMsg(error.message,'err');});
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/cost-management/sw.js?v=20260616-sw-api-bypass',{scope:'/cost-management/',updateViaCache:'none'}).catch(()=>{});
+  const lines=[
+    `待审核单：${review.upload_id||'-'}`,
+    `状态：${review.decision?.status||'待审核'}（不自动发布）`,
+    '',
+  ];
+  items.slice(0,5).forEach((item,index)=>{
+    const main=(item.suggestions||[]).find(x=>x.note==='主推')||(item.suggestions||[])[0];
+    const backup=(item.suggestions||[]).filter(x=>x!==main);
+    lines.push(`${index+1}. ${item.model||'-'}　${item.brand||'-'} / ${item.grade||'-'} / ${item.spec||'-'}`);
+    lines.push(`数量：${item.qty?Number(item.qty).toLocaleString():'-'}颗　创建人：${item.creator||'-'}`);
+    lines.push(`主推：${main?`${main.capacity}，${main.chips}颗/条，约${Number(main.estimate_qty||0).toLocaleString()}条`:'需复核'}`);
+    if(backup.length)lines.push(`备选：${backup.map(x=>`${x.capacity}，${x.chips}颗/条，约${Number(x.estimate_qty||0).toLocaleString()}条`).join('；')}`);
+    if(item.warnings?.length)lines.push(`待补：${item.warnings.join('；')}`);
+    lines.push('');
+  });
+  if(items.length>5)lines.push(`其余 ${items.length-5} 条请在数据维护待审核区查看。`);
+  if(review.notification)lines.push(`钉钉提醒：${review.notification.ok?'已发送':'未发送 - '+(review.notification.error||'失败')}`);
+  out.textContent=lines.join('\n').trim();
+}
+async function parseMailIntake(notify){
+  const raw=($('mailRaw')?.value||'').trim();
+  if(!raw){setMailStatus('请先粘贴邮件正文或表格。','err');return;}
+  const btn=$('parseMail'),notifyBtn=$('parseMailNotify');
+  btn.disabled=true;notifyBtn.disabled=true;
+  setMailStatus(notify?'正在生成待审核单并提醒钉钉…':'正在生成待审核单…','warn');
+  try{
+    const data=await apiPost('/api/production/mail-intakes',{raw_text:raw,meta:{subject:'采购/资源邮件'},notify:!!notify});
+    renderMailReview(data.review);
+    setMailStatus(notify?'已生成待审核单；钉钉提醒结果见右侧。':'已生成待审核单；未发布正式库。','ok');
+  }catch(err){
+    setMailStatus(err.message,'err');
+  }finally{
+    btn.disabled=false;notifyBtn.disabled=false;
   }
-})();
+}
+const brand=$('brand'),grade=$('grade'),spec=$('spec'),dies=$('dies'),targetCap=$('targetCap');
+function fill(sel,arr,ph){sel.innerHTML='<option value="">'+ph+'</option>'+arr.map(x=>`<option>${x}</option>`).join('');}
+fill(brand,Object.keys(LINK),'请选择原厂');
+brand.onchange=()=>{grade.disabled=!brand.value;spec.disabled=true;spec.innerHTML='<option value="">—</option>';if(brand.value)fill(grade,Object.keys(LINK[brand.value]),'请选择等级');else grade.innerHTML='<option value="">—</option>';recalc();fillBatches();};
+function applyGradePolicy(){
+  const g=grade.value;
+  const y=PROD_YIELD[g];
+  if(y!=null)$('yield').value=y;else $('yield').value='';
+  if(!NEED_SORT_TEST.has(g))$('pSort').value='0';
+}
+grade.onchange=()=>{spec.disabled=!grade.value;if(grade.value)fill(spec,LINK[brand.value][grade.value],'请选择规格');else spec.innerHTML='<option value="">—</option>';applyGradePolicy();recalc();fillBatches();};
+['rate','dieCur'].forEach(id=>$(id).addEventListener('input',recalc));$('spec').addEventListener('change',fillBatches);$('spec').addEventListener('change',()=>{const cap=SPEC_DEFAULT_CAP[$('spec').value];if(cap!=null){if(!Array.from(targetCap.options).some(o=>+o.value===cap))targetCap.add(new Option(cap+'GB',String(cap)));targetCap.value=String(cap);selBoard=null;$('pBom').value='';}if(!NEED_SORT_TEST.has(grade.value)){$('pSort').value='0';recalc();return;}if(SORTING[$('spec').value]!=null)$('pSort').value=SORTING[$('spec').value];recalc();});[spec,targetCap,$('order'),$('yield'),$('pDie'),$('pSort'),$('pBom'),$('pAsm'),$('productType'),$('rgbNeed'),$('feeMode')].forEach(el=>el.addEventListener('input',recalc));
+let selBoard=null;
+$('productType').addEventListener('change',()=>{selBoard=null;$('pBom').value='';recalc();});
+$('rgbNeed').addEventListener('change',()=>{selBoard=null;$('pBom').value='';recalc();});
+function preferredFab(){return $('region').value==='tw'?'KO':'欣强(BP)';}
+function matchBoards(sp,nd){const x16=sp==='1G16',pt=$('productType').value,rgb=$('rgbNeed').value,br=brand.value,pf=preferredFab();return ACTIVE_BOARDS.filter(b=>{if(pt&&b.type!==pt)return false;if(b.rgb!==rgb)return false;if(rgb==='RGB'&&b.fab!=='KO')return false;if(rgb!=='RGB'&&b.fab!==pf&&!(b.fab==='自研'&&br==='长鑫'&&b.type==='SODIMM'))return false;if(b.fab==='自研'&&br!=='长鑫')return false;if(nd===4)return x16&&b.rank==='1Rx16';if(nd===8)return !x16&&b.rank==='1Rx8';if(nd===16)return !x16&&b.rank==='2Rx8';return false;});}
+function calcDies(gb,target){if(!gb||!target)return null;const nd=target*8/gb;return Number.isInteger(nd)&&[4,8,16].includes(nd)?nd:null;}
+function feeForBoard(b,capS){const rec=FEE[b.short]&&FEE[b.short][capS];if(!rec)return null;return rec[$('feeMode').value]??rec.full??null;}
+function autoFillCost(){if(!selBoard)return;const capS=(document.getElementById('capOut').textContent||'').replace(/\s/g,'');const board=BOARDS.find(b=>b.pba===selBoard);const fee=board?feeForBoard(board,capS):null;document.getElementById('pAsm').value=fee!=null?fee:7.3;const rec=PROC[selBoard]&&PROC[selBoard][capS];document.getElementById('pBom').value=rec?rec.bbom:26;}
+function boardScore(b,capS){const rec=PROC[b.pba]&&PROC[b.pba][capS];const fee=feeForBoard(b,capS);return (rec?0:1000)+(rec?rec.bbom:26)+(fee??7.3)+(b.rgb==='RGB'?50:0)+(b.fab==='自研'?20:0);}
+function simpleBoardGroups(list,capS){const mains=[],picked=new Set();const mainList=list.filter(b=>b.fab!=='自研').sort((a,b)=>boardScore(a,capS)-boardScore(b,capS));if(mainList.length){mains.push(mainList[0]);picked.add(mainList[0].pba);}const extras=list.filter(b=>!picked.has(b.pba)).sort((a,b)=>boardScore(a,capS)-boardScore(b,capS));return {mains,extras};}
+function boardCard(b,currentCapText,isMain){const sel=selBoard===b.pba?' sel':'';const cls=isMain?' main':' alt';const rgb=b.rgb==='RGB'?'<span class="pill blue">RGB</span>':'';const capS=currentCapText;const rec=PROC[b.pba]&&PROC[b.pba][capS];const fee=feeForBoard(b,capS);const bt=(rec?`<div class="m" style="color:#1f9d55;font-weight:700">BOM ¥${rec.bbom}</div>`:'<div class="m" style="color:#b7791f">BOM ¥26 暂估</div>')+(fee!=null?`<div class="m" style="color:#2563eb;font-weight:700">加工 ¥${fee}</div>`:'<div class="m" style="color:#b7791f">加工 ¥7.3 暂估</div>');const oldCap=b.cap&&b.cap!==capS?`<span style="color:#999">原标签${b.cap}</span>`:'';return `<div class="board${cls}${sel}" data-pba="${b.pba}"><div class="t"><span>${b.short} ${rgb}</span><span class="muted" style="font-size:12px">${b.type} ${b.rank}</span></div><div class="m">${b.fab} · ${b.layer} · ${b.maxSize||'—'} · <b>${capS}</b> · ${b.pba} ${oldCap}</div>${bt}</div>`;}
+function recalc(){
+  const sp=spec.value,gb=SPEC_GB[sp],target=+targetCap.value,nd=calcDies(gb,target);
+  $('dieGb').textContent=gb?gb+' Gb':'—';
+  const currentCap=gb?gb/8*nd:null,currentCapText=currentCap?currentCap+'GB':'—';
+  dies.value=nd?nd+' 颗':'无匹配';
+  if(currentCap){$('capOut').textContent=currentCap+' GB';$('capFormula').textContent=`${gb}Gb ÷ 8 × ${nd}颗 = ${currentCap}GB`;}else{$('capOut').textContent='—';$('capFormula').textContent='';}
+  const list=sp?matchBoards(sp,nd):[];const bl=$('boardList');
+  if(!sp)bl.innerHTML='<div class="muted" style="padding:16px;text-align:center">先选定颗粒规格…</div>';
+  else if(!nd)bl.innerHTML='<div class="warn" style="margin:0">当前规格不能直接做 '+target+'GB，请换目标容量或颗粒规格。</div>';
+  else if(!list.length)bl.innerHTML='<div class="warn" style="margin:0">当前「'+sp+' × '+nd+'颗」无匹配板型。x8规格配8颗(1Rx8)/16颗(2Rx8)；1G16配4颗(1Rx16/1Rx4)。</div>';
+  else {const groups=simpleBoardGroups(list,currentCapText);if(!selBoard||!list.some(b=>b.pba===selBoard)){selBoard=(groups.mains[0]||list[0]).pba;autoFillCost();}const mainLabel=$('rgbNeed').value==='RGB'?'RGB 只推荐 KO':($('region').value==='tw'?'台湾/亿豪：只推荐 KO':'国内晟中：只推荐欣强');let html=`<div class="boardSection mainSection"><div class="boardSectionTitle"><b>主推板型</b><span>${mainLabel}</span></div>${groups.mains.map(b=>boardCard(b,currentCapText,true)).join('')}</div>`;if(groups.extras.length)html+=`<details class="altBoards"><summary><b>备选板型</b><em>${groups.extras.length} 款，默认隐藏</em></summary><div class="boardSection altSection">${groups.extras.map(b=>boardCard(b,currentCapText,false)).join('')}</div></details>`;bl.innerHTML=html;}
+  bl.querySelectorAll('.board').forEach(d=>d.onclick=()=>{selBoard=d.dataset.pba;autoFillCost();recalc();});
+  const rate=+$('rate').value||6.8,D=v=>'¥ '+v.toFixed(2);
+  const y=+$('yield').value/100,pDieR=parseFloat($('pDie').value),dieCur=$('dieCur').value,pDie=isNaN(pDieR)?NaN:(dieCur==='usd'?pDieR*rate:pDieR),pSort=parseFloat($('pSort').value),pBom=parseFloat($('pBom').value)||0,pAsm=parseFloat($('pAsm').value)||0,order=+$('order').value;
+  const pcs=(sp&&y>0)?Math.floor(order*y/nd):null;$('pcs').textContent=pcs!=null?pcs.toLocaleString():'—';
+  if(!isNaN(pDie)&&sp&&y>0){const grainCost=pDie*nd,sortCost=(isNaN(pSort)?0:pSort)*nd,base=grainCost+sortCost+pBom+pAsm,total=base/y;
+    const _ct=currentCapText;
+    const _estB=!(selBoard&&PROC[selBoard]&&PROC[selBoard][_ct]);
+    const _bObj=BOARDS.find(b=>b.pba===selBoard);
+    const _estA=!(_bObj&&feeForBoard(_bObj,_ct)!=null);
+    const _tag=e=>e?'<span style="color:#b7791f;font-size:10px;font-weight:700">暂估</span>':'<span style="color:#1f9d55;font-size:10px">实算</span>';
+    const _estN=(_estB?1:0)+(_estA?1:0);
+    $('costTax').textContent=D(total);$('costUsd').textContent='$ '+(total/rate).toFixed(2);
+    $('costBreak').innerHTML=`${_estN?`<div class="kv" style="background:#fdf3e0;border-radius:8px;padding:8px 10px;margin-bottom:6px"><span class="k" style="color:#b7791f;font-weight:700">⚠ 本次含 ${_estN} 项暂估</span><span class="v" style="color:#b7791f">BOM缺报价按¥26 / 加工缺报价按¥7.3</span></div>`:``}<div class="kv"><span class="k">颗粒成本 (单价×${nd}) <span style="color:#999;font-size:10px">美元折算</span></span><span class="v">${D(grainCost)}</span></div><div class="kv"><span class="k">颗粒测试费 (单价×${nd}) <span style="color:#1f9d55;font-size:10px">含税</span></span><span class="v">${D(sortCost)}</span></div><div class="kv"><span class="k">PCBA BOM <span style="color:#1f9d55;font-size:10px">含税</span> ${_tag(_estB)}</span><span class="v">${D(pBom)}</span></div><div class="kv"><span class="k">成品加工费 <span style="color:#1f9d55;font-size:10px">含税</span> ${_tag(_estA)}</span><span class="v">${D(pAsm)}</span></div><div class="kv"><span class="k">生产良率折算 (÷${(y*100).toFixed(2)}%)</span><span class="v">${D(total)}</span></div>`;
+  }else{$('costTax').textContent='¥ —';$('costUsd').textContent='$ —';$('costBreak').innerHTML='<div class="note">填入颗粒单价即可算成本。</div>';}
+  updateNoticePreview();
+}
+function renderDb(){
+  const fFab=$('fFab').value,fType=$('fType').value,fRank=$('fRank').value,fRgb=$('fRgb').value,fKey=$('fKey').value.toUpperCase();
+  const rows=ACTIVE_BOARDS.filter(b=>(!fFab||b.fab===fFab)&&(!fType||b.type===fType)&&(!fRank||b.rank===fRank)&&(!fRgb||b.rgb===fRgb)&&(!fKey||b.short.toUpperCase().includes(fKey)||b.pba.includes(fKey)));
+  let h='';rows.forEach(b=>{
+    const rgb=b.rgb==='RGB'?'<span class="pill blue">RGB</span>':'<span class="muted">—</span>';
+    const bomlink=b.bom.length?`<span class="linkbtn" data-pba="${b.pba}">展开(${b.bom.length})</span>`:'<span class="muted">无</span>';
+    h+=`<tr><td>${b.pba}</td><td>${b.fab}</td><td>${b.type}</td><td>${b.rank}</td><td><b>${b.short}</b></td><td>${b.layer}</td><td>${b.cap}</td><td>${b.maxSize||'—'}</td><td>${rgb}</td><td>${bomlink}</td></tr>`;
+    const c=cats(b);const cbar=CATORDER.filter(k=>c[k]).map(k=>`<span class="c">${CATLAB[k]} <b>${c[k]}</b></span>`).join('');
+    const bd=b.bom.map(m=>`<tr><td>${m.lv||''}</td><td>${m.pn}</td><td>${m.name}</td><td>${m.param}</td><td class="num">${m.qty||''}</td><td>${m.ref}</td></tr>`).join('');
+    h+=`<tr class="dbrow-bom" id="bom-${b.pba}" style="display:none"><td colspan="10" style="padding:0">
+      <div class="catbar">${cbar}</div>
+      <table style="font-size:12px"><thead><tr><th>层次</th><th>料号</th><th>名称</th><th>参数</th><th class="num">用量</th><th>位号</th></tr></thead><tbody>${bd}</tbody></table></td></tr>`;
+  });
+  document.querySelector('#dbTable tbody').innerHTML=h;
+  document.querySelectorAll('.linkbtn').forEach(el=>el.onclick=()=>{const r=$('bom-'+el.dataset.pba);const sh=r.style.display==='none';r.style.display=sh?'table-row':'none';el.textContent=sh?'收起':`展开(${BOARDS.find(b=>b.pba===el.dataset.pba).bom.length})`;});
+  $('dbCount').textContent=`显示 ${rows.length} / ${ACTIVE_BOARDS.length} 个最终选用板型　|　推荐搭配仅从这 ${ACTIVE_BOARDS.length} 个板型里选择；旧板型数据保留不参与推荐`;
+}
+['fFab','fType','fRank','fRgb','fKey'].forEach(id=>$(id).addEventListener('input',renderDb));
+let lk='';for(const[b,gs]of Object.entries(LINK))for(const[g,ss]of Object.entries(gs))lk+=`<tr><td>${b}</td><td>${g}</td><td>${ss.join('、')}</td></tr>`;
+$('linkTable').innerHTML=lk;
+
+function curBatches(){const br=brand.value,gr=grade.value,sp=spec.value;return (BATCHES[br]&&BATCHES[br][gr]&&BATCHES[br][gr][sp])?BATCHES[br][gr][sp]:[];}
+function wavg(lst){let si=0,so=0;lst.forEach(x=>{const w=x.status==='已完成'?x.inc:(x.tested||0);si+=w;so+=w*x.yield/100;});return si?Math.round(so/si*10000)/100:null;}
+function fillBatches(){const lst=curBatches(),sel=document.getElementById('batch');
+  if(!lst.length){sel.innerHTML='<option value="">该颗粒暂无批次数据（手填良率）</option>';document.getElementById('batchInfo').textContent='';return;}
+  const wa=wavg(lst),last=lst.length-1;let o='';
+  lst.forEach((b,i)=>{o+=`<option value="${i}"${i===last?' selected':''}>${b.fab} · ${b.pn} · 来料${b.inc.toLocaleString()} · ${b.yield}%${b.status==='进行中'?' [进行中]':''}${i===last?' ◀最新':''}</option>`;});
+  o+=`<option value="avg">▣ 全部批次加权 ${wa}%（${lst.length}批）</option>`;
+  sel.innerHTML=o;applyBatch();}
+function applyBatch(){const lst=curBatches(),v=document.getElementById('batch').value;if(!lst.length)return;
+  if(v==='avg'||v===''){const wa=wavg(lst);if(wa)document.getElementById('yield').value=wa;
+    document.getElementById('batchInfo').innerHTML=`已用<b>全部批次加权良率 ${wa}%</b>（${lst.length}批，按来料量加权）；可生产条数按上方「投单数量」算。`;}
+  else{const b=lst[+v];document.getElementById('yield').value=b.yield;document.getElementById('order').value=b.inc;
+    document.getElementById('batchInfo').innerHTML=`批次 <b>${b.fab} · ${b.pn}</b>：来料 ${b.inc.toLocaleString()} · 综合良率 <b>${b.yield}%</b>（多档已合并）${b.status==='进行中'?' · <span style="color:#b7791f">进行中</span>':''}`;}
+  recalc();}
+document.getElementById('batch').addEventListener('change',applyBatch);document.getElementById('feeMode').addEventListener('change',()=>{autoFillCost();recalc();});document.getElementById('region').addEventListener('change',()=>{selBoard=null;$('pBom').value='';recalc();});
+$('noticeModel').addEventListener('input',()=>{$('noticeModel').dataset.userEdited='1';updateNoticePreview();});
+$('noticeNote').addEventListener('input',()=>{$('noticeNote').dataset.userEdited='1';updateNoticePreview();});
+$('noticeModel').addEventListener('dblclick',()=>{delete $('noticeModel').dataset.userEdited;syncNoticeInputs();updateNoticePreview();});
+$('noticeNote').addEventListener('dblclick',()=>{delete $('noticeNote').dataset.userEdited;syncNoticeInputs();updateNoticePreview();});
+$('confirmNotice').addEventListener('click',confirmNotice);$('sendNotice').addEventListener('click',sendNotice);
+$('parseMail').addEventListener('click',()=>parseMailIntake(false));$('parseMailNotify').addEventListener('click',()=>parseMailIntake(true));
+applyGradePolicy();
+
+recalc();renderDb();fillBatches();
 </script>
 </body>
 </html>
