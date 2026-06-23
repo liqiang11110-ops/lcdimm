@@ -1,4 +1,4 @@
-const VERSION = 'juanjie-cost-pwa-20260616-sw-api-bypass';
+const VERSION = 'juanjie-cost-pwa-20260612';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -25,6 +25,10 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/api/') || url.hostname.includes('app.tcloudbase.com')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
   if (url.pathname.endsWith('.webmanifest') || url.pathname.endsWith('.svg') || url.pathname.endsWith('.png')) {
     event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
   }
